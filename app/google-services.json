@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1088599717003",
+    "project_id": "cs310project-4cad9",
+    "storage_bucket": "cs310project-4cad9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1088599717003:android:0e6437b11ba9c9054d508e",
+        "android_client_info": {
+          "package_name": "com.example.cs310project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBovl-ZDI7KlpZWLRs89tSZ0T6APE7or1Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
