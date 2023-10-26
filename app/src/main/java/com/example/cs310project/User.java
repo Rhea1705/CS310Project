@@ -4,18 +4,18 @@ public class User {
     String name;
     String email;
     String password;
-    String role;
-    String usc_id;
+    String phone_number;
+
 
     public User() {
     }
 
-    public User(String name, String email, String password, String role, String usc_id) {
+    public User(String name, String email, String password, String phone_number) {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.role = role;
-        this.usc_id = usc_id;
+        this.phone_number = phone_number;
+
     }
 
     public String getName() {
@@ -42,19 +42,13 @@ public class User {
         this.password = password;
     }
 
-    public String getRole() {
-        return role;
+    public String getPhone_number() {
+        return phone_number;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setPhone_number(String phone_number) {
+        this.phone_number = phone_number;
     }
 
-    public String getUsc_id() {
-        return usc_id;
-    }
 
-    public void setUsc_id(String usc_id) {
-        this.usc_id = usc_id;
-    }
 }

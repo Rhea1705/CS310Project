@@ -18,7 +18,6 @@
         android:padding="5dp"
         android:text="Welcome to Find My Classmates \n Sign Up"
         android:textAlignment="center"
-        android:textColor="@color/purple_700"
         android:textSize="18sp" />
 
     <!-- Name field -->
