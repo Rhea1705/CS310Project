@@ -154,6 +154,7 @@ public class ProfileActivity extends AppCompatActivity {
                     UserData userData = userSnapshot.getValue(UserData.class);
                     if (userData != null) {
                         // Update the UI with user data
+//                       To do: check username isn't taken
                         if(userData.getUsername()!=null){
                             usernameEditText.setText(userData.getUsername());
                         }
@@ -169,9 +170,9 @@ public class ProfileActivity extends AppCompatActivity {
                         if(userData.getPhoneNumber()!=null) {
                             phoneEditText.setText(userData.getPhoneNumber());
                         }
-//                        set options to choose from?
+//                       To do: set options to choose from???
                         if(userData.getRole()!=null) {
-                            phoneEditText.setText(userData.getRole());
+                            roleEditText.setText(userData.getRole());
                         }
 //                        check for length to be 10 digits
                         if(userData.getUSCid()!=null) {
@@ -180,7 +181,7 @@ public class ProfileActivity extends AppCompatActivity {
                                 idEditText.setError("ID must be 10 digits");
                             }
                             else {
-                                phoneEditText.setText(userData.getUSCid());
+                                idEditText.setText(userData.getUSCid());
                             }
                         }
                     }
