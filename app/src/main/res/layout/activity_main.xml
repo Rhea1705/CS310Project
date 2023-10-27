@@ -22,7 +22,7 @@
         android:padding="5dp"
         android:text="Welcome to Find My Classmates \n Sign Up"
         android:textAlignment="center"
-        android:textColor="@color/purple_700"
+        android:textColor="@color/crimson"
         android:textSize="18sp" />
 
     <!-- Name field -->
@@ -172,20 +172,6 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:entries="@array/role_options" />
-    <Button
-        android:id="@+id/image"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/roleSpinner"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:backgroundTint="@color/white"
-        android:textColor="@color/black"
-        android:gravity="left|center_vertical"
-        android:textAllCaps="false"
-        android:text="Upload Image" />
 
 
     <!-- Button to register a new user -->
@@ -193,10 +179,11 @@
         android:id="@+id/idBtnRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/image"
+        android:layout_below="@id/roleSpinner"
         android:layout_marginTop="20dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
+        android:backgroundTint="@color/yellow"
         android:text="Sign Up"
         android:textAllCaps="false" />
     <LinearLayout
@@ -219,7 +206,7 @@
             android:autoLink="web"
             android:clickable="true"
             android:text="Log in"
-            android:textColor="@color/purple_500"
+            android:textColor="@color/crimson"
             android:textStyle="normal|bold" />
     </LinearLayout>
 
