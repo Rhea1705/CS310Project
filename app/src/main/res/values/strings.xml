@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">CS310Project</string>
+    <string-array name="role_options">
+        <item>(Select Role)</item>
+        <item>Undergraduate</item>
+        <item>Graduate</item>
+        <item>Staff</item>
+        <item>Faculty</item>
+    </string-array>
 </resources>

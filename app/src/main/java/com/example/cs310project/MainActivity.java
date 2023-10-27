@@ -1,5 +1,6 @@
 package com.example.cs310project;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -8,8 +9,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
     EditText namefield,usernamefield,passwordfield,emailfield,phone_numberfield;
@@ -21,8 +25,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         namefield = findViewById(R.id.name);
-        usernamefield =  findViewById(R.id.idEdtUserName);
-        passwordfield =  findViewById(R.id.idEdtPassword);
+        usernamefield =  findViewById(R.id.UserName);
+        passwordfield =  findViewById(R.id.Password);
         emailfield = findViewById(R.id.email);
         phone_numberfield = findViewById(R.id.phone);
        Sign_up = findViewById(R.id.idBtnRegister);
@@ -37,14 +41,30 @@ public class MainActivity extends AppCompatActivity {
             String password = passwordfield.getText().toString();
             String email = emailfield.getText().toString();
             String phone_number = phone_numberfield.getText().toString();
-            User user = new User(name,email,password,phone_number);
             DatabaseReference childref = reference.child("UserList");
             DatabaseReference usename = childref.child(username);
-            usename.child("name").setValue(name);
-            usename.child("password").setValue(password);
-            usename.child("email").setValue(email);
-            usename.child("phone_number").setValue(phone_number);
-            Toast.makeText(MainActivity.this,"You have successfully created an account",Toast.LENGTH_SHORT).show();
+            usename.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(snapshot.exists()){
+                        Toast.makeText(MainActivity.this,"Username already exists",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    User user = new User(name,email,password,phone_number);
+                    usename.child("name").setValue(name);
+                    usename.child("password").setValue(password);
+                    usename.child("email").setValue(email);
+                    usename.child("phone_number").setValue(phone_number);
+                    Toast.makeText(MainActivity.this,"You have successfully created an account",Toast.LENGTH_SHORT).show();
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
 
 
            }

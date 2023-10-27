@@ -1,7 +1,8 @@
 
 package com.example.cs310project;
 
-import androidx.annotation.NonNull;
+import
+        androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.File;
@@ -17,7 +18,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.StorageReference;
+//import com.google.firebase.storage.StorageReference;
 
 //public class ProfileActivity extends AppCompatActivity {
 //    EditText image;
@@ -105,14 +106,14 @@ public class ProfileActivity extends AppCompatActivity {
         imagesReference = database.getReference("images");
 
 //      Gauri: these ids can be used when writing activity_profile.xml under res/layout
-        usernameEditText = findViewById(R.id.usernameEditText);
-        passwordEditText = findViewById(R.id.passwordEditText);
-        emailEditText = findViewById(R.id.emailEditText);
-        phoneEditText = findViewById(R.id.phoneEditText);
-        imageEditText = findViewById(R.id.imageEditText);
-        roleEditText = findViewById(R.id.roleEditText);
-        idEditText = findViewById(R.id.idEditText);
-        updateButton = findViewById(R.id.updateButton);
+//        usernameEditText = findViewById(R.id.usernameEditText);
+//        passwordEditText = findViewById(R.id.passwordEditText);
+//        emailEditText = findViewById(R.id.emailEditText);
+//        phoneEditText = findViewById(R.id.phoneEditText);
+//        imageEditText = findViewById(R.id.imageEditText);
+//        roleEditText = findViewById(R.id.roleEditText);
+//        idEditText = findViewById(R.id.idEditText);
+//        updateButton = findViewById(R.id.updateButton);
 
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
