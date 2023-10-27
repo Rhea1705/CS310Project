@@ -16,7 +16,6 @@ public class MainActivity extends AppCompatActivity {
     Button Sign_up;
     FirebaseDatabase base;
     DatabaseReference reference;
-    boolean allok = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,20 +37,14 @@ public class MainActivity extends AppCompatActivity {
             String password = passwordfield.getText().toString();
             String email = emailfield.getText().toString();
             String phone_number = phone_numberfield.getText().toString();
-            if(allok){
-                User user = new User(name,email,password,phone_number);
-                DatabaseReference childref = reference.child("UserList");
-                DatabaseReference usename = childref.child(username);
-                usename.child("name").setValue(name);
-                usename.child("password").setValue(password);
-                usename.child("email").setValue(email);
-                usename.child("phone_number").setValue(phone_number);
-                Toast.makeText(MainActivity.this,"You have successfully created an account",Toast.LENGTH_SHORT).show();
-
-            }
-            else{
-                Toast.makeText(MainActivity.this,"Username already taken",Toast.LENGTH_SHORT).show();
-            }
+            User user = new User(name,email,password,phone_number);
+            DatabaseReference childref = reference.child("UserList");
+            DatabaseReference usename = childref.child(username);
+            usename.child("name").setValue(name);
+            usename.child("password").setValue(password);
+            usename.child("email").setValue(email);
+            usename.child("phone_number").setValue(phone_number);
+            Toast.makeText(MainActivity.this,"You have successfully created an account",Toast.LENGTH_SHORT).show();
 
 
            }
