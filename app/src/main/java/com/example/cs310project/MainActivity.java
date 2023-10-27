@@ -3,6 +3,7 @@ package com.example.cs310project;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,7 +17,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
-    EditText namefield,usernamefield,passwordfield,emailfield,phone_numberfield;
+    EditText namefield,usernamefield,passwordfield,emailfield,phone_numberfield, roletext;
     Button Sign_up;
     FirebaseDatabase base;
     DatabaseReference reference;
@@ -29,9 +30,11 @@ public class MainActivity extends AppCompatActivity {
         passwordfield =  findViewById(R.id.Password);
         emailfield = findViewById(R.id.email);
         phone_numberfield = findViewById(R.id.phone);
-       Sign_up = findViewById(R.id.idBtnRegister);
-       base = FirebaseDatabase.getInstance();
-       reference = base.getReference();
+        roletext = findViewById(R.id.roleText);
+
+        Sign_up = findViewById(R.id.idBtnRegister);
+        base = FirebaseDatabase.getInstance();
+        reference = base.getReference();
 
        Sign_up.setOnClickListener(new View.OnClickListener() {
            @Override
@@ -56,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
                     usename.child("email").setValue(email);
                     usename.child("phone_number").setValue(phone_number);
                     Toast.makeText(MainActivity.this,"You have successfully created an account",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MainActivity.this,LogIn.class);
+                    startActivity(intent);
 
                 }
 
@@ -69,5 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
            }
        });
+
+
     }
 }
