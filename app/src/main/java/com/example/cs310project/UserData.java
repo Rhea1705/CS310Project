@@ -6,17 +6,21 @@ public class UserData {
     private String email;
     private String phoneNumber;
     private String imageUrl;
+    private String role;
+    private String USCid;
 
     public UserData() {
         // Default constructor required for DataSnapshot.getValue(UserData.class)
     }
 
-    public UserData(String username, String password, String email, String phoneNumber, String imageUrl) {
+    public UserData(String username, String password, String email, String phoneNumber, String imageUrl, String role, String USCid) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.imageUrl = imageUrl;
         this.phoneNumber = phoneNumber;
+        this.role = role;
+        this.USCid = USCid;
     }
 
     // Add getter and setter methods
@@ -58,5 +62,22 @@ public class UserData {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
+    public String getUSCid() {
+        return USCid;
+    }
+
+    public void setUSCid(String USCid) {
+        this.USCid = USCid;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
 
 }

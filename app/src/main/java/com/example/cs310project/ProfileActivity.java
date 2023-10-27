@@ -89,7 +89,7 @@ import com.google.firebase.storage.StorageReference;
 //    }
 //}
 public class ProfileActivity extends AppCompatActivity {
-    EditText usernameEditText, passwordEditText, emailEditText, phoneEditText, imageEditText;
+    EditText usernameEditText, passwordEditText, emailEditText, phoneEditText, imageEditText, roleEditText, idEditText;
     Button updateButton;
     FirebaseDatabase database;
     DatabaseReference userReference;
@@ -110,6 +110,8 @@ public class ProfileActivity extends AppCompatActivity {
         emailEditText = findViewById(R.id.emailEditText);
         phoneEditText = findViewById(R.id.phoneEditText);
         imageEditText = findViewById(R.id.imageEditText);
+        roleEditText = findViewById(R.id.roleEditText);
+        idEditText = findViewById(R.id.idEditText);
         updateButton = findViewById(R.id.updateButton);
 
         updateButton.setOnClickListener(new View.OnClickListener() {
@@ -121,9 +123,11 @@ public class ProfileActivity extends AppCompatActivity {
                 String email = emailEditText.getText().toString();
                 String phone_number = phoneEditText.getText().toString();
                 String imageUrl = imageEditText.getText().toString();
+                String role = roleEditText.getText().toString();
+                String id = idEditText.getText().toString();
 
                 // Save or update user data in the database
-                updateUserData(username, password, email,phone_number, imageUrl);
+                updateUserData(username, password, email,phone_number, imageUrl, role, id);
             }
         });
 
@@ -131,12 +135,12 @@ public class ProfileActivity extends AppCompatActivity {
         listenForUserDataChanges();
     }
 
-    private void updateUserData(String username, String password, String email, String phone_number, String imageUrl) {
+    private void updateUserData(String username, String password, String email, String phone_number, String imageUrl, String role, String id) {
         // Create a new user entry with a unique ID
         String userId = userReference.push().getKey();
 
         // Create a UserData object
-        UserData userData = new UserData(username, password, email, phone_number, imageUrl);
+        UserData userData = new UserData(username, password, email, phone_number, imageUrl, role, id);
 
         // Save the user data to the database under the unique ID
         userReference.child(userId).setValue(userData);
@@ -164,6 +168,20 @@ public class ProfileActivity extends AppCompatActivity {
                         }
                         if(userData.getPhoneNumber()!=null) {
                             phoneEditText.setText(userData.getPhoneNumber());
+                        }
+//                        set options to choose from?
+                        if(userData.getRole()!=null) {
+                            phoneEditText.setText(userData.getRole());
+                        }
+//                        check for length to be 10 digits
+                        if(userData.getUSCid()!=null) {
+                            if (userData.getUSCid().length() != 10) {
+                                // Show an error message if the ID is not 10 digits
+                                idEditText.setError("ID must be 10 digits");
+                            }
+                            else {
+                                phoneEditText.setText(userData.getUSCid());
+                            }
                         }
                     }
                 }
