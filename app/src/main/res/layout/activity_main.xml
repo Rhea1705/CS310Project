@@ -205,6 +205,7 @@
             android:layout_marginStart="5dp"
             android:autoLink="web"
             android:clickable="true"
+            android:id = "@+id/logInNav"
             android:text="Log in"
             android:textColor="@color/crimson"
             android:textStyle="normal|bold" />
