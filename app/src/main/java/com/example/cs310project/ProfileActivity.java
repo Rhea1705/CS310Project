@@ -89,7 +89,7 @@ import com.google.firebase.storage.StorageReference;
 //    }
 //}
 public class ProfileActivity extends AppCompatActivity {
-    EditText usernameEditText, passwordEditText, emailEditText, imageEditText;
+    EditText usernameEditText, passwordEditText, emailEditText, phoneEditText, imageEditText;
     Button updateButton;
     FirebaseDatabase database;
     DatabaseReference userReference;
@@ -104,10 +104,11 @@ public class ProfileActivity extends AppCompatActivity {
         userReference = database.getReference("UserList");
         imagesReference = database.getReference("images");
 
-//      Gauri: these ids to be used when writing activity_profile.xml under res/layout
+//      Gauri: these ids can be used when writing activity_profile.xml under res/layout
         usernameEditText = findViewById(R.id.usernameEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
         emailEditText = findViewById(R.id.emailEditText);
+        phoneEditText = findViewById(R.id.phoneEditText);
         imageEditText = findViewById(R.id.imageEditText);
         updateButton = findViewById(R.id.updateButton);
 
@@ -118,10 +119,11 @@ public class ProfileActivity extends AppCompatActivity {
                 String username = usernameEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
                 String email = emailEditText.getText().toString();
+                String phone_number = phoneEditText.getText().toString();
                 String imageUrl = imageEditText.getText().toString();
 
                 // Save or update user data in the database
-                updateUserData(username, password, email, imageUrl);
+                updateUserData(username, password, email,phone_number, imageUrl);
             }
         });
 
@@ -129,12 +131,12 @@ public class ProfileActivity extends AppCompatActivity {
         listenForUserDataChanges();
     }
 
-    private void updateUserData(String username, String password, String email, String imageUrl) {
+    private void updateUserData(String username, String password, String email, String phone_number, String imageUrl) {
         // Create a new user entry with a unique ID
         String userId = userReference.push().getKey();
 
         // Create a UserData object
-        UserData userData = new UserData(username, password, email, imageUrl);
+        UserData userData = new UserData(username, password, email, phone_number, imageUrl);
 
         // Save the user data to the database under the unique ID
         userReference.child(userId).setValue(userData);
@@ -159,6 +161,9 @@ public class ProfileActivity extends AppCompatActivity {
                         }
                         if(userData.getImageUrl()!=null) {
                             imageEditText.setText(userData.getImageUrl());
+                        }
+                        if(userData.getPhoneNumber()!=null) {
+                            phoneEditText.setText(userData.getPhoneNumber());
                         }
                     }
                 }

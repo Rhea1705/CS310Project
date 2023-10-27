@@ -4,17 +4,19 @@ public class UserData {
     private String username;
     private String password;
     private String email;
+    private String phoneNumber;
     private String imageUrl;
 
     public UserData() {
         // Default constructor required for DataSnapshot.getValue(UserData.class)
     }
 
-    public UserData(String username, String password, String email, String imageUrl) {
+    public UserData(String username, String password, String email, String phoneNumber, String imageUrl) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.imageUrl = imageUrl;
+        this.phoneNumber = phoneNumber;
     }
 
     // Add getter and setter methods
@@ -48,6 +50,13 @@ public class UserData {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
 }
