@@ -7,6 +7,8 @@ public class Course {
     Integer num_enrolled;
     List<String> roster;
     String department;
+    String description;
+    Boolean expanded;
     public Course() {
 
     }
@@ -47,6 +49,13 @@ public class Course {
     // Setter for 'department'
     public void setDepartment(String department) {
         this.department = department;
+    }
+    public String getDescription() {
+        return description;
+    }
+
+    public Boolean isExpanded() {
+        return expanded;
     }
 }
 

@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         passwordfield =  findViewById(R.id.Password);
         emailfield = findViewById(R.id.email);
         phone_numberfield = findViewById(R.id.phone);
-        roletext = findViewById(R.id.roleText);
+//        roletext = findViewById(R.id.roleSpinner);
 
         Sign_up = findViewById(R.id.idBtnRegister);
         base = FirebaseDatabase.getInstance();
