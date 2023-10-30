@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Spinner;
 
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     Button Sign_up;
     FirebaseDatabase base;
     DatabaseReference reference;
+    TextView login;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         phone_numberfield = findViewById(R.id.phone);
         spin = findViewById((R.id.roleSpinner));
         usc_id = findViewById(R.id.USCid);
+        login = findViewById(R.id.logInNav);
 
 
         Sign_up = findViewById(R.id.idBtnRegister);
@@ -76,6 +79,13 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+           }
+       });
+       login.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               Intent intent = new Intent(MainActivity.this,LogIn.class);
+               startActivity(intent);
            }
        });
 

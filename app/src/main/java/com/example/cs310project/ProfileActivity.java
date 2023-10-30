@@ -34,7 +34,7 @@ import com.google.firebase.database.ValueEventListener;
 //        super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_profile);
 //
-//        // Initialize Firebase Database
+//        // Initialize Firebase Datcommitbase
 //        base = FirebaseDatabase.getInstance();
 //        reference = base.getReference("UserList"); // Replace with your desired database node
 //        imagesRef = base.getReference("images");
@@ -89,7 +89,7 @@ import com.google.firebase.database.ValueEventListener;
 //        });
 //    }
 //}
-public class ProfileActivity extends AppCompatActivity {
+public class  ProfileActivity extends AppCompatActivity {
     EditText usernameEditText, passwordEditText, emailEditText, phoneEditText, imageEditText, roleEditText, idEditText;
     Button updateButton;
     FirebaseDatabase database;
