@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ClassesActivity extends AppCompatActivity {
+public class CourseListActivity extends AppCompatActivity {
 
     private List<Course> courseList;
     private CourseAdapter adapter;
