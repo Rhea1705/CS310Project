@@ -3,10 +3,12 @@ package com.example.cs310project;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -20,6 +22,7 @@ public class LogIn extends AppCompatActivity {
     Button login;
     FirebaseDatabase base;
     DatabaseReference reference;
+    TextView sign;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +32,7 @@ public class LogIn extends AppCompatActivity {
         login = findViewById(R.id.idBtnRegister);
         base = FirebaseDatabase.getInstance();
         reference = base.getReference();
+        sign = findViewById(R.id.Signup);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -49,6 +53,8 @@ public class LogIn extends AppCompatActivity {
                             String pass = snapshot.child("password").getValue(String.class);
                             if(pass.equals(password)){
                                 Toast.makeText(LogIn.this,"Success! You have been logged in.",Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(LogIn.this,DepartmentsActivity.class);
+                                startActivity(intent);
                             }
                             else{
                                 Toast.makeText(LogIn.this,"Wrong password",Toast.LENGTH_SHORT).show();
@@ -66,6 +72,14 @@ public class LogIn extends AppCompatActivity {
 
                     }
                 });
+            }
+        });
+
+        sign.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LogIn.this,MainActivity.class);
+                startActivity(intent);
             }
         });
 
