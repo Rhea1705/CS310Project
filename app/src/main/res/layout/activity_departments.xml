@@ -5,28 +5,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.cs310project.DepartmentsActivity">
-    <androidx.recyclerview.widget.RecyclerView
+    <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/departmentsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <!-- Add a ScrollView to make the list scrollable if it doesn't fit the screen -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+
+    <!-- LinearLayout to contain department names -->
+    <LinearLayout
+        android:id="@+id/departmentListLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         android:padding="16dp"
         android:clipToPadding="false"
         android:clipChildren="false"
         android:scrollbars="vertical"
         android:background="#f0f0f0"
         />
-<!--    <com.google.android.material.bottomnavigation.BottomNavigationView-->
-<!--        xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--        xmlns:app="http://schemas.android.com/apk/res-auto"-->
-<!--        android:layout_below = "@id/departmentsRecyclerView"-->
-<!--        android:id="@+id/navigation"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="56dp"-->
-<!--        android:layout_gravity="bottom"-->
-<!--        android:layout_marginTop="64dp"-->
-<!--        android:background="@color/purple_200"-->
-<!--        app:menu="@menu/bottom_navigation_bar"-->
-<!--        tools:ignore="MissingConstraints" />-->
+    </ScrollView>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

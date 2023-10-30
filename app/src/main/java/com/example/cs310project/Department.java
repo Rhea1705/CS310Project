@@ -5,6 +5,7 @@ import java.util.List;
 public class Department {
     String name;
  List<Course> courses;
+ public Department() {}
 
     public String getName() {
         return name;

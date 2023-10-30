@@ -11,11 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class DepartmentAdapter extends RecyclerView.Adapter<DepartmentAdapter.DepartmentViewHolder> {
-    private List<String> departmentNames; // List of department names
+    private List<Department> departmentList;
     private OnItemClickListener onItemClickListener;
 
-    public DepartmentAdapter(List<String> departmentNames) {
-        this.departmentNames = departmentNames;
+    public DepartmentAdapter(List<Department> departmentList) {
+        this.departmentList = departmentList;
     }
 
     public interface OnItemClickListener {
@@ -35,8 +35,8 @@ public class DepartmentAdapter extends RecyclerView.Adapter<DepartmentAdapter.De
 
     @Override
     public void onBindViewHolder(@NonNull DepartmentViewHolder holder, int position) {
-        String departmentName = departmentNames.get(position); // Get the department name
-        holder.departmentNameTextView.setText(departmentName);
+        Department department = departmentList.get(position);
+        holder.departmentNameTextView.setText(department.getName());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,7 +50,7 @@ public class DepartmentAdapter extends RecyclerView.Adapter<DepartmentAdapter.De
 
     @Override
     public int getItemCount() {
-        return departmentNames.size();
+        return departmentList.size();
     }
 
     public class DepartmentViewHolder extends RecyclerView.ViewHolder {
