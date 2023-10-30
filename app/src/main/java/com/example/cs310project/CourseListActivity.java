@@ -41,7 +41,7 @@ public class CourseListActivity extends AppCompatActivity {
         String selectedDepartment = getIntent().getStringExtra("department");
 
         courseList = new ArrayList<>();
-        adapter = new CourseAdapter(Collections.singletonList(courseList));
+        adapter = new CourseAdapter(courseList);
 
         recyclerView = findViewById(R.id.classesRecyclerView);
         recyclerView.setHasFixedSize(true);
