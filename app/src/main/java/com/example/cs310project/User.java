@@ -5,16 +5,36 @@ public class User {
     String email;
     String password;
     String phone_number;
+    String usc_id;
+    String role;
 
+
+    public String getUsc_id() {
+        return usc_id;
+    }
+
+    public void setUsc_id(String usc_id) {
+        this.usc_id = usc_id;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 
     public User() {
     }
 
-    public User(String name, String email, String password, String phone_number) {
+    public User(String name, String email, String password, String phone_number,String usc_id,String role) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.phone_number = phone_number;
+        this.usc_id = usc_id;
+        this.role = role;
 
     }
 
