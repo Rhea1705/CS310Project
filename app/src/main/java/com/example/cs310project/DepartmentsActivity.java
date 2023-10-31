@@ -68,6 +68,7 @@ public class DepartmentsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Start the courses activity with the selected department
+                Log.d("my app","on click: " + departmentName);
                 Intent intent = new Intent(DepartmentsActivity.this, CourseListActivity.class);
                 intent.putExtra("selectedDepartment", departmentName);
                 startActivity(intent);
