@@ -53,6 +53,7 @@ public class LogIn extends AppCompatActivity {
                             String pass = snapshot.child("password").getValue(String.class);
                             if(pass.equals(password)){
                                 Toast.makeText(LogIn.this,"Success! You have been logged in.",Toast.LENGTH_SHORT).show();
+                                Access.username = username;
                                 Intent intent = new Intent(LogIn.this,DepartmentsActivity.class);
                                 startActivity(intent);
                             }
