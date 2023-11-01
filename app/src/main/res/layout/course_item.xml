@@ -44,21 +44,34 @@
 
             <TextView
                 android:id="@+id/courseDescriptionTextView"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textSize="12dp"
                 android:layout_weight="1"
+                android:textSize="12dp"
                 android:textColor="#000"
-                android:text="description" />
+                android:visibility="gone"
+                android:text="Description" />
+
             <TextView
                 android:id="@+id/courseEnrollmentTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="12dp"
-                android:layout_weight="0"
                 android:textColor="#000"
+                android:visibility="gone"
                 android:text="Enrolled:" />
+
+            <Button
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:text="Enroll"
+                android:textAllCaps="false"
+                android:id = "@+id/enrollBtn"
+                android:visibility="gone"
+                android:textSize="12dp"
+                android:layout_gravity="end" />
         </LinearLayout>
+
     </RelativeLayout>
 
 

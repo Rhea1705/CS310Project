@@ -18,7 +18,7 @@
         android:padding="5dp"
         android:text="Welcome to Find My Classmates \n Log In"
         android:textAlignment="center"
-        android:textColor="@color/purple_700"
+        android:textColor="@color/crimson"
         android:textSize="18sp" />
 
     <!-- Username field -->
@@ -74,6 +74,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
+        android:backgroundTint="@color/yellow"
         android:text="Log In"
         android:textAllCaps="false" />
     <LinearLayout
@@ -97,7 +98,7 @@
             android:autoLink="web"
             android:clickable="true"
             android:text="Sign Up"
-            android:textColor="@color/purple_500"
+            android:textColor="@color/crimson"
             android:textStyle="normal|bold" />
     </LinearLayout>
 </RelativeLayout>

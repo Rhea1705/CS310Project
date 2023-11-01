@@ -4,16 +4,25 @@ import java.util.List;
 
 public class Department {
     String name;
-    List<Course> courses;
+ List<Course> courses;
+ public Department() {}
+
     public String getName() {
         return name;
     }
 
-    // Setter for 'name's
     public void setName(String name) {
         this.name = name;
     }
+
     public List<Course> getCourses() {
         return courses;
     }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
+    }
+
+// Setter for 'name's
+
 }
