@@ -87,15 +87,24 @@ public class CourseListActivity extends AppCompatActivity {
         toggleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d("toggle clicked", description);
 
                 TextView courseDescription = departmentItemView.findViewById(R.id.courseDescriptionTextView);
                 courseDescription.setText(description);
                 courseDescription.setVisibility(View.VISIBLE);
                 TextView num_enroll = departmentItemView.findViewById(R.id.courseEnrollmentTextView);
                 num_enroll.setVisibility(View.VISIBLE);
-                num_enroll.setText(num);
+                String number = String.valueOf(num);
+                num_enroll.setText("enrolled: " +number);
                 Button enrollBtn = departmentItemView.findViewById(R.id.enrollBtn);
                 enrollBtn.setVisibility(View.VISIBLE);
+                enrollBtn.setOnClickListener(new View.OnClickListener() {;
+                    public void onClick(View view) {
+                        Integer new_num = num+1;
+                        num_enroll.setText("enrolled: " + new_num);
+                        //vidit add code here for current user
+                    }
+                });
 
             }
         });
@@ -103,14 +112,3 @@ public class CourseListActivity extends AppCompatActivity {
         parentLayout.addView(departmentItemView);
     }
 }
-
-//    private void toggleDescriptionVisibility() {
-//        if (isDescriptionVisible) {
-//            courseDescriptionTextView.setVisibility(View.GONE);
-//            toggleButton.setText("Show Description");
-//        } else {
-//            courseDescriptionTextView.setVisibility(View.VISIBLE);
-//            toggleButton.setText("Hide Description");
-//        }
-//        isDescriptionVisible = !isDescriptionVisible;
-//    }
