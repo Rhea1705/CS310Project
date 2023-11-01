@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
                         User user = new User(name,email,password,phone_number,usc,role);
                         usename.setValue(user);
                         Toast.makeText(MainActivity.this,"You have successfully created an account",Toast.LENGTH_SHORT).show();
+                        Access.username = username;
                         Intent intent = new Intent(MainActivity.this,DepartmentsActivity.class);
                         startActivity(intent);
 

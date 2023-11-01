@@ -8,13 +8,14 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/a"
+        android:id="@+id/profile"
         android:layout_width="match_parent"
         android:layout_height="551dp"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="60dp"
         android:layout_marginRight="30dp"
-        android:background="@drawable/border">
+        android:background="@drawable/border"
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/logo"
@@ -24,7 +25,7 @@
             android:src="@drawable/logo" />
 
         <LinearLayout
-            android:id="@+id/profileName"
+            android:id="@+id/profileImage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/logo">
@@ -35,7 +36,25 @@
                 android:layout_height="80dp"
                 android:layout_marginLeft="20dp"
                 android:src="@drawable/profile" />
+            <Button
+                android:id="@+id/imgButton"
+                android:layout_width="90dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/pName"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="10dp"
+                android:backgroundTint="@color/yellow"
+                android:text="Choose Image"
+                android:textAllCaps="false" />
+        </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/profileName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/profileImage">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
@@ -160,12 +179,24 @@
                 android:textSize="15sp" />
         </LinearLayout>
 
+        <Button
+            android:id="@+id/updateButton"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/profileEmail"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="10dp"
+            android:backgroundTint="@color/yellow"
+            android:text="Update Profile"
+            android:textAllCaps="false" />
         <!-- TextView to display user's phone number -->
         <LinearLayout
             android:id="@+id/profilePhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/profileEmail">
+            android:layout_below="@id/updateButton">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -210,19 +241,6 @@
                 android:textColor="@color/black"
                 android:textSize="15sp" />
         </LinearLayout>
-
-        <Button
-            android:id="@+id/updateButton"
-            android:layout_width="180dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/profileRole"
-            android:layout_centerInParent="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="10dp"
-            android:backgroundTint="@color/yellow"
-            android:text="Update Profile"
-            android:textAllCaps="false" />
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
