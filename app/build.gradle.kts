@@ -45,6 +45,7 @@ dependencies {
     implementation ("com.github.bumptech.glide:glide:4.12.0") // Added Glide dependency
     implementation ("com.squareup.picasso:picasso:2.71828")
     implementation ("com.firebaseui:firebase-ui-database:8.0.0")
+    implementation ("com.google.firebase:firebase-auth:21.0.0")
 
 
     implementation("com.mikhaellopez:circularimageview:4.3.1")

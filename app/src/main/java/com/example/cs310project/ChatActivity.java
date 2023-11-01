@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class ChatActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -42,18 +44,30 @@ public class ChatActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         fetchMessages();
 
+        // Inside your activity or fragment:
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        String email;
+        if (currentUser != null) {
+            email = currentUser.getEmail();
+        } else {
+            email = "";
+        }
         sendButton.setOnClickListener(view -> {
             String messageText = messageInput.getText().toString().trim();
             if (!messageText.isEmpty()) {
-                sendMessage(messageText);
+                sendMessage(messageText, email);
                 messageInput.setText("");
             }
         });
     }
 
-    private void sendMessage(String message) {
-        Message newMessage = new Message(message);
-        databaseReference.push().setValue(newMessage);
+    private void sendMessage(String message, String email) {
+        String key = databaseReference.push().getKey();
+        Message newMessage = new Message(message, email);
+        if (key != null) {
+            databaseReference.child(key).setValue(newMessage);
+        }
     }
 
     private void fetchMessages() {
