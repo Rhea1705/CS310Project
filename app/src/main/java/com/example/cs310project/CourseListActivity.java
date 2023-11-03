@@ -103,6 +103,9 @@ public class CourseListActivity extends AppCompatActivity {
                         Integer new_num = num+1;
                         num_enroll.setText("enrolled: " + new_num);
                         //vidit add code here for current user
+
+
+
                     }
                 });
 
