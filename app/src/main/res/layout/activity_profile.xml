@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-
+    tools:context="com.example.cs310project.ProfileActivity">
+    >
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <RelativeLayout
         android:id="@+id/profile"
         android:layout_width="match_parent"
@@ -15,7 +18,8 @@
         android:layout_marginTop="60dp"
         android:layout_marginRight="30dp"
         android:background="@drawable/border"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        tools:ignore="MissingConstraints">
 
         <ImageView
             android:id="@+id/logo"
@@ -60,7 +64,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:layout_marginLeft="dp"
                 android:layout_marginTop="10dp"
                 android:padding="5dp"
                 android:text="Name:"
@@ -72,7 +75,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginTop="30dp"
-                android:text=""
                 android:textColor="@color/black"
                 android:textSize="15sp" />
         </LinearLayout>
@@ -97,7 +99,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
-                android:text=""
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 
@@ -248,22 +249,21 @@
         <!-- TextView to display user's role -->
 
     </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
+    </ScrollView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/navigation"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
+        android:layout_below="@id/profile"
         android:layout_gravity="bottom"
-        android:backgroundTint="@color/yellow"
-        app:menu="@menu/bottom_navigation_bar" />
+        android:background="#fff"
+        app:menu="@menu/bottom_navigation_bar"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="669dp">
 
-    </RelativeLayout>
-</LinearLayout>
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
 
