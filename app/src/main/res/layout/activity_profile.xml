@@ -9,9 +9,9 @@
     >
     <ScrollView
         android:layout_width="match_parent"
+        android:id="@+id/profile"
         android:layout_height="match_parent">
     <RelativeLayout
-        android:id="@+id/profile"
         android:layout_width="match_parent"
         android:layout_height="602dp"
         android:layout_marginLeft="30dp"
@@ -258,6 +258,9 @@
         android:layout_below="@id/profile"
         android:layout_gravity="bottom"
         android:background="#fff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:menu="@menu/bottom_navigation_bar"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="669dp">

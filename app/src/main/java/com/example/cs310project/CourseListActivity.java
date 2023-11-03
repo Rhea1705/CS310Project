@@ -3,20 +3,16 @@ package com.example.cs310project;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
+
 import android.content.Intent;
 import android.os.Bundle;
 
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -26,7 +22,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class CourseListActivity extends AppCompatActivity {
@@ -89,9 +84,20 @@ public class CourseListActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Log.d("toggle clicked", description);
 
-                TextView courseDescription = departmentItemView.findViewById(R.id.courseDescriptionTextView);
-                courseDescription.setText(description);
-                courseDescription.setVisibility(View.VISIBLE);
+                TextView reviews = departmentItemView.findViewById(R.id.reviews);
+                TextView roster = departmentItemView.findViewById(R.id.roster);
+                reviews.setText(description);
+                roster.setVisibility(View.VISIBLE);
+                reviews.setVisibility(View.VISIBLE);
+
+                //navigate to separate roster page
+                roster.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View view) {
+                        Intent intent = new Intent(CourseListActivity.this, Roster.class);
+                        startActivity(intent);
+
+                    }
+                });
                 TextView num_enroll = departmentItemView.findViewById(R.id.courseEnrollmentTextView);
                 num_enroll.setVisibility(View.VISIBLE);
                 String number = String.valueOf(num);
@@ -100,8 +106,16 @@ public class CourseListActivity extends AppCompatActivity {
                 enrollBtn.setVisibility(View.VISIBLE);
                 enrollBtn.setOnClickListener(new View.OnClickListener() {;
                     public void onClick(View view) {
-                        Integer new_num = num+1;
-                        num_enroll.setText("enrolled: " + new_num);
+                        if(enrollBtn.getText()=="Enroll") {
+                            Integer new_num = num+1;
+                            num_enroll.setText("enrolled: " + new_num);
+                            enrollBtn.setText("Unenroll");
+                        }
+                        else {
+                            Integer new_num = num-1;
+                            num_enroll.setText("enrolled: " + new_num);
+                        }
+
                         //vidit add code here for current user
                     }
                 });

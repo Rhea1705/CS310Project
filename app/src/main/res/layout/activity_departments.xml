@@ -33,19 +33,20 @@
         />
 
     </ScrollView>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="5dp">
 
-            <com.google.android.material.bottomnavigation.BottomNavigationView
-                android:id="@+id/navigation"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:layout_gravity="bottom"
-                android:background="@color/purple_200"
-                app:menu="@menu/bottom_navigation_bar" />
-        </LinearLayout>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_gravity="bottom"
+        android:background="#fff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:menu="@menu/bottom_navigation_bar">
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
