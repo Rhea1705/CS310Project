@@ -11,7 +11,7 @@
         android:layout_marginTop="8dp">
 
         <TextView
-            android:id="@+id/departmentNameTextView"
+            android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18dp"
@@ -21,7 +21,7 @@
 
 
         <Button
-            android:id="@+id/toggle"
+            android:id="@+id/chat"
             android:layout_width="50dp"
             android:layout_height="30dp"
             android:layout_weight="0"

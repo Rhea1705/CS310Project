@@ -59,6 +59,7 @@ public class CourseListActivity extends AppCompatActivity {
                     Course currCourse = new Course();
                     currCourse.setName(courseName);
                     currCourse.setNumEnrolled(num);
+                    currCourse.setDepartment(selectedDepartment);
                     Log.d("course list", "course name: " + courseName);
 
                         createCourseItem(courseListLayout,courseName,courseref, currCourse);
@@ -93,6 +94,8 @@ public class CourseListActivity extends AppCompatActivity {
                 roster.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View view) {
                         Intent intent = new Intent(CourseListActivity.this, Roster.class);
+                        intent.putExtra("selectedCourse", currCourse.getName());
+                        intent.putExtra("department", currCourse.getDepartment());
                         startActivity(intent);
 
                     }
