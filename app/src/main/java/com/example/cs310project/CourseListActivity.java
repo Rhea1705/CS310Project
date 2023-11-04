@@ -27,7 +27,6 @@ import java.util.List;
 public class CourseListActivity extends AppCompatActivity {
 
     private List<Course> courseList;
-    private CourseAdapter adapter;
     private RecyclerView recyclerView;
 
     @Override
@@ -54,14 +53,11 @@ public class CourseListActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 courseListLayout.removeAllViews();
                 for (DataSnapshot courseSnapshot : dataSnapshot.getChildren()) {
-                    Course course = courseSnapshot.getValue(Course.class);
                     String courseName = courseSnapshot.child("name").getValue(String.class);
-                    String courseDescription = courseSnapshot.child("description").getValue(String.class);
                     Integer num_enrolled = courseSnapshot.child("num_enrolled").getValue(Integer.class);
                     Log.d("course list", "course name: " + courseName);
-                    if (course != null) {
-                        createCourseItem(courseListLayout,courseName, courseDescription, num_enrolled);
-                    }
+
+                        createCourseItem(courseListLayout,courseName, num_enrolled);
                 }
             }
 
@@ -71,7 +67,7 @@ public class CourseListActivity extends AppCompatActivity {
             }
         });
     }
-    private void createCourseItem(LinearLayout parentLayout, String courseName, String description, Integer num) {
+    private void createCourseItem(LinearLayout parentLayout, String courseName, Integer num) {
         LayoutInflater inflater = getLayoutInflater();
         View departmentItemView = inflater.inflate(R.layout.course_item, parentLayout, false);
 
@@ -82,11 +78,9 @@ public class CourseListActivity extends AppCompatActivity {
         toggleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("toggle clicked", description);
 
                 TextView reviews = departmentItemView.findViewById(R.id.reviews);
                 TextView roster = departmentItemView.findViewById(R.id.roster);
-                reviews.setText(description);
                 roster.setVisibility(View.VISIBLE);
                 reviews.setVisibility(View.VISIBLE);
 
