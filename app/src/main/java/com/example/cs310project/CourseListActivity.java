@@ -44,12 +44,12 @@ public class CourseListActivity extends AppCompatActivity {
         // Initialize Firebase
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference departmentRef = database.getReference("departments").child(selectedDepartment);
-        departmentRef.child("courses");
+        DatabaseReference courseref = departmentRef.child("courses");
         // Reference to the LinearLayout container
         LinearLayout courseListLayout = findViewById(R.id.courseListLayout);
 
 
-        departmentRef.child("courses").addListenerForSingleValueEvent(new ValueEventListener() {
+        courseref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 courseListLayout.removeAllViews();
@@ -60,7 +60,7 @@ public class CourseListActivity extends AppCompatActivity {
                     Integer num_enrolled = courseSnapshot.child("num_enrolled").getValue(Integer.class);
                     Log.d("course list", "course name: " + courseName);
                     if (course != null) {
-                        createCourseItem(courseListLayout,courseName, courseDescription, num_enrolled);
+                        createCourseItem(courseListLayout,courseName, courseDescription, num_enrolled,courseref);
                     }
                 }
             }
@@ -71,7 +71,7 @@ public class CourseListActivity extends AppCompatActivity {
             }
         });
     }
-    private void createCourseItem(LinearLayout parentLayout, String courseName, String description, Integer num) {
+    private void createCourseItem(LinearLayout parentLayout, String courseName, String description, Integer num, DatabaseReference courseref) {
         LayoutInflater inflater = getLayoutInflater();
         View departmentItemView = inflater.inflate(R.layout.course_item, parentLayout, false);
 
@@ -93,8 +93,8 @@ public class CourseListActivity extends AppCompatActivity {
                 //navigate to separate roster page
                 roster.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View view) {
-                        Intent intent = new Intent(CourseListActivity.this, Roster.class);
-                        startActivity(intent);
+//                        Intent intent = new Intent(CourseListActivity.this, Roster.class);
+//                        startActivity(intent);
 
                     }
                 });
@@ -109,14 +109,16 @@ public class CourseListActivity extends AppCompatActivity {
                         if(enrollBtn.getText()=="Enroll") {
                             Integer new_num = num+1;
                             num_enroll.setText("enrolled: " + new_num);
+                            courseref.child("num_enrolled").setValue(new_num);
                             enrollBtn.setText("Unenroll");
                         }
                         else {
                             Integer new_num = num-1;
+                            courseref.child("num_enrolled").setValue(new_num);
                             num_enroll.setText("enrolled: " + new_num);
                         }
 
-                        //vidit add code here for current user
+
 
 
 

@@ -72,7 +72,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         public CourseViewHolder(@NonNull View itemView) {
             super(itemView);
             courseNameTextView = itemView.findViewById(R.id.courseNameTextView);
-            courseDescriptionTextView = itemView.findViewById(R.id.courseDescriptionTextView);
+            //courseDescriptionTextView = itemView.findViewById(R.id.courseDescriptionTextView);
         }
     }
 }
