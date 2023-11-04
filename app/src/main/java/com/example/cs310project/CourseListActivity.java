@@ -130,7 +130,44 @@ public class CourseListActivity extends AppCompatActivity {
                 String number = String.valueOf(currCourse.getNumEnrolled());
                 num_enroll.setText("enrolled: " +number);
                 Button enrollBtn = departmentItemView.findViewById(R.id.enrollBtn);
-                enrollBtn.setText("Enroll");
+                courseref.child(currCourse.getName()).child("roster").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        boolean there= false;
+                        List<User> ros = currCourse.getRoster();
+                        for(DataSnapshot courseSnapshot : snapshot.getChildren()){
+
+                            String username = courseSnapshot.getKey();
+                            Log.d("rosterapp",username);
+                            if(username.equals(Access.username)){
+                                there = true;
+                            }
+                            String name_topopulate = snapshot.child("name").getValue(String.class);
+                            String email_topopulate = snapshot.child("email").getValue(String.class);
+                            String password_topopulate = snapshot.child("password").getValue(String.class);
+                            String phone_number_topopulate = snapshot.child("phone_number").getValue(String.class);
+                            String usc_id_topopulate = snapshot.child("usc_id").getValue(String.class);
+                            String role_topopulate = snapshot.child("role").getValue(String.class);
+                            User adduser = new User(name_topopulate,email_topopulate,password_topopulate,phone_number_topopulate,usc_id_topopulate,role_topopulate,username);
+                            ros.add(adduser);
+                        }
+                        if(there){
+                            enrollBtn.setText("Unenroll");
+                        }
+                        else{
+                            enrollBtn.setText("Enroll");
+                        }
+                        currCourse.setRoster(ros);
+
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
                 enrollBtn.setVisibility(View.VISIBLE);
                 enrollBtn.setOnClickListener(new View.OnClickListener() {;
                     public void onClick(View view) {
@@ -138,8 +175,8 @@ public class CourseListActivity extends AppCompatActivity {
                         if(enrollBtn.getText().equals("Enroll")) {
                             int new_num = currCourse.getNumEnrolled() + 1;
                             currCourse.setNumEnrolled(new_num);
-                            List<User> ros = currCourse.getRoster();
-                            addStudentToRoster(ros,currCourse,"add",courseref);
+
+                            addStudentToRoster(currCourse.getRoster(),currCourse,"add",courseref);
                             num_enroll.setText("enrolled: " + new_num );
                             courseref.child(courseName).child("num_enrolled").setValue(new_num);
                             enrollBtn.setText("Unenroll");
@@ -147,9 +184,8 @@ public class CourseListActivity extends AppCompatActivity {
                         else {
                             int new_num = currCourse.getNumEnrolled() - 1;
                             currCourse.setNumEnrolled(new_num);
-                            List<User> ros = currCourse.getRoster();
-                            Log.d("Courseapp",ros.get(0).getName());
-                            addStudentToRoster(ros,currCourse,"remove",courseref);
+
+                            addStudentToRoster(currCourse.getRoster(),currCourse,"remove",courseref);
                             courseref.child(courseName).child("num_enrolled").setValue(new_num);
                             num_enroll.setText("enrolled: " + new_num);
                             enrollBtn.setText("Enroll");
@@ -190,20 +226,26 @@ public class CourseListActivity extends AppCompatActivity {
                 User user = new User(name,email,password,phone_number,usc_id,role,Access.username);
                 if(whattodo.equals("add")){
                         ros.add(user);
+                    courseref.child(currCourse.name).child("roster").child(Access.username).setValue(user);
                 }
                 else if(whattodo.equals("remove")){
+                    User remove = null;
                     Log.d("Courseapp","enters remove");
-                    Log.d("Courseapp",ros.get(0).getEmail());
                     for(User use: ros) {
+
                         if (use.getUsername().equals(Access.username)) {
-                            ros.remove(use);
+                            remove = use;
+
                         }
+                    }
+                    if(remove != null){
+                        ros.remove(user);
+                        courseref.child(currCourse.name).child("roster").child(Access.username).removeValue();
                     }
                 }
                 currCourse.setRoster(ros);
-//                courseref.child(currCourse.name).child("roster").setValue(Access.username);
-                DatabaseReference usename = courseref.child(currCourse.name).child("roster").child(Access.username);
-                usename.setValue(ros);
+
+
             }
 
             @Override
