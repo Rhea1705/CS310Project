@@ -5,7 +5,7 @@ import java.util.List;
 public class Course {
     String name;
     Integer num_enrolled;
-    List<String> roster;
+    List<User> roster;
     String department;
     Boolean expanded;
     public Course() {
@@ -31,11 +31,11 @@ public class Course {
     }
 
     // Getter for 'roster'
-    public List<String> getRoster() {
+    public List<User> getRoster() {
         return roster;
     }
 
-    public void setRoster(List<String> roster) {
+    public void setRoster(List<User> roster) {
         this.roster = roster;
     }
 

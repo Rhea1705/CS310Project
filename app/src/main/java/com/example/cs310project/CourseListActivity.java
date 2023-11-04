@@ -29,6 +29,7 @@ public class CourseListActivity extends AppCompatActivity {
     private List<Course> courseList;
     private RecyclerView recyclerView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,23 +42,26 @@ public class CourseListActivity extends AppCompatActivity {
         courseList = new ArrayList<>();
 
         // Initialize Firebase
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        FirebaseDatabase database =FirebaseDatabase.getInstance();
         DatabaseReference departmentRef = database.getReference("departments").child(selectedDepartment);
-        departmentRef.child("courses");
+        DatabaseReference courseref = departmentRef.child("courses");
         // Reference to the LinearLayout container
         LinearLayout courseListLayout = findViewById(R.id.courseListLayout);
 
 
-        departmentRef.child("courses").addListenerForSingleValueEvent(new ValueEventListener() {
+        courseref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 courseListLayout.removeAllViews();
                 for (DataSnapshot courseSnapshot : dataSnapshot.getChildren()) {
                     String courseName = courseSnapshot.child("name").getValue(String.class);
-                    Integer num_enrolled = courseSnapshot.child("num_enrolled").getValue(Integer.class);
+                    Integer num = courseSnapshot.child("num_enrolled").getValue(Integer.class);
+                    Course currCourse = new Course();
+                    currCourse.setName(courseName);
+                    currCourse.setNumEnrolled(num);
                     Log.d("course list", "course name: " + courseName);
 
-                        createCourseItem(courseListLayout,courseName, num_enrolled);
+                        createCourseItem(courseListLayout,courseName,courseref, currCourse);
                 }
             }
 
@@ -67,12 +71,13 @@ public class CourseListActivity extends AppCompatActivity {
             }
         });
     }
-    private void createCourseItem(LinearLayout parentLayout, String courseName, Integer num) {
+    private void createCourseItem(LinearLayout parentLayout, String courseName, DatabaseReference courseref, Course currCourse) {
         LayoutInflater inflater = getLayoutInflater();
         View departmentItemView = inflater.inflate(R.layout.course_item, parentLayout, false);
 
         TextView courseNameTextView = departmentItemView.findViewById(R.id.courseNameTextView);
         courseNameTextView.setText(courseName);
+        Integer num = currCourse.getNumEnrolled();
 
         TextView toggleButton = departmentItemView.findViewById(R.id.toggleButton);
         toggleButton.setOnClickListener(new View.OnClickListener() {
@@ -94,20 +99,32 @@ public class CourseListActivity extends AppCompatActivity {
                 });
                 TextView num_enroll = departmentItemView.findViewById(R.id.courseEnrollmentTextView);
                 num_enroll.setVisibility(View.VISIBLE);
-                String number = String.valueOf(num);
+                String number = String.valueOf(currCourse.getNumEnrolled());
                 num_enroll.setText("enrolled: " +number);
                 Button enrollBtn = departmentItemView.findViewById(R.id.enrollBtn);
+                enrollBtn.setText("Enroll");
                 enrollBtn.setVisibility(View.VISIBLE);
                 enrollBtn.setOnClickListener(new View.OnClickListener() {;
                     public void onClick(View view) {
-                        if(enrollBtn.getText()=="Enroll") {
-                            Integer new_num = num+1;
-                            num_enroll.setText("enrolled: " + new_num);
+
+                        if(enrollBtn.getText().equals("Enroll")) {
+                            int new_num = currCourse.getNumEnrolled() + 1;
+                            currCourse.setNumEnrolled(new_num);
+                            List<User> ros = currCourse.getRoster();
+                            addStudentToRoster(ros,currCourse,"add");
+                            num_enroll.setText("enrolled: " + new_num );
+                            courseref.child(courseName).child("num_enrolled").setValue(new_num);
                             enrollBtn.setText("Unenroll");
                         }
                         else {
-                            Integer new_num = num-1;
+                            int new_num = currCourse.getNumEnrolled() - 1;
+                            currCourse.setNumEnrolled(new_num);
+                            List<User> ros = currCourse.getRoster();
+                            addStudentToRoster(ros,currCourse,"remove");
+                            courseref.child(courseName).child("num_enrolled").setValue(new_num);
                             num_enroll.setText("enrolled: " + new_num);
+                            enrollBtn.setText("Enroll");
+
                         }
 
                         //vidit add code here for current user
@@ -119,4 +136,51 @@ public class CourseListActivity extends AppCompatActivity {
 
         parentLayout.addView(departmentItemView);
     }
+
+
+
+    private void addStudentToRoster(List<User> ros,Course currCourse,String whattodo){
+        FirebaseDatabase base = FirebaseDatabase.getInstance();
+        DatabaseReference ref = base.getReference();
+        DatabaseReference childref = ref.child("UserList");
+        DatabaseReference usename = childref.child(Access.username);
+
+        usename.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!snapshot.exists()){
+                    return;
+                }
+                String name = snapshot.child("name").getValue(String.class);
+                String email = snapshot.child("email").getValue(String.class);
+                String password = snapshot.child("password").getValue(String.class);
+                String phone_number = snapshot.child("phone_number").getValue(String.class);
+                String usc_id = snapshot.child("usc_id").getValue(String.class);
+                String role = snapshot.child("role").getValue(String.class);
+                User user = new User(name,email,password,phone_number,usc_id,role);
+                if(whattodo.equals("add")){
+                    if(ros.contains(user)){
+
+                    }
+                    else{
+
+                    }
+                    ros.add(user);
+                    currCourse.setRoster(ros);
+                }
+                else{
+                    ros.remove(user);
+                    currCourse.setRoster(ros);
+                }
+                usename.child("roster").setValue(ros);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
 }
