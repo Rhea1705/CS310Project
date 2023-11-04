@@ -15,6 +15,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -71,7 +73,33 @@ public class ProfileActivity extends AppCompatActivity {
         updateButton = findViewById(R.id.updateButton);
         imgButton = findViewById(R.id.imgButton);
 
+
+
         loadPage();
+        BottomNavigationView bottomNavigationView = findViewById(R.id.navigation);
+        bottomNavigationView.setSelectedItemId(R.id.profile);
+        Intent chatIntent = new Intent(this, ChatActivity.class);
+        Intent classesIntent = new Intent(this, DepartmentsActivity.class);
+        Intent profileIntent = new Intent(this, ProfileActivity.class);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                int itemId = item.getItemId();
+                if (itemId == R.id.chat) {
+                    startActivity(chatIntent);
+                }
+                else if (itemId == R.id.classes) {
+                    startActivity(classesIntent);
+                }
+                else if (itemId == R.id.profile) {
+                    startActivity(profileIntent);
+                }
+                return true;
+            }
+        });
+
 
         // Initialize the ActivityResultLauncher here
         someActivityResultLauncher = registerForActivityResult(
@@ -222,6 +250,9 @@ public class ProfileActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(ProfileActivity.this, "Error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
+
+
+
         });
     }
 }
