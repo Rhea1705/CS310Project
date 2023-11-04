@@ -9,12 +9,14 @@ import android.os.Bundle;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,14 +42,34 @@ public class CourseListActivity extends AppCompatActivity {
 
         courseList = new ArrayList<>();
 
-        // Initialize Firebase
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference departmentRef = database.getReference("departments").child(selectedDepartment);
         departmentRef.child("courses");
-        // Reference to the LinearLayout container
         LinearLayout courseListLayout = findViewById(R.id.courseListLayout);
 
+        BottomNavigationView bottomNavigationView = findViewById(R.id.navigation);
+        bottomNavigationView.setSelectedItemId(R.id.departmentListLayout);
+        Intent chatIntent = new Intent(this, ChatActivity.class);
+        Intent classesIntent = new Intent(this, DepartmentsActivity.class);
+        Intent profileIntent = new Intent(this, ProfileActivity.class);
 
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                int itemId = item.getItemId();
+                if (itemId == R.id.chat) {
+                    startActivity(chatIntent);
+                }
+                else if (itemId == R.id.classes) {
+                    startActivity(classesIntent);
+                }
+                else if (itemId == R.id.profile) {
+                    startActivity(profileIntent);
+                }
+                return true;
+            }
+        });
         departmentRef.child("courses").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -75,12 +97,11 @@ public class CourseListActivity extends AppCompatActivity {
         courseNameTextView.setText(courseName);
 
         TextView toggleButton = departmentItemView.findViewById(R.id.toggleButton);
+        TextView reviews = departmentItemView.findViewById(R.id.reviews);
+        TextView roster = departmentItemView.findViewById(R.id.roster);
         toggleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                TextView reviews = departmentItemView.findViewById(R.id.reviews);
-                TextView roster = departmentItemView.findViewById(R.id.roster);
                 roster.setVisibility(View.VISIBLE);
                 reviews.setVisibility(View.VISIBLE);
 
@@ -110,10 +131,18 @@ public class CourseListActivity extends AppCompatActivity {
                             num_enroll.setText("enrolled: " + new_num);
                         }
 
-                        //vidit add code here for current user
                     }
                 });
 
+            }
+        });
+
+        roster.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CourseListActivity.this, Roster.class);
+                intent.putExtra("selectedCourse", courseName);
+                startActivity(intent);
             }
         });
 
