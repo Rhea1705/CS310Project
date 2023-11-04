@@ -6,11 +6,11 @@ import java.util.List;
 public class Course {
     String name;
     Integer num_enrolled;
-    List<User> roster;
+    List<User> roster = new ArrayList<>();
     String department;
     Boolean expanded;
     public Course() {
-        roster = new ArrayList<>();
+
     }
     public String getName() {
         return name;
