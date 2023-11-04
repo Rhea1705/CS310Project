@@ -10,7 +10,14 @@
     <ScrollView
         android:layout_width="match_parent"
         android:id="@+id/profile"
-        android:layout_height="match_parent">
+        android:layout_height="670dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_weight = "0"
+        android:orientation="horizontal"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginRight="30dp"
+        >
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="602dp"
@@ -243,10 +250,6 @@
             android:backgroundTint="@color/yellow"
             android:text="Update Profile"
             android:textAllCaps="false" />
-        <!-- TextView to display user's phone number -->
-
-
-        <!-- TextView to display user's role -->
 
     </RelativeLayout>
     </ScrollView>
