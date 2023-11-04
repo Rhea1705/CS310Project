@@ -1,5 +1,6 @@
 package com.example.cs310project;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Course {
@@ -9,7 +10,7 @@ public class Course {
     String department;
     Boolean expanded;
     public Course() {
-
+        roster = new ArrayList<>();
     }
     public String getName() {
         return name;

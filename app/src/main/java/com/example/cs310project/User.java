@@ -8,17 +8,27 @@ public class User {
     String usc_id;
     String role;
 
+    String username;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public User() {
     }
 
-    public User(String name, String email, String password, String phone_number,String usc_id,String role) {
+    public User(String name, String email, String password, String phone_number,String usc_id,String role, String username) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.phone_number = phone_number;
         this.usc_id = usc_id;
         this.role = role;
+        this.username = username;
 
     }
 

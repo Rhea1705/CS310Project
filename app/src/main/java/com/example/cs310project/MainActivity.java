@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(MainActivity.this,"Username already exists",Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        User user = new User(name,email,password,phone_number,usc,role);
+                        User user = new User(name,email,password,phone_number,usc,role,username);
                         usename.setValue(user);
                         Toast.makeText(MainActivity.this,"You have successfully created an account",Toast.LENGTH_SHORT).show();
                         Access.username = username;
