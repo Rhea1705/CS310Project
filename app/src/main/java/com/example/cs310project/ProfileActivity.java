@@ -109,10 +109,10 @@ public class ProfileActivity extends AppCompatActivity {
     private void updateUserData(String username, String password, String email, String phone_number, String image, String role, String id) {
     //    progressBar = new ProgressBar(this);
     //    progressBar.isShown();
-
+        Access access =  new Access();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.US);
         Date now = new Date();
-        String storageName = "images/"+formatter.format(now);
+        String storageName = "images/"+access.username;
         imagesReference = storage.getReference(storageName);
 
         imagesReference.putFile(filePath)
@@ -177,43 +177,39 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
     private void loadPage() {
+        Access access = new Access();
+        String currentUser = access.username;
+        DatabaseReference userReference = FirebaseDatabase.getInstance().getReference("UserList").child(currentUser);
+
         userReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                    UserData userData = userSnapshot.getValue(UserData.class);
-                    if (userData != null) {
-                        if (userData.getUsername() != null) {
-                            usernameEditText.setText(userData.getUsername());
-                        }
-                        if(userData.getPassword()!=null){
-                            passwordEditText.setText(userData.getPassword());
-                        }
-                        if(userData.getEmail()!=null) {
-                            emailEditText.setText(userData.getEmail());
-                        }
-                        if(userData.getPhoneNumber()!=null) {
-                            phoneEditText.setText(userData.getPhoneNumber());
-                        }
-                        if (userData.getImageUrl() != null) {
-                            // Load the profile image into ImageView
-                            String imageUrl = userData.getImageUrl();
-                            Picasso.get().load(imageUrl).into(imageView);
-                        }
+                UserData userData = dataSnapshot.getValue(UserData.class);
+                if (userData != null) {
+                    if (userData.getUsername() != null) {
+                        usernameEditText.setText(userData.getUsername());
+                    }
+                    if (userData.getPassword() != null) {
+                        passwordEditText.setText(userData.getPassword());
+                    }
+                    if (userData.getEmail() != null) {
+                        emailEditText.setText(userData.getEmail());
+                    }
+                    if (userData.getPhoneNumber() != null) {
+                        phoneEditText.setText(userData.getPhoneNumber());
+                    }
+                    if (userData.getImageUrl() != null) {
+                        // Load the profile image into ImageView
+                        String imageUrl = userData.getImageUrl();
+                        Picasso.get().load(imageUrl).into(imageView);
+                    }
 //                       To do: set options to choose from???
-                        if(userData.getRole()!=null) {
-                            roleEditText.setText(userData.getRole());
-                        }
+                    if (userData.getRole() != null) {
+                        roleEditText.setText(userData.getRole());
+                    }
 //                        check for length to be 10 digits
-                        if(userData.getUSCid()!=null) {
-                            if (userData.getUSCid().length() != 10 && userData.getUSCid().length() > 0) {
-                                // Show an error message if the ID is not 10 digits
-                                idEditText.setError("ID must be 10 digits");
-                            }
-                            else {
-                                idEditText.setText(userData.getUSCid());
-                            }
-                        }
+                    if (userData.getUSCid() != null) {
+                        idEditText.setText(userData.getUSCid());
                     }
                 }
             }

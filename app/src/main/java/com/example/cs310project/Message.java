@@ -2,31 +2,36 @@ package com.example.cs310project;
 
 public class Message {
     private String text;
-    private String email;
+    private String sender;
+    private String receiver;
 
     public Message() {
         // Required for Firebase
     }
 
-    public Message(String text, String email) {
+    public Message(String text, String sender, String receiver) {
         this.text = text;
-        this.email = email;
-    }
-
-    public String getText() {
-        return text;
+        this.sender = sender;
+        this.receiver = receiver;
     }
 
     public void setText(String text) {
         this.text = text;
     }
-
-    public String getEmail() {
-        return email;
+    public String getText() {
+        return text;
     }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public void setSender(String sender) {
+        this.sender = sender;
+    }
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
+    }
+    public String getSender() {
+        return sender;
+    }
+    public String getReceiver() {
+        return receiver;
     }
 }
 
