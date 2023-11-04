@@ -31,7 +31,7 @@ public class Roster extends AppCompatActivity {
         Log.d("roster", "course: " + selectedCourse);
         Log.d("roster", "dept: " + department);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference courseRef = database.getReference("departments").child(department).child("courses").child(selectedCourse);
+        DatabaseReference rosterRef = database.getReference("departments").child(department).child("courses").child(selectedCourse);
         LinearLayout rosterList = findViewById(R.id.rosterList);
 
 //        BottomNavigationView bottomNavigationView = findViewById(R.id.navigation);
@@ -57,13 +57,14 @@ public class Roster extends AppCompatActivity {
 //                return true;
 //            }
 //        });
-        courseRef.child("roster").addListenerForSingleValueEvent(new ValueEventListener() {
+        rosterRef.child("roster").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 rosterList.removeAllViews();
                 for (DataSnapshot courseSnapshot : dataSnapshot.getChildren()) {
+                    
                     String name = courseSnapshot.child("name").getValue(String.class);
-//                    Log.d("course list", "course name: " + courseName);
+                    Log.d("roster", "student Name: " + name);
                     LayoutInflater inflater = getLayoutInflater();
                     View rosterView = inflater.inflate(R.layout.roster_item, rosterList, false);
                     TextView studentNameView = rosterView.findViewById(R.id.name);
