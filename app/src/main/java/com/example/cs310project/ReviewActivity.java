@@ -1,6 +1,7 @@
 package com.example.cs310project;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +11,8 @@ import android.widget.Spinner;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -19,6 +22,9 @@ public class ReviewActivity extends AppCompatActivity {
     private Spinner attendanceSpinner;
     private Button submitButton;
     private DatabaseReference databaseReference;
+    private DatabaseReference reviewref;
+    FirebaseAuth mAuth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,14 +37,18 @@ public class ReviewActivity extends AppCompatActivity {
         commentsEditText = findViewById(R.id.edit_text_comments);
         submitButton = findViewById(R.id.submit_review_button);
         attendanceSpinner = findViewById(R.id.attendance_spinner);
-
+        String selectedCourse= getIntent().getStringExtra("selectedCourse");
+        String department = getIntent().getStringExtra("department");
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        reviewref = database.getReference("departments").child(department).child("courses").child(selectedCourse).child("reviews");
+        mAuth = FirebaseAuth.getInstance();
         String[] attendanceArray = {"Yes", "No"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, attendanceArray);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         attendanceSpinner.setAdapter(adapter);
         // Initialize Firebase
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference().child("course_reviews");
+//        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+//        databaseReference = firebaseDatabase.getReference().child("course_reviews");
 
         submitButton.setOnClickListener(view -> submitReview());
     }
@@ -55,15 +65,18 @@ public class ReviewActivity extends AppCompatActivity {
 
             // For demonstration purposes, let's consider a fixed userID
             String userID = "user123";
+            FirebaseUser firebaseUser = mAuth.getCurrentUser();
+            String uuid = firebaseUser.getUid();
+            //
+            //String key = databaseReference.push().getKey();
 
-            String key = databaseReference.push().getKey();
-            if (key != null) {
-                databaseReference.child(key).child("userID").setValue(userID);
-                databaseReference.child(key).child("course").setValue(course);
-                databaseReference.child(key).child("workload").setValue(workload);
-                databaseReference.child(key).child("score").setValue(score);
-                databaseReference.child(key).child("attendance").setValue(attendance);
-                databaseReference.child(key).child("comments").setValue(comments);
+            if (uuid != null) {
+                reviewref.child(uuid).child("userID").setValue(userID);
+                reviewref.child(uuid).child("course").setValue(course);
+                reviewref.child(uuid).child("workload").setValue(workload);
+                reviewref.child(uuid).child("score").setValue(score);
+                reviewref.child(uuid).child("attendance").setValue(attendance);
+                reviewref.child(uuid).child("comments").setValue(comments);
             }
 
             Toast.makeText(this, "Review submitted!", Toast.LENGTH_SHORT).show();

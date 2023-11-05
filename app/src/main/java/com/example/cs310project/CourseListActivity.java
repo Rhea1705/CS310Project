@@ -128,6 +128,15 @@ public class CourseListActivity extends AppCompatActivity {
                 reviews.setVisibility(View.VISIBLE);
 
                 //navigate to separate roster page
+                reviews.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(CourseListActivity.this, ReviewActivity.class);
+                        intent.putExtra("selectedCourse", currCourse.getName());
+                        intent.putExtra("department", currCourse.getDepartment());
+                        startActivity(intent);
+                    }
+                });
                 roster.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View view) {
                         Intent intent = new Intent(CourseListActivity.this, Roster.class);
