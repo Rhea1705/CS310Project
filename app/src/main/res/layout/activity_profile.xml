@@ -261,7 +261,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:backgroundTint="@color/yellow"
+        android:background="#fff"
         app:menu="@menu/bottom_navigation_bar" />
 
     </RelativeLayout>

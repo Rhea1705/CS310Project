@@ -2,14 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/chat"
         android:title="Chat"
-        android:icon="@drawable/chat"
-        android:iconTint="@color/crimson"/>
+        android:icon="@drawable/chat"/>
     <item android:id="@+id/classes"
         android:title="Classes"
-        android:iconTint="@color/crimson"
         android:icon="@drawable/classes" />
     <item android:id="@+id/profile"
         android:title="Profile"
-        android:iconTint="@color/crimson"
         android:icon="@drawable/user" />
 </menu>
