@@ -61,13 +61,16 @@ public class CourseListActivity extends AppCompatActivity {
 
                 int itemId = item.getItemId();
                 if (itemId == R.id.chat) {
+                    item.setIcon(R.drawable.chat_selected);
                     startActivity(chatIntent);
                 }
                 else if (itemId == R.id.classes) {
                     startActivity(classesIntent);
+                    item.setIcon(R.drawable.classes_selcted);
                 }
                 else if (itemId == R.id.profile) {
                     startActivity(profileIntent);
+                    item.setIcon(R.drawable.user_selected);
                 }
                 return true;
             }
@@ -105,7 +108,7 @@ public class CourseListActivity extends AppCompatActivity {
         courseNameTextView.setText(courseName);
         Integer num = currCourse.getNumEnrolled();
 
-        TextView toggleButton = departmentItemView.findViewById(R.id.toggleButton);
+        Button toggleButton = departmentItemView.findViewById(R.id.toggleButton);
         toggleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -155,6 +158,7 @@ public class CourseListActivity extends AppCompatActivity {
                             ros.add(adduser);
                         }
                         if(there){
+                            roster.setVisibility(View.VISIBLE);
                             enrollBtn.setText("Unenroll");
                         }
                         else{
@@ -180,9 +184,10 @@ public class CourseListActivity extends AppCompatActivity {
                             currCourse.setNumEnrolled(new_num);
 
                             addStudentToRoster(currCourse.getRoster(),currCourse,"add",courseref);
-                            num_enroll.setText("enrolled: " + new_num );
+                            num_enroll.setText("Enrolled: " + new_num );
                             courseref.child(courseName).child("num_enrolled").setValue(new_num);
                             enrollBtn.setText("Unenroll");
+                            roster.setVisibility(View.VISIBLE);
                         }
                         else {
                             int new_num = currCourse.getNumEnrolled() - 1;
@@ -190,8 +195,9 @@ public class CourseListActivity extends AppCompatActivity {
 
                             addStudentToRoster(currCourse.getRoster(),currCourse,"remove",courseref);
                             courseref.child(courseName).child("num_enrolled").setValue(new_num);
-                            num_enroll.setText("enrolled: " + new_num);
+                            num_enroll.setText("Enrolled: " + new_num);
                             enrollBtn.setText("Enroll");
+                            roster.setVisibility(View.INVISIBLE);
 
                         }
 

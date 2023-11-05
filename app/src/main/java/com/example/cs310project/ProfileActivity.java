@@ -88,13 +88,16 @@ public class ProfileActivity extends AppCompatActivity {
 
                 int itemId = item.getItemId();
                 if (itemId == R.id.chat) {
+                    item.setIcon(R.drawable.chat_selected);
                     startActivity(chatIntent);
                 }
                 else if (itemId == R.id.classes) {
                     startActivity(classesIntent);
+                    item.setIcon(R.drawable.classes_selcted);
                 }
                 else if (itemId == R.id.profile) {
                     startActivity(profileIntent);
+                    item.setIcon(R.drawable.user_selected);
                 }
                 return true;
             }
