@@ -142,7 +142,6 @@ public class ProfileActivity extends AppCompatActivity {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.US);
         Date now = new Date();
 //        temp code
-        access.username = "bulbul";
         String storageName = "images/"+access.username;
         imagesReference = storage.getReference(storageName);
 
@@ -163,26 +162,26 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                    UserData userData = userSnapshot.getValue(UserData.class);
-                    if (userData != null) {
+                    User user = userSnapshot.getValue(User.class);
+                    if (user != null) {
                         if (username != null) {
-                            userData.setUsername(phone_number);
+                            user.setUsername(phone_number);
                         }
                         if(password!=null){
-                            userData.setPassword(phone_number);
+                            user.setPassword(phone_number);
                         }
                         if(email!=null) {
-                            userData.setEmail(phone_number);
+                            user.setEmail(phone_number);
                         }
                         if(phone_number!=null) {
-                            userData.setPhoneNumber(phone_number);
+                            user.setPhone_number(phone_number);
                         }
                         if (image != null) {
-                            userData.setImageUrl(image);
+                            user.setImageUrl(image);
                         }
 //                       To do: set options to choose from???
                         if(role!=null) {
-                            userData.setRole(role);
+                            user.setRole(role);
                         }
 //                        check for length to be 10 digits
                         if(id!=null) {
@@ -191,7 +190,7 @@ public class ProfileActivity extends AppCompatActivity {
                                 idEditText.setError("ID must be 10 digits");
                             }
                             else {
-                                userData.setUSCid(id);
+                                user.setUsc_id(id);
                             }
                         }
                     }
@@ -207,7 +206,7 @@ public class ProfileActivity extends AppCompatActivity {
     private void loadPage() {
         Access access = new Access();
 //        temp
-        String currentUser = "bulbul";
+        String currentUser = access.username;
         DatabaseReference userReference = FirebaseDatabase.getInstance().getReference("UserList").child(currentUser);
 
         userReference.addValueEventListener(new ValueEventListener() {

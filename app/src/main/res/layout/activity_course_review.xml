@@ -9,21 +9,21 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Course"
+        android:text="Rate the Course (1-5)"
         android:textStyle="bold"
         android:textSize="18sp"
         android:layout_marginBottom="8dp" />
 
-    <EditText
+    <RatingBar
         android:id="@+id/edit_text_course"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Workload"
+        android:text="How's the Workload?"
         android:textStyle="bold"
         android:textSize="18sp"
         android:layout_marginBottom="8dp" />
@@ -34,39 +34,68 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Score"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        android:layout_marginBottom="8dp" />
 
-    <EditText
-        android:id="@+id/edit_text_score"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:inputType="number" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Attendance"
+        android:text=" Does the professor check attendance?"
         android:textStyle="bold"
         android:textSize="18sp"
         android:layout_marginBottom="8dp" />
 
-    <Spinner
+    <RadioGroup
         android:id="@+id/attendance_spinner"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp" />
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/radioButtonYes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Yes" />
+
+        <RadioButton
+            android:id="@+id/radioButtonNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No" />
+    </RadioGroup>
+    <TextView
+        android:id="@+id/textViewLateHomework"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Does the professor allow late homework submission?"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <RadioGroup
+        android:id="@+id/radioGroupLateHomework"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/radioButtonLateYes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Yes" />
+
+        <RadioButton
+            android:id="@+id/radioButtonLateNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No" />
+    </RadioGroup>
+
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Comments"
+        android:text="Other Comments:"
+        android:layout_marginTop="10dp"
         android:textStyle="bold"
         android:textSize="18sp"
         android:layout_marginBottom="8dp" />
@@ -79,8 +108,9 @@
 
     <Button
         android:id="@+id/submit_review_button"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Submit"
+        android:backgroundTint="@color/yellow"
         android:textAlignment="center"/>
 </LinearLayout>

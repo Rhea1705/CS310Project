@@ -10,6 +10,15 @@ public class User {
 
     String username;
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    String imageUrl;
     String uid;
 
     public String getUid() {
