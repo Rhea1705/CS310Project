@@ -138,11 +138,11 @@ public class ProfileActivity extends AppCompatActivity {
         someActivityResultLauncher.launch(intent); // Use the initialized launcher to start activity for result
     }
     private void updateUserData(String username, String password, String email, String phone_number, String image, String role, String id) {
-    //    progressBar = new ProgressBar(this);
-    //    progressBar.isShown();
         Access access =  new Access();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.US);
         Date now = new Date();
+//        temp code
+        access.username = "bulbul";
         String storageName = "images/"+access.username;
         imagesReference = storage.getReference(storageName);
 
@@ -150,9 +150,6 @@ public class ProfileActivity extends AppCompatActivity {
                 .addOnSuccessListener(taskSnapshot -> {
                     Toast.makeText(ProfileActivity.this, "Image Uploaded!!", Toast.LENGTH_SHORT).show();
                     updatePage(username, password, email, phone_number, storageName, role, id);
-    //                if(progressBar.isShown()){
-    //                    progressBar.dismiss();
-    //                }
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(ProfileActivity.this, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -209,7 +206,8 @@ public class ProfileActivity extends AppCompatActivity {
     }
     private void loadPage() {
         Access access = new Access();
-        String currentUser = access.username;
+//        temp
+        String currentUser = "bulbul";
         DatabaseReference userReference = FirebaseDatabase.getInstance().getReference("UserList").child(currentUser);
 
         userReference.addValueEventListener(new ValueEventListener() {
