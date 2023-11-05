@@ -10,6 +10,16 @@ public class User {
 
     String username;
 
+    String uid;
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -21,7 +31,7 @@ public class User {
     public User() {
     }
 
-    public User(String name, String email, String password, String phone_number,String usc_id,String role, String username) {
+    public User(String name, String email, String password, String phone_number,String usc_id,String role, String username,String uid) {
         this.name = name;
         this.email = email;
         this.password = password;
@@ -29,6 +39,8 @@ public class User {
         this.usc_id = usc_id;
         this.role = role;
         this.username = username;
+        this.uid = uid;
+
 
     }
 

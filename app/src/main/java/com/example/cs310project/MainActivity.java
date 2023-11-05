@@ -13,6 +13,9 @@ import android.widget.Toast;
 import android.widget.Spinner;
 
 
+import com.google.firebase.Firebase;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     Button Sign_up;
     FirebaseDatabase base;
     DatabaseReference reference;
+    FirebaseAuth mAuth;
     TextView login;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
         Sign_up = findViewById(R.id.idBtnRegister);
         base = FirebaseDatabase.getInstance();
         reference = base.getReference();
+        mAuth = FirebaseAuth.getInstance();
+
 
         Sign_up.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,29 +60,42 @@ public class MainActivity extends AppCompatActivity {
                 String phone_number = phone_numberfield.getText().toString();
                 String role = spin.getSelectedItem().toString();
                 String usc = usc_id.getText().toString();
-                DatabaseReference childref = reference.child("UserList");
-                DatabaseReference usename = childref.child(username);
-                usename.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if(snapshot.exists()){
-                            Toast.makeText(MainActivity.this,"Username already exists",Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        User user = new User(name,email,password,phone_number,usc,role,username);
-                        usename.setValue(user);
-                        Toast.makeText(MainActivity.this,"You have successfully created an account",Toast.LENGTH_SHORT).show();
-                        Access.username = username;
-                        Intent intent = new Intent(MainActivity.this,DepartmentsActivity.class);
-                        startActivity(intent);
 
-                    }
+                mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(
+                        MainActivity.this,task -> {
+                            if(task.isSuccessful()){
+                                FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                                DatabaseReference childref = reference.child("UserList");
+                                String uuid = firebaseUser.getUid();
+                                DatabaseReference useref = childref.child(uuid);
+                                useref.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        if(snapshot.exists()){
+                                            Toast.makeText(MainActivity.this,"User already exists",Toast.LENGTH_SHORT).show();
+                                            return;
+                                        }
+                                        User user = new User(name,email,password,phone_number,usc,role,username,uuid);
+                                        useref.setValue(user);
+                                        Toast.makeText(MainActivity.this,"You have successfully created an account",Toast.LENGTH_SHORT).show();
+                                        Access.username = uuid;
+                                        Intent intent = new Intent(MainActivity.this,DepartmentsActivity.class);
+                                        startActivity(intent);
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                                    }
 
-                    }
-                });
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+                            }
+                            else{
+                                Toast.makeText(MainActivity.this,"Error while creating account",Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+
 
 
 
