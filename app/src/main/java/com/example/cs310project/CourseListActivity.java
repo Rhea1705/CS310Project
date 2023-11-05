@@ -112,7 +112,11 @@ public class CourseListActivity extends AppCompatActivity {
 
                 TextView reviews = departmentItemView.findViewById(R.id.reviews);
                 TextView roster = departmentItemView.findViewById(R.id.roster);
-                roster.setVisibility(View.VISIBLE);
+                Button enrollBtn = departmentItemView.findViewById(R.id.enrollBtn);
+
+                if(enrollBtn.getText()=="Enroll") {
+                    roster.setVisibility(View.VISIBLE);
+                }
                 reviews.setVisibility(View.VISIBLE);
 
                 //navigate to separate roster page
@@ -129,7 +133,6 @@ public class CourseListActivity extends AppCompatActivity {
                 num_enroll.setVisibility(View.VISIBLE);
                 String number = String.valueOf(currCourse.getNumEnrolled());
                 num_enroll.setText("enrolled: " +number);
-                Button enrollBtn = departmentItemView.findViewById(R.id.enrollBtn);
                 courseref.child(currCourse.getName()).child("roster").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
