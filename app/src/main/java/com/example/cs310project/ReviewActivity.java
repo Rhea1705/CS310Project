@@ -7,6 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
@@ -18,11 +21,13 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class ReviewActivity extends AppCompatActivity {
 
-    private EditText courseEditText, workloadEditText, scoreEditText, commentsEditText;
-    private Spinner attendanceSpinner;
+    private EditText workloadEditText, scoreEditText, commentsEditText;
+    private RatingBar courseEditText;
+    private RadioGroup attendanceSpinner;
     private Button submitButton;
     private DatabaseReference databaseReference;
     private DatabaseReference reviewref;
+    private String attendance, late;
     FirebaseAuth mAuth;
 
 
@@ -33,7 +38,7 @@ public class ReviewActivity extends AppCompatActivity {
 
         courseEditText = findViewById(R.id.edit_text_course);
         workloadEditText = findViewById(R.id.edit_text_workload);
-        scoreEditText = findViewById(R.id.edit_text_score);
+//        scoreEditText = findViewById(R.id.edit_text_score);
         commentsEditText = findViewById(R.id.edit_text_comments);
         submitButton = findViewById(R.id.submit_review_button);
         attendanceSpinner = findViewById(R.id.attendance_spinner);
@@ -42,25 +47,43 @@ public class ReviewActivity extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         reviewref = database.getReference("departments").child(department).child("courses").child(selectedCourse).child("reviews");
         mAuth = FirebaseAuth.getInstance();
-        String[] attendanceArray = {"Yes", "No"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, attendanceArray);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        attendanceSpinner.setAdapter(adapter);
+//        String[] attendanceArray = {"Yes", "No"};
+//        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, attendanceArray);
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        attendanceSpinner.setAdapter(adapter);
         // Initialize Firebase
 //        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
 //        databaseReference = firebaseDatabase.getReference().child("course_reviews");
+        RadioGroup radioGroupLateHomework = findViewById(R.id.radioGroupLateHomework);
+        radioGroupLateHomework.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton selectedRadioButton = findViewById(checkedId);
+                if (selectedRadioButton != null) {
+                    late = selectedRadioButton.getText().toString();
+                }
+            }
+        });
+        attendanceSpinner.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton selectedRadioButton = findViewById(checkedId);
+                if (selectedRadioButton != null) {
+                    attendance = selectedRadioButton.getText().toString();
+                }
+            }
+        });
 
         submitButton.setOnClickListener(view -> submitReview());
     }
 
     private void submitReview() {
-        String course = courseEditText.getText().toString().trim();
+        Integer course = courseEditText.getNumStars();
         String workload = workloadEditText.getText().toString().trim();
         int score = Integer.parseInt(scoreEditText.getText().toString());
-        String attendance = attendanceSpinner.getSelectedItem().toString();
         String comments = commentsEditText.getText().toString().trim();
 
-        if (!course.isEmpty() && !workload.isEmpty()
+        if (!workload.isEmpty()
                 && !comments.isEmpty()) {
 
             // For demonstration purposes, let's consider a fixed userID
@@ -80,7 +103,7 @@ public class ReviewActivity extends AppCompatActivity {
             }
 
             Toast.makeText(this, "Review submitted!", Toast.LENGTH_SHORT).show();
-            courseEditText.setText("");
+            courseEditText.setNumStars(0);
             workloadEditText.setText("");
             scoreEditText.setText("");
             commentsEditText.setText("");
