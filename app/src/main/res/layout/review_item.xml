@@ -218,6 +218,83 @@
                 android:textSize="16dp" />
 
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id = "@+id/g"
+            android:layout_below="@id/f"
+            android:padding="8dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id = "@+id/abc"
+                android:layout_weight="1"
+                android:layout_below="@id/f"
+                android:padding="8dp">
+
+                <TextView
+                    android:id="@+id/def"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:textColor="#000"
+                    android:textStyle="bold"
+                    android:text="" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id = "@+id/defg"
+                android:layout_weight="0"
+                android:layout_below="@id/f"
+                android:padding="8dp">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:src = "@drawable/like"
+                        android:layout_width="30dp"
+                        android:id = "@+id/likeBtn"
+                        android:layout_height="30dp"/>
+                    <TextView
+                        android:id="@+id/likeCount"
+                        android:layout_width="30dp"
+                        android:layout_height="20dp"
+                        android:layout_weight="0"
+                        android:text="0"
+                        android:textAlignment="center"
+                        android:textColor="#000"
+                        android:textSize="16dp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:src = "@drawable/dislike"
+                        android:layout_width="30dp"
+                        android:id = "@+id/dislikeBtn"
+                        android:layout_height="30dp"/>
+                    <TextView
+                        android:id="@+id/dislikeCount"
+                        android:layout_width="30dp"
+                        android:layout_height="20dp"
+                        android:layout_weight="0"
+                        android:text="0"
+                        android:textAlignment="center"
+                        android:textColor="#000"
+                        android:textSize="16dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
 
     </RelativeLayout>
 

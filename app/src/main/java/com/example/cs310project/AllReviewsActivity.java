@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -114,6 +115,24 @@ public class AllReviewsActivity extends AppCompatActivity {
         otherText.setText(comments);
         TextView profRating = reviewItemView.findViewById(R.id.profRating);
         profRating.setText(prof.toString());
+
+        TextView likeCount = reviewItemView.findViewById(R.id.likeCount);
+        TextView dislikeCount = reviewItemView.findViewById(R.id.dislikeCount);
+        ImageView likeBtn = reviewItemView.findViewById(R.id.likeBtn);
+        ImageView dislikeBtn = reviewItemView.findViewById(R.id.dislikeBtn);
+        likeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //vidit update like count
+            }
+        });
+        dislikeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //vidit update dislike count
+            }
+        });
+
         //how to convert user ID to student name ?? vidit
 //        TextView nameText = reviewItemView.findViewById(R.id.nameText);
 //        nameText.setText(userID);
