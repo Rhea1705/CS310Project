@@ -1,8 +1,12 @@
 package com.example.cs310project;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.EditText;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,10 +18,14 @@ import android.widget.Spinner;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ReviewActivity extends AppCompatActivity {
 
@@ -36,6 +44,29 @@ public class ReviewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_review);
 
+        BottomNavigationView bottomNavigationView = findViewById(R.id.navigation);
+        bottomNavigationView.setSelectedItemId(R.id.classes);
+        Intent chatIntent = new Intent(this, ChatActivity.class);
+        Intent classesIntent = new Intent(this, DepartmentsActivity.class);
+        Intent profileIntent = new Intent(this, ProfileActivity.class);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                int itemId = item.getItemId();
+                if (itemId == R.id.chat) {
+                    startActivity(chatIntent);
+                }
+                else if (itemId == R.id.classes) {
+                    startActivity(classesIntent);
+                }
+                else if (itemId == R.id.profile) {
+                    startActivity(profileIntent);
+                }
+                return true;
+            }
+        });
         courseEditText = findViewById(R.id.edit_text_course);
         profRating = findViewById(R.id.ratingProf);
         commentsEditText = findViewById(R.id.edit_text_comments);
@@ -100,15 +131,23 @@ public class ReviewActivity extends AppCompatActivity {
             String uuid = firebaseUser.getUid();
             //
             //String key = databaseReference.push().getKey();
+            int up_count = 0;
+            int down_count = 0;
+
 
             if (uuid != null) {
-                reviewref.child(uuid).child("score").setValue(course);
-                reviewref.child(uuid).child("workload").setValue(workload);
-                reviewref.child(uuid).child("attendance").setValue(attendance);
-                reviewref.child(uuid).child("comments").setValue(comments);
-                reviewref.child(uuid).child("workload").setValue(workload);
-                reviewref.child(uuid).child("prof").setValue(prof);
-                reviewref.child(uuid).child("late").setValue(late);
+                Review review = new Review(attendance,comments,workload,course,prof,late,up_count,down_count);
+//                reviewref.child(uuid).child("score").setValue(course);
+//                reviewref.child(uuid).child("workload").setValue(workload);
+//                reviewref.child(uuid).child("attendance").setValue(attendance);
+//                reviewref.child(uuid).child("comments").setValue(comments);
+//                reviewref.child(uuid).child("prof").setValue(prof);
+//                reviewref.child(uuid).child("late").setValue(late);
+//                reviewref.child(uuid).child("up_count").setValue(up_count);
+//                reviewref.child(uuid).child("down_count").setValue(down_count);
+//                reviewref.child(uuid).child("users_who_liked").setValue(null);
+//                reviewref.child(uuid).child("users_who_disliked").setValue(null);
+                reviewref.child(uuid).setValue(review);
             }
 
             Toast.makeText(this, "Review submitted!", Toast.LENGTH_SHORT).show();
@@ -119,5 +158,7 @@ public class ReviewActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Please fill in all fields.", Toast.LENGTH_SHORT).show();
         }
+        Intent intent  = new Intent(ReviewActivity.this, DepartmentsActivity.class);
+        startActivity(intent);
     }
 }

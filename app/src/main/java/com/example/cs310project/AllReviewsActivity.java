@@ -2,6 +2,7 @@ package com.example.cs310project;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,6 +25,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.List;
+
 public class AllReviewsActivity extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference userref;
@@ -36,7 +39,7 @@ public class AllReviewsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_reviews);
         BottomNavigationView bottomNavigationView = findViewById(R.id.navigation);
         bottomNavigationView.setSelectedItemId(R.id.departmentListLayout);
-        Intent chatIntent = new Intent(this, FriendActivity.class);
+        Intent chatIntent = new Intent(this, ChatActivity.class);
         Intent classesIntent = new Intent(this, DepartmentsActivity.class);
         Intent profileIntent = new Intent(this, ProfileActivity.class);
 
@@ -75,15 +78,35 @@ public class AllReviewsActivity extends AppCompatActivity {
                     String comments = courseSnapshot.child("comments").getValue(String.class);
                     String workload = courseSnapshot.child("workload").getValue(String.class);
                     Integer rating = courseSnapshot.child("score").getValue(Integer.class);
-                    Integer profRating = courseSnapshot.child("prof").getValue(Integer.class);
+                    Integer profRating = courseSnapshot.child("profRating").getValue(Integer.class);
                     String late = courseSnapshot.child("late").getValue(String.class);
                     String uid = courseSnapshot.getKey();
+                    Integer up_count = courseSnapshot.child("up_count").getValue(Integer.class);
+                    Integer down_count = courseSnapshot.child("down_count").getValue(Integer.class);
+                    Review review = new Review(attendance,comments,workload,rating,profRating,late,up_count,down_count);
+
+                    boolean like;
+                    if(courseSnapshot.child("users_who_liked").hasChild(mAuth.getCurrentUser().getUid())){
+                        like = true;
+                    }
+                    else{
+                        like = false;
+                    }
+                    boolean dislike;
+                    if(courseSnapshot.child("users_who_disliked").hasChild(mAuth.getCurrentUser().getUid())){
+                        dislike = true;
+                    }
+                    else{
+                        dislike = false;
+                    }
+                    Log.d("review_app", "like flag " + like);
+                    Log.d("review_app", "dislike flag " + dislike);
 
 
 
 //                    Log.d("course list", "course name: " + courseName);
 
-                    createReviewItem(reviewListLayout,rating,workload,attendance, late, comments, profRating, uid);
+                    createReviewItem(reviewListLayout,rating,workload,attendance, late, comments, profRating, uid,reviewsRef,up_count,down_count,like,dislike, review);
                 }
             }
 
@@ -93,6 +116,7 @@ public class AllReviewsActivity extends AppCompatActivity {
             }
         });
         Button AddBtn = buttonLayout.findViewById(R.id.addReviewBtn);
+        AddBtn.setVisibility(View.VISIBLE);
         AddBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -107,7 +131,8 @@ public class AllReviewsActivity extends AppCompatActivity {
         });
 
     }
-    private void createReviewItem(LinearLayout parentLayout, Integer rating, String workload, String attendance, String late, String comments, Integer prof, String uid) {
+    private void createReviewItem(LinearLayout parentLayout, Integer rating, String workload, String attendance, String late, String comments, Integer prof,
+                                  String uid, DatabaseReference reviewsRef,Integer up_count,Integer down_count, boolean like, boolean dislike, Review review) {
         LayoutInflater inflater = getLayoutInflater();
         View reviewItemView = inflater.inflate(R.layout.review_item, parentLayout, false);
 
@@ -123,7 +148,9 @@ public class AllReviewsActivity extends AppCompatActivity {
         TextView otherText = reviewItemView.findViewById(R.id.otherText);
         otherText.setText(comments);
         TextView profRating = reviewItemView.findViewById(R.id.profRating);
-        profRating.setText(prof.toString());
+        if(prof != null) {
+            profRating.setText(prof.toString());
+        }
         DatabaseReference specific_userref = userref.child(uid);
         specific_userref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -143,28 +170,79 @@ public class AllReviewsActivity extends AppCompatActivity {
         });
 
         TextView likeCount = reviewItemView.findViewById(R.id.likeCount);
+        likeCount.setText(String.valueOf(review.getUp_count()));
         TextView dislikeCount = reviewItemView.findViewById(R.id.dislikeCount);
+        dislikeCount.setText(String.valueOf(review.getDown_count()));
         ImageView likeBtn = reviewItemView.findViewById(R.id.likeBtn);
         ImageView dislikeBtn = reviewItemView.findViewById(R.id.dislikeBtn);
+        if(like){
+            likeBtn.setImageResource(R.drawable.like_selected);
+        }
+        else{
+            likeBtn.setImageResource(R.drawable.like);
+        }
+        if(dislike){
+            dislikeBtn.setImageResource(R.drawable.dislike_selected);
+        }
+        else{
+            dislikeBtn.setImageResource(R.drawable.dislike);
+        }
         likeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //if unclicked
+                if (likeBtn.getDrawable().getConstantState().equals(ContextCompat.getDrawable(AllReviewsActivity.this, R.drawable.like).getConstantState())) {
+                    likeBtn.setImageResource(R.drawable.like_selected);
+                    int new_num = review.getUp_count() +1;
+                    reviewsRef.child(uid).child("up_count").setValue(new_num);
+                    likeCount.setText(String.valueOf(new_num));
+                    reviewsRef.child(uid).child("users_who_liked").child(mAuth.getCurrentUser().getUid()).setValue("like");
+                    Log.d("review_app", "set uid " + mAuth.getCurrentUser().getUid());
+                    review.setUp_count(new_num);
+                }
+                //if clicked
+                else {
+                    likeBtn.setImageResource(R.drawable.like);
+                    int new_num = review.getUp_count() -1 ;
+                    reviewsRef.child(uid).child("up_count").setValue(new_num);
+                    likeCount.setText(String.valueOf(new_num));
+                    reviewsRef.child(uid).child("users_who_liked").child(mAuth.getCurrentUser().getUid()).removeValue();
+                    Log.d("review_app", "uid " + mAuth.getCurrentUser().getUid());
+                    review.setUp_count(new_num);
 
-                likeBtn.setImageResource(R.drawable.like_selected);
-                //vidit update like count
+                }
+
             }
         });
         dislikeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dislikeBtn.setImageResource(R.drawable.dislike_selected);
-                //vidit update dislike count
+                if(dislikeBtn.getDrawable().getConstantState().equals(ContextCompat.getDrawable(AllReviewsActivity.this, R.drawable.dislike).getConstantState())){
+                    dislikeBtn.setImageResource(R.drawable.dislike_selected);
+                    //vidit update dislike count
+                    int new_num = review.getDown_count() +1;
+                    reviewsRef.child(uid).child("down_count").setValue(new_num);
+                    dislikeCount.setText(String.valueOf(new_num));
+                    reviewsRef.child(uid).child("users_who_disliked").child(mAuth.getCurrentUser().getUid()).setValue("dislike");
+                    review.setDown_count(new_num);
+
+                }
+                else{
+                    dislikeBtn.setImageResource(R.drawable.dislike);
+                    //vidit update dislike count
+                    int new_num = review.getDown_count() -1;
+                    reviewsRef.child(uid).child("down_count").setValue(new_num);
+                    dislikeCount.setText(String.valueOf(new_num));
+                    reviewsRef.child(uid).child("users_who_disliked").child(mAuth.getCurrentUser().getUid()).removeValue();
+                    review.setDown_count(new_num);
+                }
+
+
             }
+
+
+
         });
-
-        //how to convert user ID to student name ?? vidit
-
-
 
         parentLayout.addView(reviewItemView);
     }
