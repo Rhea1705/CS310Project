@@ -1,6 +1,7 @@
 package com.example.cs310project;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +16,17 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class ChatActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -29,6 +36,7 @@ public class ChatActivity extends AppCompatActivity {
     private FirebaseRecyclerAdapter<Message, MessageViewHolder> adapter;
     private Message message;
     private String sender, receiver, first, second;
+    private ArrayList<String> keysWithFirst = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +56,7 @@ public class ChatActivity extends AppCompatActivity {
         // Inside your activity or fragment:
         Access access = new Access();
         sender = "bulbul";
-        receiver = "balbendar";
+        receiver = "boots";
         access.username = "bulbul";
 
         // Fetch messages based on the sender or receiver
@@ -63,6 +71,7 @@ public class ChatActivity extends AppCompatActivity {
             first = receiver;
             second = sender;
         }
+
         fetchMessages(sender);
 
         sendButton.setOnClickListener(view -> {
@@ -85,7 +94,6 @@ public class ChatActivity extends AppCompatActivity {
             databaseReference.child(key).setValue(newMessage);
         }
     }
-
     private void fetchMessages(String currentUser) {
 
         Query query = databaseReference.orderByKey().startAt(first + "&" + second);
@@ -103,7 +111,9 @@ public class ChatActivity extends AppCompatActivity {
                     // Set received messages
                     holder.setMessage("received", model.getText());
                 }
+
             }
+
 
             @NonNull
             @Override
