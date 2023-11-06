@@ -4,7 +4,7 @@
     android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@drawable/border"
         android:orientation="horizontal"
         android:padding="8dp"
@@ -24,15 +24,15 @@
 
         <Button
             android:id="@+id/blockBtn"
-            android:layout_width="60dp"
+            android:layout_width="50dp"
             android:layout_height="30dp"
             android:layout_weight="0"
             android:background="@color/crimson"
             android:text="Block"
             android:textAllCaps="false"
             android:textAlignment="center"
-            android:textColor="#fff"
-            android:textSize="105dp" />
+            android:textColor="#000"
+            android:textSize="10dp" />
 
     </LinearLayout>
 
