@@ -131,7 +131,7 @@ public class CourseListActivity extends AppCompatActivity {
                 reviews.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(CourseListActivity.this, ReviewActivity.class);
+                        Intent intent = new Intent(CourseListActivity.this, AllReviewsActivity.class);
                         intent.putExtra("selectedCourse", currCourse.getName());
                         intent.putExtra("department", currCourse.getDepartment());
                         startActivity(intent);
