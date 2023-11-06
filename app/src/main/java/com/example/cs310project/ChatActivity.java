@@ -37,7 +37,6 @@ public class ChatActivity extends AppCompatActivity {
     private FirebaseRecyclerAdapter<Message, MessageViewHolder> adapter;
     private Message message;
     private String sender, receiver, first, second;
-    private ArrayList<String> keysWithFirst = new ArrayList<>();
     FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
