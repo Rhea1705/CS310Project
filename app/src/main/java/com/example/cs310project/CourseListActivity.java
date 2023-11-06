@@ -54,8 +54,8 @@ public class CourseListActivity extends AppCompatActivity {
         // Reference to the LinearLayout container
         LinearLayout courseListLayout = findViewById(R.id.courseListLayout);
         BottomNavigationView bottomNavigationView = findViewById(R.id.navigation);
-        bottomNavigationView.setSelectedItemId(R.id.departmentListLayout);
-        Intent chatIntent = new Intent(this, ChatActivity.class);
+        bottomNavigationView.setSelectedItemId(R.id.classes);
+        Intent chatIntent = new Intent(this, FriendActivity.class);
         Intent classesIntent = new Intent(this, DepartmentsActivity.class);
         Intent profileIntent = new Intent(this, ProfileActivity.class);
         mAuth = FirebaseAuth.getInstance();

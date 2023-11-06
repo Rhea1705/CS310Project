@@ -83,7 +83,7 @@ public class ProfileActivity extends AppCompatActivity {
         loadPage();
         BottomNavigationView bottomNavigationView = findViewById(R.id.navigation);
         bottomNavigationView.setSelectedItemId(R.id.profile);
-        Intent chatIntent = new Intent(this, ChatActivity.class);
+        Intent chatIntent = new Intent(this, FriendActivity.class);
         Intent classesIntent = new Intent(this, DepartmentsActivity.class);
         Intent profileIntent = new Intent(this, ProfileActivity.class);
 

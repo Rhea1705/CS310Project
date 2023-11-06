@@ -36,7 +36,7 @@ public class AllReviewsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_reviews);
         BottomNavigationView bottomNavigationView = findViewById(R.id.navigation);
         bottomNavigationView.setSelectedItemId(R.id.departmentListLayout);
-        Intent chatIntent = new Intent(this, ChatActivity.class);
+        Intent chatIntent = new Intent(this, FriendActivity.class);
         Intent classesIntent = new Intent(this, DepartmentsActivity.class);
         Intent profileIntent = new Intent(this, ProfileActivity.class);
 
@@ -149,6 +149,7 @@ public class AllReviewsActivity extends AppCompatActivity {
         likeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 likeBtn.setImageResource(R.drawable.like_selected);
                 //vidit update like count
             }
