@@ -38,7 +38,7 @@ public class ReviewActivity extends AppCompatActivity {
         attendanceSpinner.setAdapter(adapter);
         // Initialize Firebase
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference().child("course_reviews");
+        databaseReference = firebaseDatabase.getReference();
 
         submitButton.setOnClickListener(view -> submitReview());
     }
@@ -57,6 +57,7 @@ public class ReviewActivity extends AppCompatActivity {
             String userID = "user123";
 
             String key = databaseReference.push().getKey();
+            key = "departments/"+"CHE-120: Introduction to Chemical Engineering"+"/"+key;
             if (key != null) {
                 databaseReference.child(key).child("userID").setValue(userID);
                 databaseReference.child(key).child("course").setValue(course);
