@@ -116,6 +116,7 @@ public class AllReviewsActivity extends AppCompatActivity {
             }
         });
         Button AddBtn = buttonLayout.findViewById(R.id.addReviewBtn);
+        AddBtn.setVisibility(View.VISIBLE);
         AddBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -147,7 +148,9 @@ public class AllReviewsActivity extends AppCompatActivity {
         TextView otherText = reviewItemView.findViewById(R.id.otherText);
         otherText.setText(comments);
         TextView profRating = reviewItemView.findViewById(R.id.profRating);
-        profRating.setText(prof.toString());
+        if(prof != null) {
+            profRating.setText(prof.toString());
+        }
         DatabaseReference specific_userref = userref.child(uid);
         specific_userref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
