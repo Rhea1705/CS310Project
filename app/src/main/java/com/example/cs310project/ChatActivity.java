@@ -1,8 +1,10 @@
 package com.example.cs310project;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -17,6 +19,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,11 +39,37 @@ public class ChatActivity extends AppCompatActivity {
     private FirebaseRecyclerAdapter<Message, MessageViewHolder> adapter;
     private Message message;
     private String sender, receiver, first, second;
-    private ArrayList<String> keysWithFirst = new ArrayList<>();
+    FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.navigation);
+        bottomNavigationView.setSelectedItemId(R.id.chat);
+        Intent chatIntent = new Intent(this, ChatActivity.class);
+        Intent classesIntent = new Intent(this, DepartmentsActivity.class);
+        Intent profileIntent = new Intent(this, ProfileActivity.class);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                int itemId = item.getItemId();
+                if (itemId == R.id.chat) {
+                    item.setIcon(R.drawable.chat_selected);
+                    startActivity(chatIntent);
+                }
+                else if (itemId == R.id.classes) {
+                    startActivity(classesIntent);
+                    item.setIcon(R.drawable.classes_selcted);
+                }
+                else if (itemId == R.id.profile) {
+                    startActivity(profileIntent);
+                    item.setIcon(R.drawable.user_selected);
+                }
+                return true;
+            }
+        });
 
         recyclerView = findViewById(R.id.recycler_view);
         messageInput = findViewById(R.id.message_input);
@@ -49,17 +78,15 @@ public class ChatActivity extends AppCompatActivity {
         // Initialize Firebase
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference().child("messages");
-
+        mAuth = FirebaseAuth.getInstance();
         // Set up RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        // Inside your activity or fragment:
-        Access access = new Access();
-        sender = "bulbul";
-        receiver = "boots";
-        access.username = "bulbul";
-
-        // Fetch messages based on the sender or receiver
+        Intent intent = getIntent();
+        if (intent != null) {
+            receiver = intent.getStringExtra("selectedStudent");
+        }
+        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+        sender = firebaseUser.getUid();
 
         int compareResult = sender.compareTo(receiver);
         if (compareResult < 0) {
@@ -111,15 +138,12 @@ public class ChatActivity extends AppCompatActivity {
                     // Set received messages
                     holder.setMessage("received", model.getText());
                 }
-
             }
-
 
             @NonNull
             @Override
             public MessageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.item_message, parent, false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_message, parent, false);
                 return new MessageViewHolder(view);
             }
         };

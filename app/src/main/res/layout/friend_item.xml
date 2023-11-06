@@ -20,18 +20,29 @@
             android:text="Student Name"
             android:clickable="true"
             android:onClick="onTextClicked"/>
-
+        <Button
+            android:id="@+id/profileBtn"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:layout_weight="0"
+            android:background="@color/purple_200"
+            android:text="View Profile"
+            android:textAllCaps="false"
+            android:layout_marginRight="20dp"
+            android:textAlignment="center"
+            android:textColor="#000"
+            android:textSize="10dp" />
 
         <Button
-            android:id="@+id/chat"
+            android:id="@+id/blockBtn"
             android:layout_width="50dp"
             android:layout_height="30dp"
             android:layout_weight="0"
-            android:background="@color/yellow"
-            android:text="Chat"
+            android:background="@color/crimson"
+            android:text="Block"
             android:textAllCaps="false"
             android:textAlignment="center"
-            android:textColor="#000"
+            android:textColor="#fff"
             android:textSize="10dp" />
 
     </LinearLayout>

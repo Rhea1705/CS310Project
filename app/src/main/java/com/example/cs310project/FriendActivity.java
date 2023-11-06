@@ -1,19 +1,30 @@
 package com.example.cs310project;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,45 +34,90 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class FriendActivity extends AppCompatActivity {
-    private RecyclerView recyclerView;
-    private ArrayList<String> keysWithFirst = new ArrayList<>();
+    private ArrayList<String> friendKeys = new ArrayList<>();
     private DatabaseReference databaseReference;
+    private DatabaseReference userReference;
+    FirebaseDatabase firebaseDatabase;
+    String currUser, currReceiver, friend, name;
+    FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_friend_list);
+        setContentView(R.layout.activity_friends_list);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.navigation);
+        bottomNavigationView.setSelectedItemId(R.id.chat);
+        Intent chatIntent = new Intent(this, ChatActivity.class);
+        Intent classesIntent = new Intent(this, DepartmentsActivity.class);
+        Intent profileIntent = new Intent(this, ProfileActivity.class);
 
-        recyclerView = findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
+                int itemId = item.getItemId();
+                if (itemId == R.id.chat) {
+                    item.setIcon(R.drawable.chat_selected);
+                    startActivity(chatIntent);
+                }
+                else if (itemId == R.id.classes) {
+                    startActivity(classesIntent);
+                    item.setIcon(R.drawable.classes_selcted);
+                }
+                else if (itemId == R.id.profile) {
+                    startActivity(profileIntent);
+                    item.setIcon(R.drawable.user_selected);
+                }
+                return true;
+            }
+        });
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        mAuth = FirebaseAuth.getInstance();
         // Firebase Database reference
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("messages");
+        databaseReference = firebaseDatabase.getReference().child("messages");
+        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+        currUser = firebaseUser.getUid();
 
-        getFriends("bulbul", databaseReference);
+//        Intent intent = getIntent();
+//        if (intent != null) {
+//            currReceiver = intent.getStringExtra("selectedStudent");
+//        }
+        getFriends(currUser, databaseReference);
     }
 
-    private void getFriends(String me, DatabaseReference databaseReference) {
+    private void getFriends(String uuid, DatabaseReference databaseReference) {
+        DatabaseReference tempRef = firebaseDatabase.getReference().child("UserList");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
                     String key = childSnapshot.getKey();
-                    if (key.contains(me)) {
+                    if (key.contains(uuid)) {
                         String[] names = key.split("&");
-                        if (names[0].equals(me)) {
-                            if (!keysWithFirst.contains(names[1])) {
-                                keysWithFirst.add(names[1]);
+                        if (names[0].equals(uuid)) {
+                            if (!friendKeys.contains(names[1])) {
+                                friendKeys.add(names[1]);
                                 Log.d("friend", names[1]);
+                                // Assume tempRef is your DatabaseReference
+                                name = names[1];
+                                currReceiver = names[1];
+                                fetchFriendDetails(name);
                             }
                         } else {
-                            if (!keysWithFirst.contains(names[0])) {
-                                keysWithFirst.add(names[0]);
+                            if (!friendKeys.contains(names[0])) {
+                                friendKeys.add(names[0]);
                                 Log.d("friend", names[0]);
+                                name= names[0];
+                                currReceiver = names[0];
+                                fetchFriendDetails(name);
                             }
                         }
+                        // Assume tempRef is your DatabaseReferenc
+
+
                     }
                 }
-                displayFriends();
+
             }
 
             @Override
@@ -70,9 +126,77 @@ public class FriendActivity extends AppCompatActivity {
             }
         });
     }
+    // Add a method to fetch friend details
+    private void fetchFriendDetails(String name) {
+        DatabaseReference tempRef = firebaseDatabase.getReference().child("UserList").child(name).child("name");
+        tempRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String friend = dataSnapshot.getValue(String.class);
+                displayFriend(friend);
+            }
 
-    private void displayFriends() {
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Handle any errors
+                Log.e("FirebaseData", "Error fetching 'name' field: " + databaseError.getMessage());
+            }
+        });
+    }
 
+    private void displayFriend(String friend) {
+        Log.d("FriendActivity", "Friend name: " + friend);
+        LayoutInflater inflater = getLayoutInflater();
+        LinearLayout friendsList = findViewById(R.id.friendsList);
+
+        View friendItem = inflater.inflate(R.layout.friend_item, friendsList, false);
+        TextView studentName = friendItem.findViewById(R.id.name);
+        studentName.setText(friend);
+
+        userReference = firebaseDatabase.getReference().child("UserList").child(currUser).child("blocked");
+        studentName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("adding", currReceiver);
+                Intent intent = new Intent(FriendActivity.this, ChatActivity.class);
+                intent.putExtra("selectedStudent", currReceiver);
+                startActivity(intent);
+            }
+        });
+        Button blockBtn = friendItem.findViewById(R.id.blockBtn);
+        blockBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                //block func : rhea
+                if(blockBtn.getText() == "Block") {
+                    blockBtn.setText("Unblocked");
+                    blockBtn.setBackgroundColor(ContextCompat.getColor(FriendActivity.this, R.color.yellow));
+                    userReference.child(currReceiver).setValue(true);
+                }
+                else {
+                    blockBtn.setText("Block");
+                    blockBtn.setBackgroundColor(ContextCompat.getColor(FriendActivity.this, R.color.crimson));
+                    userReference.child(currReceiver).removeValue()
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                }
+                            });
+                }
+            }
+        });
+        Button profileBtn = friendItem.findViewById(R.id.profileBtn);
+        profileBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Start the courses activity with the selected department
+                Intent intent = new Intent(FriendActivity.this, DisplayProfileActivity.class);
+                intent.putExtra("selectedUUID", currReceiver);
+                startActivity(intent);
+            }
+        });
+        friendsList.addView(friendItem);
     }
 
 }

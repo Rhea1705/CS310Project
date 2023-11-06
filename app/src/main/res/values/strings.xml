@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CS310Project</string>
+    <string name="app_name">Find My Classmates</string>
     <string-array name="role_options">
         <item>(Select Role)</item>
         <item>Undergraduate</item>
