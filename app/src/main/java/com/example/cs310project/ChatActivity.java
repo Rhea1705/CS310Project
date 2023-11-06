@@ -71,8 +71,8 @@ public class ChatActivity extends AppCompatActivity {
             first = receiver;
             second = sender;
         }
-        getFriends(sender);
-//        fetchMessages(sender);
+
+        fetchMessages(sender);
 
         sendButton.setOnClickListener(view -> {
             String messageText = messageInput.getText().toString().trim();
@@ -93,39 +93,6 @@ public class ChatActivity extends AppCompatActivity {
         if (key != null) {
             databaseReference.child(key).setValue(newMessage);
         }
-    }
-    private void getFriends(String me){
-
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
-                    String key = childSnapshot.getKey();
-                    if (key.contains(me)) {
-                        String[] names = key.split("&");
-                        if(names[0] == me){
-                            if(!keysWithFirst.contains(names[1])){
-                                keysWithFirst.add(names[1]);
-                                Log.d("friend", names[1]);
-                            }
-                        }
-                        else{
-                            if(!keysWithFirst.contains(names[0])){
-                                keysWithFirst.add(names[0]);
-                                Log.d("friend", names[0]);
-                            }
-                        }
-                    }
-                }
-                fetchMessages(me);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
     }
     private void fetchMessages(String currentUser) {
 

@@ -37,7 +37,7 @@ public class ReviewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_course_review);
 
         courseEditText = findViewById(R.id.edit_text_course);
-        workloadEditText = findViewById(R.id.edit_text_workload);
+//        workloadEditText = findViewById(R.id.edit_text_workload);
 //        scoreEditText = findViewById(R.id.edit_text_score);
         commentsEditText = findViewById(R.id.edit_text_comments);
         submitButton = findViewById(R.id.submit_review_button);
