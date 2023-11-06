@@ -123,12 +123,14 @@ public class AllReviewsActivity extends AppCompatActivity {
         likeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                likeBtn.setImageResource(R.drawable.like_selected);
                 //vidit update like count
             }
         });
         dislikeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                likeBtn.setImageResource(R.drawable.dislike_selected);
                 //vidit update dislike count
             }
         });
