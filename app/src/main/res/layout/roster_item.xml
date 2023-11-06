@@ -17,7 +17,9 @@
             android:textSize="18dp"
             android:layout_weight="1"
             android:textColor="#000"
-            android:text="Student Name" />
+            android:text="Student Name"
+            android:clickable="true"
+            android:onClick="onTextClicked"/>
 
 
         <Button
