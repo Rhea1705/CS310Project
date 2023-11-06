@@ -1,5 +1,6 @@
 package com.example.cs310project;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,6 +38,7 @@ public class ChatActivity extends AppCompatActivity {
     private Message message;
     private String sender, receiver, first, second;
     private ArrayList<String> keysWithFirst = new ArrayList<>();
+    FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,17 +51,15 @@ public class ChatActivity extends AppCompatActivity {
         // Initialize Firebase
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference().child("messages");
-
+        mAuth = FirebaseAuth.getInstance();
         // Set up RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        // Inside your activity or fragment:
-        Access access = new Access();
-        sender = "bulbul";
-        receiver = "boots";
-        access.username = "bulbul";
-
-        // Fetch messages based on the sender or receiver
+        Intent intent = getIntent();
+        if (intent != null) {
+            receiver = intent.getStringExtra("selectedStudent");
+        }
+        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+        sender = firebaseUser.getUid();
 
         int compareResult = sender.compareTo(receiver);
         if (compareResult < 0) {
@@ -111,9 +111,7 @@ public class ChatActivity extends AppCompatActivity {
                     // Set received messages
                     holder.setMessage("received", model.getText());
                 }
-
             }
-
 
             @NonNull
             @Override

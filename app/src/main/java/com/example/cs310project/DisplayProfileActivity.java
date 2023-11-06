@@ -71,7 +71,6 @@ public class DisplayProfileActivity extends AppCompatActivity {
         roleText = findViewById(R.id.roleEditText);
         idText = findViewById(R.id.pUSCid);
 
-
         Intent intent = getIntent();
         if (intent != null) {
             selectedUUID = intent.getStringExtra("selectedUUID");

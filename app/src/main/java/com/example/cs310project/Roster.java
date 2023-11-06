@@ -92,7 +92,7 @@ public class Roster extends AppCompatActivity {
             public void onClick(View view) {
                 // Start the courses activity with the selected department
                 Intent intent = new Intent(Roster.this, ChatActivity.class);
-                intent.putExtra("selectedStudent", studentName);
+                intent.putExtra("selectedStudent", uuid);
                 startActivity(intent);
             }
         });
