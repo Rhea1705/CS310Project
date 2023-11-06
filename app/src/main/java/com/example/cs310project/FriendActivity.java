@@ -186,6 +186,16 @@ public class FriendActivity extends AppCompatActivity {
                 }
             }
         });
+        Button profileBtn = friendItem.findViewById(R.id.profileBtn);
+        profileBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Start the courses activity with the selected department
+                Intent intent = new Intent(FriendActivity.this, DisplayProfileActivity.class);
+                intent.putExtra("selectedUUID", currReceiver);
+                startActivity(intent);
+            }
+        });
         friendsList.addView(friendItem);
     }
 
