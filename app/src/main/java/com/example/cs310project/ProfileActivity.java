@@ -24,6 +24,8 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -47,6 +49,7 @@ public class ProfileActivity extends AppCompatActivity {
     StorageReference storageReference;
     ProgressBar progressBar;
     private ActivityResultLauncher<Intent> someActivityResultLauncher;
+    FirebaseAuth mAuth;
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +62,8 @@ public class ProfileActivity extends AppCompatActivity {
         storageReference = storage.getReference();
         DatabaseReference databaseReference = database.getReference();
         DatabaseReference getImage = databaseReference.child("image");
+
+        mAuth = FirebaseAuth.getInstance();
 
         // Views for profile data
         usernameEditText = findViewById(R.id.usernameEditText);
@@ -138,11 +143,11 @@ public class ProfileActivity extends AppCompatActivity {
         someActivityResultLauncher.launch(intent); // Use the initialized launcher to start activity for result
     }
     private void updateUserData(String username, String password, String email, String phone_number, String image, String role, String id) {
-        Access access =  new Access();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.US);
-        Date now = new Date();
+        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+        String uuid = firebaseUser.getUid();
+//        Access access =  new Access();
 //        temp code
-        String storageName = "images/"+access.username;
+        String storageName = "images/"+uuid;
         imagesReference = storage.getReference(storageName);
 
         imagesReference.putFile(filePath)
@@ -204,9 +209,10 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
     private void loadPage() {
-        Access access = new Access();
-//        temp
-        String currentUser = access.username;
+        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+        String uuid = firebaseUser.getUid();
+        String currentUser = uuid;
+
         DatabaseReference userReference = FirebaseDatabase.getInstance().getReference("UserList").child(currentUser);
 
         userReference.addValueEventListener(new ValueEventListener() {
