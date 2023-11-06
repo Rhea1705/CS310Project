@@ -10,10 +10,14 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.Firebase;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,6 +25,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class AllReviewsActivity extends AppCompatActivity {
+    FirebaseDatabase database;
+    DatabaseReference userref;
+    FirebaseAuth mAuth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +59,10 @@ public class AllReviewsActivity extends AppCompatActivity {
         });
         String selectedCourse= getIntent().getStringExtra("selectedCourse");
         String department = getIntent().getStringExtra("department");
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        database = FirebaseDatabase.getInstance();
+        userref = database.getReference("UserList");
         DatabaseReference reviewsRef = database.getReference("departments").child(department).child("courses").child(selectedCourse).child("reviews");
-
+        mAuth = FirebaseAuth.getInstance();
         // Reference to the LinearLayout container
         LinearLayout reviewListLayout = findViewById(R.id.reviewListLayout);
         LinearLayout buttonLayout = findViewById(R.id.addBtnLayout);
@@ -68,12 +77,13 @@ public class AllReviewsActivity extends AppCompatActivity {
                     Integer rating = courseSnapshot.child("score").getValue(Integer.class);
                     Integer profRating = courseSnapshot.child("prof").getValue(Integer.class);
                     String late = courseSnapshot.child("late").getValue(String.class);
-                    String userID = courseSnapshot.child("userID").getValue(String.class);
+                    String uid = courseSnapshot.getKey();
+
 
 
 //                    Log.d("course list", "course name: " + courseName);
 
-                    createReviewItem(reviewListLayout,rating,workload,attendance, late, comments, profRating, userID);
+                    createReviewItem(reviewListLayout,rating,workload,attendance, late, comments, profRating, uid);
                 }
             }
 
@@ -97,7 +107,7 @@ public class AllReviewsActivity extends AppCompatActivity {
         });
 
     }
-    private void createReviewItem(LinearLayout parentLayout, Integer rating, String workload, String attendance, String late, String comments, Integer prof, String userID) {
+    private void createReviewItem(LinearLayout parentLayout, Integer rating, String workload, String attendance, String late, String comments, Integer prof, String uid) {
         LayoutInflater inflater = getLayoutInflater();
         View reviewItemView = inflater.inflate(R.layout.review_item, parentLayout, false);
 
@@ -114,9 +124,45 @@ public class AllReviewsActivity extends AppCompatActivity {
         otherText.setText(comments);
         TextView profRating = reviewItemView.findViewById(R.id.profRating);
         profRating.setText(prof.toString());
+        DatabaseReference specific_userref = userref.child(uid);
+        specific_userref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!snapshot.exists()){
+                    return;
+                }
+                String name = snapshot.child("name").getValue(String.class);
+                TextView nameText = reviewItemView.findViewById(R.id.nameText);
+                nameText.setText(name);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        TextView likeCount = reviewItemView.findViewById(R.id.likeCount);
+        TextView dislikeCount = reviewItemView.findViewById(R.id.dislikeCount);
+        ImageView likeBtn = reviewItemView.findViewById(R.id.likeBtn);
+        ImageView dislikeBtn = reviewItemView.findViewById(R.id.dislikeBtn);
+        likeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                likeBtn.setImageResource(R.drawable.like_selected);
+                //vidit update like count
+            }
+        });
+        dislikeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dislikeBtn.setImageResource(R.drawable.dislike_selected);
+                //vidit update dislike count
+            }
+        });
+
         //how to convert user ID to student name ?? vidit
-//        TextView nameText = reviewItemView.findViewById(R.id.nameText);
-//        nameText.setText(userID);
+
 
 
         parentLayout.addView(reviewItemView);
