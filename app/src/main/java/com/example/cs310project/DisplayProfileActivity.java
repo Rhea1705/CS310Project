@@ -38,7 +38,7 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 public class DisplayProfileActivity extends AppCompatActivity {
-    TextView usernameText, passwordText, emailText, phoneText, roleText, idText;
+    TextView nameText, usernameText, passwordText, emailText, phoneText, roleText, idText;
     ImageView imageView;
     FirebaseDatabase database;
     DatabaseReference userReference;
@@ -61,6 +61,7 @@ public class DisplayProfileActivity extends AppCompatActivity {
 
 
         // Views for profile data
+        nameText = findViewById(R.id.pName);
         usernameText = findViewById(R.id.usernameEditText);
         passwordText = findViewById(R.id.passwordEditText);
         emailText = findViewById(R.id.emailEditText);
@@ -123,25 +124,28 @@ public class DisplayProfileActivity extends AppCompatActivity {
         userReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                UserData userData = dataSnapshot.getValue(UserData.class);
-                if (userData != null) {
-                    if (userData.getUsername() != null) {
-                        usernameText.setText(userData.getUsername());
+                User user = dataSnapshot.getValue(User.class);
+                if (user != null) {
+                    if(user.getName() != null){
+                        nameText.setText(user.getName());
                     }
-                    if (userData.getPassword() != null) {
-                        passwordText.setText(userData.getPassword());
+                    if (user.getUsername() != null) {
+                        usernameText.setText(user.getUsername());
                     }
-                    if (userData.getEmail() != null) {
-                        emailText.setText(userData.getEmail());
+                    if (user.getPassword() != null) {
+                        passwordText.setText(user.getPassword());
                     }
-                    if (userData.getPhoneNumber() != null) {
-                        phoneText.setText(userData.getPhoneNumber());
+                    if (user.getUsc_id() != null) {
+                        idText.setText(user.getUsc_id());
                     }
-                    if (userData.getRole() != null) {
-                        roleText.setText(userData.getRole());
+                    if (user.getEmail() != null) {
+                        emailText.setText(user.getEmail());
                     }
-                    if (userData.getUSCid() != null) {
-                        idText.setText(userData.getUSCid());
+                    if (user.getPhone_number() != null) {
+                        phoneText.setText(user.getPhone_number());
+                    }
+                    if (user.getRole() != null) {
+                        roleText.setText(user.getRole());
                     }
                     // Load the profile image into ImageView
                     String imageUrl = "/images/" + selectedUUID; // Check the correct path in Firebase Storage
