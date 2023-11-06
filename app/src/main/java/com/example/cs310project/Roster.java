@@ -64,9 +64,10 @@ public class Roster extends AppCompatActivity {
                 rosterList.removeAllViews();
                 for (DataSnapshot courseSnapshot : dataSnapshot.getChildren()) {
                     String name = courseSnapshot.child("name").getValue(String.class);
+                    String uuid = courseSnapshot.getKey();
                     Log.d("roster", "student Name: " + name);
                     if (name != null) {
-                        createRosterItem(rosterList, name);
+                        createRosterItem(rosterList, name, uuid);
                     }
 
 
@@ -80,7 +81,7 @@ public class Roster extends AppCompatActivity {
         });
 
     }
-    private void createRosterItem(LinearLayout parentLayout, String studentName) {
+    private void createRosterItem(LinearLayout parentLayout, String studentName, String uuid) {
         LayoutInflater inflater = getLayoutInflater();
         View rosterView = inflater.inflate(R.layout.roster_item, parentLayout, false);
         TextView studentNameView = rosterView.findViewById(R.id.name);
@@ -92,6 +93,15 @@ public class Roster extends AppCompatActivity {
                 // Start the courses activity with the selected department
                 Intent intent = new Intent(Roster.this, ChatActivity.class);
                 intent.putExtra("selectedStudent", studentName);
+                startActivity(intent);
+            }
+        });
+        studentNameView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Start the courses activity with the selected department
+                Intent intent = new Intent(Roster.this, DisplayProfileActivity.class);
+                intent.putExtra("selectedUUID", uuid);
                 startActivity(intent);
             }
         });
