@@ -12,11 +12,14 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Filter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,6 +33,7 @@ public class CourseListActivity extends AppCompatActivity {
 
     private List<Course> courseList;
     private RecyclerView recyclerView;
+    FirebaseAuth mAuth;
 
 
     @Override
@@ -54,6 +58,7 @@ public class CourseListActivity extends AppCompatActivity {
         Intent chatIntent = new Intent(this, ChatActivity.class);
         Intent classesIntent = new Intent(this, DepartmentsActivity.class);
         Intent profileIntent = new Intent(this, ProfileActivity.class);
+        mAuth = FirebaseAuth.getInstance();
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -123,6 +128,15 @@ public class CourseListActivity extends AppCompatActivity {
                 reviews.setVisibility(View.VISIBLE);
 
                 //navigate to separate roster page
+                reviews.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(CourseListActivity.this, AllReviewsActivity.class);
+                        intent.putExtra("selectedCourse", currCourse.getName());
+                        intent.putExtra("department", currCourse.getDepartment());
+                        startActivity(intent);
+                    }
+                });
                 roster.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View view) {
                         Intent intent = new Intent(CourseListActivity.this, Roster.class);
@@ -143,9 +157,11 @@ public class CourseListActivity extends AppCompatActivity {
                         List<User> ros = currCourse.getRoster();
                         for(DataSnapshot courseSnapshot : snapshot.getChildren()){
 
-                            String username = courseSnapshot.getKey();
-                            Log.d("rosterapp",username);
-                            if(username.equals(Access.username)){
+                            String uid = courseSnapshot.getKey();
+                            FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                            String uuid = firebaseUser.getUid();
+                            Log.d("rosterapp",uid);
+                            if(uid.equals(uuid)){
                                 there = true;
                             }
                             String name_topopulate = snapshot.child("name").getValue(String.class);
@@ -154,7 +170,8 @@ public class CourseListActivity extends AppCompatActivity {
                             String phone_number_topopulate = snapshot.child("phone_number").getValue(String.class);
                             String usc_id_topopulate = snapshot.child("usc_id").getValue(String.class);
                             String role_topopulate = snapshot.child("role").getValue(String.class);
-                            User adduser = new User(name_topopulate,email_topopulate,password_topopulate,phone_number_topopulate,usc_id_topopulate,role_topopulate,username);
+                            String username_topopulate = snapshot.child("username").getValue(String.class);
+                            User adduser = new User(name_topopulate,email_topopulate,password_topopulate,phone_number_topopulate,usc_id_topopulate,role_topopulate,username_topopulate,uid);
                             ros.add(adduser);
                         }
                         if(there){
@@ -217,9 +234,11 @@ public class CourseListActivity extends AppCompatActivity {
         FirebaseDatabase base = FirebaseDatabase.getInstance();
         DatabaseReference ref = base.getReference();
         DatabaseReference childref = ref.child("UserList");
-        DatabaseReference usename = childref.child(Access.username);
+        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+        String uuid = firebaseUser.getUid();
+        DatabaseReference useref = childref.child(uuid);
 
-        usename.addListenerForSingleValueEvent(new ValueEventListener() {
+        useref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(!snapshot.exists()){
@@ -231,25 +250,27 @@ public class CourseListActivity extends AppCompatActivity {
                 String phone_number = snapshot.child("phone_number").getValue(String.class);
                 String usc_id = snapshot.child("usc_id").getValue(String.class);
                 String role = snapshot.child("role").getValue(String.class);
+                String username = snapshot.child("username").getValue(String.class);
                 Log.d("My app",name + email);
-                User user = new User(name,email,password,phone_number,usc_id,role,Access.username);
+
                 if(whattodo.equals("add")){
-                        ros.add(user);
-                    courseref.child(currCourse.name).child("roster").child(Access.username).setValue(user);
+                    User user = new User(name,email,password,phone_number,usc_id,role,username,uuid);
+                    ros.add(user);
+                    courseref.child(currCourse.name).child("roster").child(uuid).setValue(user);
                 }
                 else if(whattodo.equals("remove")){
                     User remove = null;
                     Log.d("Courseapp","enters remove");
                     for(User use: ros) {
 
-                        if (use.getUsername().equals(Access.username)) {
+                        if (use.getUid().equals(uuid)) {
                             remove = use;
 
                         }
                     }
                     if(remove != null){
-                        ros.remove(user);
-                        courseref.child(currCourse.name).child("roster").child(Access.username).removeValue();
+                        ros.remove(remove);
+                        courseref.child(currCourse.name).child("roster").child(uuid).removeValue();
                     }
                 }
                 currCourse.setRoster(ros);

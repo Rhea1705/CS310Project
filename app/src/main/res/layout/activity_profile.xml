@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent">
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -10,9 +14,9 @@
     <RelativeLayout
         android:id="@+id/profile"
         android:layout_width="match_parent"
-        android:layout_height="602dp"
+        android:layout_height="550dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="30dp"
         android:layout_marginRight="30dp"
         android:background="@drawable/border"
         android:orientation="horizontal">
@@ -34,7 +38,7 @@
                 android:id="@+id/imageEditText"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="80dp"
                 android:src="@drawable/profile" />
 
             <Button
@@ -54,12 +58,13 @@
         <LinearLayout
             android:id="@+id/profileName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_below="@id/profileImage">
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
+                android:textAlignment="center"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:padding="5dp"
@@ -80,7 +85,7 @@
         <LinearLayout
             android:id="@+id/profileUsername"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_below="@id/profileName">
 
             <TextView
@@ -88,6 +93,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
                 android:padding="5dp"
+                android:layout_marginLeft="10dp"
                 android:text="UserName"
                 android:textColor="@color/crimson"
                 android:textSize="15sp" />
@@ -106,13 +112,14 @@
         <LinearLayout
             android:id="@+id/profilePassword"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_below="@id/profileUsername">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
                 android:padding="5dp"
                 android:text="Password: "
                 android:textColor="@color/crimson"
@@ -133,7 +140,7 @@
         <LinearLayout
             android:id="@+id/profileUSCid"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_below="@id/profilePassword">
 
             <TextView
@@ -142,6 +149,7 @@
                 android:layout_marginTop="10dp"
                 android:padding="5dp"
                 android:text="USC ID:"
+                android:layout_marginLeft="10dp"
                 android:textColor="@color/crimson"
                 android:textSize="15sp" />
 
@@ -159,7 +167,7 @@
         <LinearLayout
             android:id="@+id/profileEmail"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_below="@id/profileUSCid">
 
             <TextView
@@ -167,6 +175,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
                 android:padding="5dp"
+                android:layout_marginLeft="10dp"
                 android:text="Email:"
                 android:textColor="@color/crimson"
                 android:textSize="15sp" />
@@ -184,13 +193,14 @@
         <LinearLayout
             android:id="@+id/profilePhone"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_below="@id/profileEmail">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
                 android:padding="5dp"
                 android:text="Phone: "
                 android:textColor="@color/crimson"
@@ -208,7 +218,7 @@
         <LinearLayout
             android:id="@+id/profileRole"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_below="@id/profilePhone">
 
             <TextView
@@ -217,6 +227,7 @@
                 android:layout_marginTop="10dp"
                 android:padding="5dp"
                 android:text="Role:"
+                android:layout_marginLeft="10dp"
                 android:textColor="@color/crimson"
                 android:textSize="15sp" />
 
@@ -242,28 +253,17 @@
             android:backgroundTint="@color/yellow"
             android:text="Update Profile"
             android:textAllCaps="false" />
-        <!-- TextView to display user's phone number -->
 
-
-        <!-- TextView to display user's role -->
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
-
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/navigation"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="52dp"
         android:layout_gravity="bottom"
         android:background="#fff"
         app:menu="@menu/bottom_navigation_bar" />
-
-    </RelativeLayout>
 </LinearLayout>
+</ScrollView>
 

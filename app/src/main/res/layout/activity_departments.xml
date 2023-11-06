@@ -6,12 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.cs310project.DepartmentsActivity">
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
     <!-- Add a ScrollView to make the list scrollable if it doesn't fit the screen -->
     <ScrollView
         android:layout_width="match_parent"
@@ -47,6 +41,6 @@
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 
-    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

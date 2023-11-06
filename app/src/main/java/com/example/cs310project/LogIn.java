@@ -11,6 +11,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -18,61 +22,50 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class LogIn extends AppCompatActivity {
-    EditText usernamefield,passwordfield;
+    EditText emailfield,passwordfield;
     Button login;
     FirebaseDatabase base;
     DatabaseReference reference;
+    FirebaseAuth mAuth;
     TextView sign;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
-        usernamefield = findViewById(R.id.UserName);
+        emailfield = findViewById(R.id.ID);
         passwordfield = findViewById(R.id.Password);
         login = findViewById(R.id.idBtnRegister);
         base = FirebaseDatabase.getInstance();
         reference = base.getReference();
         sign = findViewById(R.id.Signup);
+        mAuth = FirebaseAuth.getInstance();
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String username = usernamefield.getText().toString().trim();
+                String email = emailfield.getText().toString().trim();
                 String password = passwordfield.getText().toString().trim();
-                if(username.equals(null)){
+                if(email.equals(null)){
                     return;
                 }
                 if(password.equals(null)){
                     return;
                 }
-                DatabaseReference childref = reference.child("UserList");
-                DatabaseReference usename = childref.child(username);
-                usename.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if(snapshot.exists()){
-                            String pass = snapshot.child("password").getValue(String.class);
-                            if(pass.equals(password)){
-                                Toast.makeText(LogIn.this,"Success! You have been logged in.",Toast.LENGTH_SHORT).show();
-                                Access.username = username;
-                                Intent intent = new Intent(LogIn.this,DepartmentsActivity.class);
-                                startActivity(intent);
+                mAuth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(LogIn.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if(task.isSuccessful()){
+                                    Toast.makeText(LogIn.this,"Success! You have been logged in.",Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(LogIn.this,DepartmentsActivity.class);
+                                    startActivity(intent);
+                                }
+                                else{
+                                    Toast.makeText(LogIn.this,"Error" + task.getException(),Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
                             }
-                            else{
-                                Toast.makeText(LogIn.this,"Wrong password",Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-                        }
-                        else{
-                            Toast.makeText(LogIn.this,"No account with this username",Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                    }
+                        });
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
             }
         });
 
