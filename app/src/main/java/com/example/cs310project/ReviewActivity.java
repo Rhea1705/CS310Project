@@ -19,6 +19,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ReviewActivity extends AppCompatActivity {
 
     private EditText workloadEditText, scoreEditText, commentsEditText;
@@ -100,15 +103,23 @@ public class ReviewActivity extends AppCompatActivity {
             String uuid = firebaseUser.getUid();
             //
             //String key = databaseReference.push().getKey();
+            int up_count = 0;
+            int down_count = 0;
+
 
             if (uuid != null) {
-                reviewref.child(uuid).child("score").setValue(course);
-                reviewref.child(uuid).child("workload").setValue(workload);
-                reviewref.child(uuid).child("attendance").setValue(attendance);
-                reviewref.child(uuid).child("comments").setValue(comments);
-                reviewref.child(uuid).child("workload").setValue(workload);
-                reviewref.child(uuid).child("prof").setValue(prof);
-                reviewref.child(uuid).child("late").setValue(late);
+                Review review = new Review(attendance,comments,workload,course,prof,late,up_count,down_count);
+//                reviewref.child(uuid).child("score").setValue(course);
+//                reviewref.child(uuid).child("workload").setValue(workload);
+//                reviewref.child(uuid).child("attendance").setValue(attendance);
+//                reviewref.child(uuid).child("comments").setValue(comments);
+//                reviewref.child(uuid).child("prof").setValue(prof);
+//                reviewref.child(uuid).child("late").setValue(late);
+//                reviewref.child(uuid).child("up_count").setValue(up_count);
+//                reviewref.child(uuid).child("down_count").setValue(down_count);
+//                reviewref.child(uuid).child("users_who_liked").setValue(null);
+//                reviewref.child(uuid).child("users_who_disliked").setValue(null);
+                reviewref.child(uuid).setValue(review);
             }
 
             Toast.makeText(this, "Review submitted!", Toast.LENGTH_SHORT).show();
