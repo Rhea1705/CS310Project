@@ -128,12 +128,12 @@ public class ProfileActivity extends AppCompatActivity {
             String password = passwordEditText.getText().toString();
             String email = emailEditText.getText().toString();
             String phone_number = phoneEditText.getText().toString();
-            String imageUrl = imageEditText.getText().toString();
+//            String imageUrl = imageEditText.getText().toString();
             String role = roleEditText.getText().toString();
             String id = idEditText.getText().toString();
 
             // Save or update user data in the database
-            updateUserData(username, password, email, phone_number, imageUrl, role, id);
+            updateUserData(username, password, email, phone_number, role, id);
         });
     }
     private void SelectImage() {
@@ -142,11 +142,10 @@ public class ProfileActivity extends AppCompatActivity {
         intent.setAction(Intent.ACTION_GET_CONTENT);
         someActivityResultLauncher.launch(intent); // Use the initialized launcher to start activity for result
     }
-    private void updateUserData(String username, String password, String email, String phone_number, String image, String role, String id) {
+    private void updateUserData(String username, String password, String email, String phone_number, String role, String id) {
         FirebaseUser firebaseUser = mAuth.getCurrentUser();
         String uuid = firebaseUser.getUid();
-//        Access access =  new Access();
-//        temp code
+
         String storageName = "images/"+uuid;
         imagesReference = storage.getReference(storageName);
 
@@ -158,8 +157,6 @@ public class ProfileActivity extends AppCompatActivity {
                 .addOnFailureListener(e -> {
                     Toast.makeText(ProfileActivity.this, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
-
-        updatePage(username, password, email, phone_number, image, role, id);
     }
 
     private void updatePage(String username, String password, String email, String phone_number, String image, String role, String id) {
@@ -232,19 +229,24 @@ public class ProfileActivity extends AppCompatActivity {
                     if (userData.getPhoneNumber() != null) {
                         phoneEditText.setText(userData.getPhoneNumber());
                     }
-                    if (userData.getImageUrl() != null) {
-                        // Load the profile image into ImageView
-                        String imageUrl = userData.getImageUrl();
-                        Picasso.get().load(imageUrl).into(imageView);
-                    }
-//                       To do: set options to choose from???
                     if (userData.getRole() != null) {
                         roleEditText.setText(userData.getRole());
                     }
-//                        check for length to be 10 digits
                     if (userData.getUSCid() != null) {
                         idEditText.setText(userData.getUSCid());
                     }
+                    // Load the profile image into ImageView
+                    String imageUrl = "/images/" + uuid; // Check the correct path in Firebase Storage
+                    StorageReference imageRef = storage.getReference(imageUrl);
+
+                    imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                        Glide.with(ProfileActivity.this)
+                                .load(uri)
+                                .into(imageView);
+                    }).addOnFailureListener(e -> {
+                        // Handle any errors while fetching the image
+//                        Toast.makeText(ProfileActivity.this, "Failed to load image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
                 }
             }
 
@@ -252,10 +254,8 @@ public class ProfileActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(ProfileActivity.this, "Error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
-
-
-
         });
     }
+
 }
 
