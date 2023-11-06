@@ -159,7 +159,7 @@ public class FriendActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Log.d("adding", currReceiver);
                 Intent intent = new Intent(FriendActivity.this, ChatActivity.class);
-                intent.putExtra("selectedID", currReceiver);
+                intent.putExtra("selectedStudent", currReceiver);
                 startActivity(intent);
             }
         });
