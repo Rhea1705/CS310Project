@@ -23,16 +23,16 @@
 
 
         <Button
-            android:id="@+id/chat"
-            android:layout_width="50dp"
+            android:id="@+id/blockBtn"
+            android:layout_width="60dp"
             android:layout_height="30dp"
             android:layout_weight="0"
-            android:background="@color/yellow"
-            android:text="Chat"
+            android:background="@color/crimson"
+            android:text="Block"
             android:textAllCaps="false"
             android:textAlignment="center"
-            android:textColor="#000"
-            android:textSize="10dp" />
+            android:textColor="#fff"
+            android:textSize="105p" />
 
     </LinearLayout>
 

@@ -1,14 +1,19 @@
 package com.example.cs310project;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,10 +34,7 @@ public class FriendActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_friend_list);
-
-        recyclerView = findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        setContentView(R.layout.activity_friends_list);
 
         // Firebase Database reference
         databaseReference = FirebaseDatabase.getInstance().getReference().child("messages");
@@ -40,15 +42,15 @@ public class FriendActivity extends AppCompatActivity {
         getFriends("bulbul", databaseReference);
     }
 
-    private void getFriends(String me, DatabaseReference databaseReference) {
+    private void getFriends(String uuid, DatabaseReference databaseReference) {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
                     String key = childSnapshot.getKey();
-                    if (key.contains(me)) {
+                    if (key.contains(uuid)) {
                         String[] names = key.split("&");
-                        if (names[0].equals(me)) {
+                        if (names[0].equals(uuid)) {
                             if (!keysWithFirst.contains(names[1])) {
                                 keysWithFirst.add(names[1]);
                                 Log.d("friend", names[1]);
@@ -60,8 +62,9 @@ public class FriendActivity extends AppCompatActivity {
                             }
                         }
                     }
+                    displayFriend(uuid);
                 }
-                displayFriends();
+
             }
 
             @Override
@@ -71,8 +74,35 @@ public class FriendActivity extends AppCompatActivity {
         });
     }
 
-    private void displayFriends() {
-
+    private void displayFriend(String userID) {
+        LayoutInflater inflater = getLayoutInflater();
+        LinearLayout friendsList = findViewById(R.id.friendsList);
+        View friendItem = inflater.inflate(R.layout.friend_item, friendsList, false);
+        TextView studentName = friendItem.findViewById(R.id.name);
+        studentName.setText(userID);
+        studentName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(FriendActivity.this, ChatActivity.class);
+                intent.putExtra("selectedID", userID);
+                startActivity(intent);
+            }
+        });
+        Button blockBtn = friendItem.findViewById(R.id.blockBtn);
+        blockBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //block func : rhea
+                if(blockBtn.getText() == "Block") {
+                    blockBtn.setText("Unblocked");
+                    blockBtn.setBackgroundColor(ContextCompat.getColor(FriendActivity.this, R.color.yellow));
+                }
+                else {
+                    blockBtn.setText("Block");
+                    blockBtn.setBackgroundColor(ContextCompat.getColor(FriendActivity.this, R.color.crimson));
+                }
+            }
+        });
     }
 
 }
