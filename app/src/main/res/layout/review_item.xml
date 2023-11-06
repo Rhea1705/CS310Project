@@ -41,8 +41,38 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:id = "@+id/b"
+            android:id = "@+id/aa"
             android:layout_below="@id/a"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/prof"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18dp"
+                android:layout_weight="1"
+                android:textColor="#000"
+                android:textStyle="bold"
+                android:text="Professor Rating" />
+
+
+            <TextView
+                android:id="@+id/profRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:text="ya ya"
+                android:textAlignment="center"
+                android:textColor="#000"
+                android:textSize="16dp" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id = "@+id/b"
+            android:layout_below="@id/aa"
             android:padding="8dp">
 
             <TextView

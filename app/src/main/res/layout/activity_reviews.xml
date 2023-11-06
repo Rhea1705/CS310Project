@@ -30,6 +30,7 @@
             android:background="#f0f0f0" />
         <LinearLayout
             android:layout_width="match_parent"
+            android:id = "@+id/addBtnLayout"
             android:layout_below="@id/reviewListLayout"
             android:layout_height="match_parent">
             <Button
@@ -45,14 +46,15 @@
     </ScrollView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-    android:id="@+id/navigation"
-    android:layout_width="match_parent"
-    android:layout_height="56dp"
-    android:layout_gravity="bottom"
-    android:background="#fff"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:menu="@menu/bottom_navigation_bar" />
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_gravity="bottom"
+        android:background="#fff"
+        android:layout_alignParentBottom="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:menu="@menu/bottom_navigation_bar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

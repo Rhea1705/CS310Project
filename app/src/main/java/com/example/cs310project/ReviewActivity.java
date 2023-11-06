@@ -22,12 +22,12 @@ import com.google.firebase.database.FirebaseDatabase;
 public class ReviewActivity extends AppCompatActivity {
 
     private EditText workloadEditText, scoreEditText, commentsEditText;
-    private RatingBar courseEditText;
+    private RatingBar courseEditText, profRating;
     private RadioGroup attendanceSpinner;
     private Button submitButton;
     private DatabaseReference databaseReference;
     private DatabaseReference reviewref;
-    private String attendance, late;
+    private String attendance, late, workload;
     FirebaseAuth mAuth;
 
 
@@ -37,8 +37,7 @@ public class ReviewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_course_review);
 
         courseEditText = findViewById(R.id.edit_text_course);
-        workloadEditText = findViewById(R.id.edit_text_workload);
-//        scoreEditText = findViewById(R.id.edit_text_score);
+        profRating = findViewById(R.id.ratingProf);
         commentsEditText = findViewById(R.id.edit_text_comments);
         submitButton = findViewById(R.id.submit_review_button);
         attendanceSpinner = findViewById(R.id.attendance_spinner);
@@ -64,6 +63,16 @@ public class ReviewActivity extends AppCompatActivity {
                 }
             }
         });
+        RadioGroup workLoadOptions = findViewById(R.id.workloadOptions);
+        workLoadOptions.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton selectedRadioButton = findViewById(checkedId);
+                if (selectedRadioButton != null) {
+                    workload = selectedRadioButton.getText().toString();
+                }
+            }
+        });
         attendanceSpinner.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -79,34 +88,34 @@ public class ReviewActivity extends AppCompatActivity {
 
     private void submitReview() {
         Integer course = courseEditText.getNumStars();
-        String workload = workloadEditText.getText().toString().trim();
-        int score = Integer.parseInt(scoreEditText.getText().toString());
+        Integer prof = profRating.getNumStars();
         String comments = commentsEditText.getText().toString().trim();
 
         if (!workload.isEmpty()
                 && !comments.isEmpty()) {
 
             // For demonstration purposes, let's consider a fixed userID
-            String userID = "user123";
+
             FirebaseUser firebaseUser = mAuth.getCurrentUser();
             String uuid = firebaseUser.getUid();
             //
             //String key = databaseReference.push().getKey();
 
             if (uuid != null) {
-                reviewref.child(uuid).child("userID").setValue(userID);
-                reviewref.child(uuid).child("course").setValue(course);
+                reviewref.child(uuid).child("score").setValue(course);
                 reviewref.child(uuid).child("workload").setValue(workload);
-                reviewref.child(uuid).child("score").setValue(score);
                 reviewref.child(uuid).child("attendance").setValue(attendance);
                 reviewref.child(uuid).child("comments").setValue(comments);
+                reviewref.child(uuid).child("workload").setValue(workload);
+                reviewref.child(uuid).child("prof").setValue(prof);
+                reviewref.child(uuid).child("late").setValue(late);
             }
 
             Toast.makeText(this, "Review submitted!", Toast.LENGTH_SHORT).show();
-            courseEditText.setNumStars(0);
-            workloadEditText.setText("");
-            scoreEditText.setText("");
-            commentsEditText.setText("");
+//            courseEditText.setNumStars(0);
+//            workloadEditText.setText("");
+//            scoreEditText.setText("");
+//            commentsEditText.setText("");
         } else {
             Toast.makeText(this, "Please fill in all fields.", Toast.LENGTH_SHORT).show();
         }

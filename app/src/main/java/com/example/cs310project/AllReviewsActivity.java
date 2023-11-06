@@ -56,6 +56,7 @@ public class AllReviewsActivity extends AppCompatActivity {
 
         // Reference to the LinearLayout container
         LinearLayout reviewListLayout = findViewById(R.id.reviewListLayout);
+        LinearLayout buttonLayout = findViewById(R.id.addBtnLayout);
         reviewsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -65,13 +66,14 @@ public class AllReviewsActivity extends AppCompatActivity {
                     String comments = courseSnapshot.child("comments").getValue(String.class);
                     String workload = courseSnapshot.child("workload").getValue(String.class);
                     Integer rating = courseSnapshot.child("score").getValue(Integer.class);
+                    Integer profRating = courseSnapshot.child("prof").getValue(Integer.class);
                     String late = courseSnapshot.child("late").getValue(String.class);
                     String userID = courseSnapshot.child("userID").getValue(String.class);
 
 
 //                    Log.d("course list", "course name: " + courseName);
 
-                    createReviewItem(reviewListLayout,rating,workload,attendance, late, comments, userID);
+                    createReviewItem(reviewListLayout,rating,workload,attendance, late, comments, profRating, userID);
                 }
             }
 
@@ -80,7 +82,7 @@ public class AllReviewsActivity extends AppCompatActivity {
                 Log.d("FirebaseError", error.getMessage());
             }
         });
-        Button AddBtn = reviewListLayout.findViewById(R.id.addReviewBtn);
+        Button AddBtn = buttonLayout.findViewById(R.id.addReviewBtn);
         AddBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,12 +97,13 @@ public class AllReviewsActivity extends AppCompatActivity {
         });
 
     }
-    private void createReviewItem(LinearLayout parentLayout, Integer rating, String workload, String attendance, String late, String comments, String userID) {
+    private void createReviewItem(LinearLayout parentLayout, Integer rating, String workload, String attendance, String late, String comments, Integer prof, String userID) {
         LayoutInflater inflater = getLayoutInflater();
         View reviewItemView = inflater.inflate(R.layout.review_item, parentLayout, false);
 
         TextView courseRating = reviewItemView.findViewById(R.id.courseRating);
-        courseRating.setText(rating);
+
+        courseRating.setText(rating.toString());
         TextView workloadText = reviewItemView.findViewById(R.id.worloadText);
         workloadText.setText(workload);
         TextView attText = reviewItemView.findViewById(R.id.attendanceText);
@@ -109,9 +112,11 @@ public class AllReviewsActivity extends AppCompatActivity {
         lateText.setText(late);
         TextView otherText = reviewItemView.findViewById(R.id.otherText);
         otherText.setText(comments);
+        TextView profRating = reviewItemView.findViewById(R.id.profRating);
+        profRating.setText(prof.toString());
         //how to convert user ID to student name ?? vidit
-        TextView nameText = reviewItemView.findViewById(R.id.nameText);
-        nameText.setText(userID);
+//        TextView nameText = reviewItemView.findViewById(R.id.nameText);
+//        nameText.setText(userID);
 
 
         parentLayout.addView(reviewItemView);
