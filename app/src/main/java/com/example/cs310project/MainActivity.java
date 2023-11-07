@@ -60,6 +60,14 @@ public class MainActivity extends AppCompatActivity {
                 String phone_number = phone_numberfield.getText().toString();
                 String role = spin.getSelectedItem().toString();
                 String usc = usc_id.getText().toString();
+                if(!email.endsWith("usc.edu")){
+                    Toast.makeText(MainActivity.this,"Please use an usc.edu email",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(usc.length() !=10){
+                    Toast.makeText(MainActivity.this,"USC ID number can only contain 10 digits",Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(
                         MainActivity.this,task -> {
@@ -91,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                                 });
                             }
                             else{
-                                Toast.makeText(MainActivity.this,"Error while creating account",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this,"Error while creating account" + task.getException(),Toast.LENGTH_SHORT).show();
                             }
                         });
 

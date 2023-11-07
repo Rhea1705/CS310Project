@@ -33,7 +33,8 @@ public class AllReviewsActivity extends AppCompatActivity {
     DatabaseReference userref;
     FirebaseAuth mAuth;
     boolean removereview;
-
+    boolean ilike;
+    boolean idislike;
 
 
     @Override
@@ -231,64 +232,82 @@ public class AllReviewsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 reviewsRef.child(uid).removeValue();
                 removereview = true;
+                Intent intent = new Intent(AllReviewsActivity.this,AllReviewsActivity.class);
+                startActivity(intent);
             }
         });
-        likeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //if unclicked
-                if (likeBtn.getDrawable().getConstantState().equals(ContextCompat.getDrawable(AllReviewsActivity.this, R.drawable.like).getConstantState())) {
-                    likeBtn.setImageResource(R.drawable.like_selected);
-                    int new_num = review.getUp_count() +1;
-                    reviewsRef.child(uid).child("up_count").setValue(new_num);
-                    likeCount.setText(String.valueOf(new_num));
-                    reviewsRef.child(uid).child("users_who_liked").child(mAuth.getCurrentUser().getUid()).setValue("like");
-                    Log.d("review_app", "set uid " + mAuth.getCurrentUser().getUid());
-                    review.setUp_count(new_num);
-                }
-                //if clicked
-                else {
-                    likeBtn.setImageResource(R.drawable.like);
-                    int new_num = review.getUp_count() -1 ;
-                    reviewsRef.child(uid).child("up_count").setValue(new_num);
-                    likeCount.setText(String.valueOf(new_num));
-                    reviewsRef.child(uid).child("users_who_liked").child(mAuth.getCurrentUser().getUid()).removeValue();
-                    Log.d("review_app", "uid " + mAuth.getCurrentUser().getUid());
-                    review.setUp_count(new_num);
+        ilike = false;
+        idislike = false;
+        if(!uid.equals(mAuth.getCurrentUser().getUid())){
+            likeBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(!idislike){
 
-                }
+                        //if unclicked
+                        if (likeBtn.getDrawable().getConstantState().equals(ContextCompat.getDrawable(AllReviewsActivity.this, R.drawable.like).getConstantState())) {
+                            likeBtn.setImageResource(R.drawable.like_selected);
+                            int new_num = review.getUp_count() +1;
+                            reviewsRef.child(uid).child("up_count").setValue(new_num);
+                            likeCount.setText(String.valueOf(new_num));
+                            reviewsRef.child(uid).child("users_who_liked").child(mAuth.getCurrentUser().getUid()).setValue("like");
+                            Log.d("review_app", "set uid " + mAuth.getCurrentUser().getUid());
+                            review.setUp_count(new_num);
+                            ilike = true;
+                        }
+                        //if clicked
+                        else {
+                            likeBtn.setImageResource(R.drawable.like);
+                            int new_num = review.getUp_count() -1 ;
+                            reviewsRef.child(uid).child("up_count").setValue(new_num);
+                            likeCount.setText(String.valueOf(new_num));
+                            reviewsRef.child(uid).child("users_who_liked").child(mAuth.getCurrentUser().getUid()).removeValue();
+                            Log.d("review_app", "uid " + mAuth.getCurrentUser().getUid());
+                            review.setUp_count(new_num);
+                            ilike = false;
 
-            }
-        });
-        dislikeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(dislikeBtn.getDrawable().getConstantState().equals(ContextCompat.getDrawable(AllReviewsActivity.this, R.drawable.dislike).getConstantState())){
-                    dislikeBtn.setImageResource(R.drawable.dislike_selected);
-                    //vidit update dislike count
-                    int new_num = review.getDown_count() +1;
-                    reviewsRef.child(uid).child("down_count").setValue(new_num);
-                    dislikeCount.setText(String.valueOf(new_num));
-                    reviewsRef.child(uid).child("users_who_disliked").child(mAuth.getCurrentUser().getUid()).setValue("dislike");
-                    review.setDown_count(new_num);
+                        }
+                    }
+
 
                 }
-                else{
-                    dislikeBtn.setImageResource(R.drawable.dislike);
-                    //vidit update dislike count
-                    int new_num = review.getDown_count() -1;
-                    reviewsRef.child(uid).child("down_count").setValue(new_num);
-                    dislikeCount.setText(String.valueOf(new_num));
-                    reviewsRef.child(uid).child("users_who_disliked").child(mAuth.getCurrentUser().getUid()).removeValue();
-                    review.setDown_count(new_num);
+            });
+            dislikeBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(!ilike){
+                        if(dislikeBtn.getDrawable().getConstantState().equals(ContextCompat.getDrawable(AllReviewsActivity.this, R.drawable.dislike).getConstantState())){
+                            dislikeBtn.setImageResource(R.drawable.dislike_selected);
+                            //vidit update dislike count
+                            int new_num = review.getDown_count() +1;
+                            reviewsRef.child(uid).child("down_count").setValue(new_num);
+                            dislikeCount.setText(String.valueOf(new_num));
+                            reviewsRef.child(uid).child("users_who_disliked").child(mAuth.getCurrentUser().getUid()).setValue("dislike");
+                            review.setDown_count(new_num);
+                            idislike = true;
+
+                        }
+                        else{
+                            dislikeBtn.setImageResource(R.drawable.dislike);
+                            //vidit update dislike count
+                            int new_num = review.getDown_count() -1;
+                            reviewsRef.child(uid).child("down_count").setValue(new_num);
+                            dislikeCount.setText(String.valueOf(new_num));
+                            reviewsRef.child(uid).child("users_who_disliked").child(mAuth.getCurrentUser().getUid()).removeValue();
+                            review.setDown_count(new_num);
+                            idislike = false;
+                        }
+                    }
+
+
                 }
 
 
-            }
+
+            });
+        }
 
 
-
-        });
 
         if(!removereview){
             parentLayout.addView(reviewItemView);
