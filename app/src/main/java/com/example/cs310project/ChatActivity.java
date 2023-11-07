@@ -29,14 +29,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.RemoteMessage;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ChatActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -115,7 +107,7 @@ public class ChatActivity extends AppCompatActivity {
             String messageText = messageInput.getText().toString().trim();
             if (!messageText.isEmpty()) {
                 sendMessage(messageText, sender, receiver);
-                messageInput.setText("");
+//                messageInput.setText("");
             }
         });
     }
@@ -140,40 +132,6 @@ public class ChatActivity extends AppCompatActivity {
                     if (key != null) {
                         databaseReference.child(key).setValue(newMessage);
                     }
-                    FirebaseMessaging.getInstance().getToken()
-                            .addOnCompleteListener(new OnCompleteListener<String>() {
-                                @Override
-                                public void onComplete(@NonNull Task<String> task) {
-                                    if (task.isSuccessful() && task.getResult() != null) {
-                                        String recipientToken = task.getResult();
-                                        Log.d("notify", "starting to notify");
-                                        // Construct the data for the FCM message
-                                        Map<String, String> data = new HashMap<>();
-                                        data.put("title", "New Message");
-                                        data.put("message", message);
-                                        data.put("sender", sender);
-
-                                        // Send the FCM message
-                                        FirebaseMessaging.getInstance().send(new RemoteMessage.Builder(recipientToken)
-                                                .setData(data)
-                                                .build());
-                                        Log.d("notify", "completed to notify");
-                                    } else {
-                                        Log.w("FCMInstanceId", "getToken failed", task.getException());
-                                    }
-                                }
-                            });
-//                    Map<String, String> data = new HashMap<>();
-//                    data.put("title", "New Message");
-//                    data.put("message", message);
-//                    data.put("sender", sender);
-//
-//                    String recipientToken = FirebaseInstanceId.getInstance().getInstanceId();
-//
-//                    // Send the FCM message
-//                    FirebaseMessaging.getInstance().send(new RemoteMessage.Builder(recipientToken)
-//                            .setData(data)
-//                            .build());
                 }
             }
 
@@ -184,6 +142,7 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
     private void fetchMessages(String currentUser) {
+        boolean view = false;
         Log.d("first", first);
         Log.d("second", second);
         Query query = databaseReference.orderByKey().startAt(first + "&" + second);
@@ -195,19 +154,22 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             protected void onBindViewHolder(@NonNull MessageViewHolder holder, int position, @NonNull Message model) {
                 if (model.getSender().equals(currentUser)) {
-                    Log.d("model.getText() sender", model.getText());
+
                     // Set sent messages
                     if (model.getReceiver().equals(receiver)){
+                        Log.d("model.getText() sender", model.getText());
                         holder.setMessage("sent", model.getText());
                     }
                 } else if (model.getReceiver().equals(currentUser)) {
-                    Log.d("model.getText() receiver", model.getText());
+
                     // Set received messages
                     if (model.getSender().equals(receiver)){
+                        Log.d("model.getText() receiver", model.getText());
                         holder.setMessage("received", model.getText());
                     }
                 }
             }
+
 
             @NonNull
             @Override
@@ -237,7 +199,9 @@ public class ChatActivity extends AppCompatActivity {
         }
 
         public void setMessage(String type, String message) {
-            if(type!=null && message != null) {
+            if(type !=null && message != null) {
+                Log.d("type", type);
+                Log.d("message", message);
                 messageTextView.setText(type + ": " + message);
             }
 
