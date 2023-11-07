@@ -100,9 +100,7 @@ public class EditReview extends AppCompatActivity {
                 Review review = new Review(newAttendance, newComments, newWorkload, newRating, newProf,newLate,0,0);
                 base = FirebaseDatabase.getInstance();
 
-                Log.d("edit_review", "department" + department);
-                Log.d("edit_review", "course" + selected_course);
-                Log.d("edit_review", "uid" + uid);
+
 
 
                 DatabaseReference reviewref = base.getReference("departments").child(department).child("courses").child(selected_course).child("reviews");
