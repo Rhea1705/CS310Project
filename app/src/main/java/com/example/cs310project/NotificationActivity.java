@@ -23,6 +23,7 @@ public class NotificationActivity extends FirebaseMessagingService {
             String message = remoteMessage.getData().get("message");
             String sender = remoteMessage.getData().get("sender");
 
+            Log.d("got", message);
             createAndShowNotification(title, sender);
         }
     }
@@ -30,7 +31,7 @@ public class NotificationActivity extends FirebaseMessagingService {
     private void createAndShowNotification(String title, String sender) {
         // Notification channel ID (required for Android Oreo and later)
         String channelId = "message_notification";
-
+        Log.d("received", sender);
         // Create an intent to launch the app when the notification is tapped
         Intent intent = new Intent(this, FriendActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
