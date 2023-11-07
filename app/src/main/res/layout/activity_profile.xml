@@ -238,14 +238,14 @@
                 android:textColor="@color/crimson"
                 android:textSize="15sp" />
 
-            <EditText
-                android:id="@+id/roleEditText"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginTop="10dp"
-                android:text=""
-                android:textColor="@color/black"
-                android:textSize="15sp" />
+            <Spinner
+                android:id="@+id/roleSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/roleText"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:entries="@array/role_options" />
         </LinearLayout>
 
         <Button

@@ -17,10 +17,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -38,6 +40,7 @@ import com.squareup.picasso.Picasso;
 
 public class ProfileActivity extends AppCompatActivity {
     EditText nameEditText, usernameEditText, passwordEditText, emailEditText, phoneEditText, roleEditText, idEditText;
+    Spinner spin;
     ImageView imageView;
     Button updateButton, imgButton;
     FirebaseDatabase database;
@@ -71,7 +74,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         imageView = findViewById(R.id.imageEditText);
 
-        roleEditText = findViewById(R.id.roleEditText);
+        spin = findViewById(R.id.roleSpinner);
         idEditText = findViewById(R.id.pUSCid);
         updateButton = findViewById(R.id.updateButton);
         imgButton = findViewById(R.id.imgButton);
@@ -134,7 +137,7 @@ public class ProfileActivity extends AppCompatActivity {
             password = passwordEditText.getText().toString();
             email = emailEditText.getText().toString();
             phone_number = phoneEditText.getText().toString();
-            role = roleEditText.getText().toString();
+            role = spin.getSelectedItem().toString();
             id = idEditText.getText().toString();
             // Save or update user data in the database
             updateUserData(name, username, password, email, id, phone_number, role);
@@ -257,7 +260,10 @@ public class ProfileActivity extends AppCompatActivity {
                         phoneEditText.setText(user.getPhone_number());
                     }
                     if (user.getRole() != null) {
-                        roleEditText.setText(user.getRole());
+                        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(ProfileActivity.this, R.array.role_options, android.R.layout.simple_spinner_item);
+                        spin.setAdapter(adapter);
+                        int position = adapter.getPosition(user.getRole());
+                        spin.setSelection(position);
                     }
 
                     // Load the profile image into ImageView
