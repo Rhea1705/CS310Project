@@ -71,34 +71,12 @@ public class EditReview extends AppCompatActivity {
         profRating.setRating(profRat);
         EditText commentsEditText = findViewById(R.id.edit_text_comments);
         commentsEditText.setText(comments);
-        attendanceSpinner = findViewById(R.id.attendance_spinner);
-        RadioButton att;
-        if (attendance == "Yes") {
-            att = findViewById(R.id.radioButtonYes);
-            att.setChecked(true);
-        } else {
-            att = findViewById(R.id.radioButtonNo);
-            att.setChecked(true);
-        }
-        RadioButton work;
-        if (workload == "Light") {
-            work = findViewById(R.id.workloadLight);
-            work.setChecked(true);
-        } else if (workload == "Medium") {
-            work = findViewById(R.id.workloadMedium);
-            work.setChecked(true);
-        } else {
-            work = findViewById(R.id.workloadHeavy);
-            work.setChecked(true);
-        }
-        RadioButton latehw;
-        if (late == "Yes") {
-            latehw = findViewById(R.id.radioButtonLateYes);
-            latehw.setChecked(true);
-        } else {
-            latehw = findViewById(R.id.radioButtonLateNo);
-            latehw.setChecked(true);
-        }
+        EditText attendancEditText = findViewById(R.id.attendanceText);
+        attendancEditText.setText(attendance);
+        EditText workloadEdit = findViewById(R.id.workloadText);
+        workloadEdit.setText(workload);
+        EditText lateEdit = findViewById(R.id.lateText);
+        lateEdit.setText(late);
 
         //update form
         submitButton = findViewById(R.id.submit_review_button);
@@ -108,35 +86,9 @@ public class EditReview extends AppCompatActivity {
                 newRating = (int) courseEditText.getRating();
                 newProf = (int) profRating.getRating();
                 String newComments = String.valueOf(commentsEditText.getText());
-                RadioGroup radioGroupLateHomework = findViewById(R.id.radioGroupLateHomework);
-                radioGroupLateHomework.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(RadioGroup group, int checkedId) {
-                        RadioButton selectedRadioButton = findViewById(checkedId);
-                        if (selectedRadioButton != null) {
-                            newLate = selectedRadioButton.getText().toString();
-                        }
-                    }
-                });
-                RadioGroup workLoadOptions = findViewById(R.id.workloadOptions);
-                workLoadOptions.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(RadioGroup group, int checkedId) {
-                        RadioButton selectedRadioButton = findViewById(checkedId);
-                        if (selectedRadioButton != null) {
-                            newWorkload = selectedRadioButton.getText().toString();
-                        }
-                    }
-                });
-                attendanceSpinner.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(RadioGroup group, int checkedId) {
-                        RadioButton selectedRadioButton = findViewById(checkedId);
-                        if (selectedRadioButton != null) {
-                            newAttendance = selectedRadioButton.getText().toString();
-                        }
-                    }
-                });
+                String newWorkload = String.valueOf(workloadEdit.getText());
+                String newAttendance = String.valueOf(attendancEditText.getText());
+                String newLate = String.valueOf(lateEdit.getText());
                 Review review = new Review(newAttendance, newComments, newWorkload, newRating, newProf,newLate,0,0);
             }
         });
