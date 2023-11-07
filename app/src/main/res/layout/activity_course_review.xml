@@ -6,151 +6,147 @@
     android:layout_height="match_parent">
     <ScrollView
         android:layout_width="match_parent"
+        android:nestedScrollingEnabled="true"
         android:layout_height="wrap_content">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:nestedScrollingEnabled="true"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Rate the Course (1-5)"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        android:layout_marginBottom="8dp" />
-
-    <RatingBar
-        android:id="@+id/edit_text_course"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="How's the Workload?"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        android:layout_marginBottom="8dp" />
-
-    <RadioGroup
-        android:id="@+id/workloadOptions"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:orientation="horizontal">
-
-        <RadioButton
-            android:id="@+id/workloadLight"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:nestedScrollingEnabled="true"
             android:layout_height="wrap_content"
-            android:text="Light" />
-        <RadioButton
-            android:id="@+id/workloadMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Medium" />
+            android:orientation="vertical"
+            android:padding="16dp">
 
-        <RadioButton
-            android:id="@+id/workloadHeavy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Heavy" />
-    </RadioGroup>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Rate the Professor (1-5)"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        android:layout_marginBottom="8dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Rate the Course (1-5)"
+                android:textStyle="bold"
+                android:textSize="18sp" />
 
-    <RatingBar
-        android:id="@+id/ratingProf"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Does the professor check attendance?"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        android:layout_marginBottom="8dp" />
-
-    <RadioGroup
-        android:id="@+id/attendance_spinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <RadioButton
-            android:id="@+id/radioButtonYes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Yes" />
-
-        <RadioButton
-            android:id="@+id/radioButtonNo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="No" />
-    </RadioGroup>
-    <TextView
-        android:id="@+id/textViewLateHomework"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Does the professor allow late homework submission?"
-        android:textSize="18sp"
-        android:layout_marginBottom="8dp"
-        android:textStyle="bold" />
-
-    <RadioGroup
-        android:id="@+id/radioGroupLateHomework"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <RadioButton
-            android:id="@+id/radioButtonLateYes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Yes" />
-
-        <RadioButton
-            android:id="@+id/radioButtonLateNo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="No" />
-    </RadioGroup>
+            <RatingBar
+                android:id="@+id/edit_text_course"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Other Comments:"
-        android:layout_marginTop="10dp"
-        android:textStyle="bold"
-        android:textSize="18sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="How's the Workload?"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginBottom="5dp" />
 
-    <EditText
-        android:id="@+id/edit_text_comments"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp" />
+            <RadioGroup
+                android:id="@+id/workloadOptions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/submit_review_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/yellow"
-        android:text="Submit"
-        android:textAlignment="center"/>
-</LinearLayout>
+                <RadioButton
+                    android:id="@+id/workloadLight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Light" />
+                <RadioButton
+                    android:id="@+id/workloadMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Medium" />
+
+                <RadioButton
+                    android:id="@+id/workloadHeavy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Heavy" />
+            </RadioGroup>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Rate the Professor (1-5)"
+                android:textStyle="bold"
+                android:textSize="18sp" />
+
+            <RatingBar
+                android:id="@+id/ratingProf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Does the professor check attendance?"
+                android:textStyle="bold"
+                android:textSize="18sp" />
+
+            <RadioGroup
+                android:id="@+id/attendance_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radioButtonYes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Yes" />
+
+                <RadioButton
+                    android:id="@+id/radioButtonNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No" />
+            </RadioGroup>
+            <TextView
+                android:id="@+id/textViewLateHomework"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Does the professor allow late homework submission?"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/radioGroupLateHomework"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radioButtonLateYes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Yes" />
+
+                <RadioButton
+                    android:id="@+id/radioButtonLateNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No" />
+            </RadioGroup>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Other Comments:"
+                android:layout_marginTop="5dp"
+                android:textStyle="bold"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/edit_text_comments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/submit_review_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/yellow"
+                android:text="submit review"
+                android:textAlignment="center"/>
+        </LinearLayout>
     </ScrollView>
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigation"
