@@ -1,244 +1,257 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    android:layout_width="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <RelativeLayout
-            android:id="@+id/profile"
+        android:nestedScrollingEnabled="true"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_height="match_parent">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="550dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="30dp"
-            android:background="@drawable/border"
-            android:orientation="horizontal">
+            android:nestedScrollingEnabled="true"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/logo"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="30dp"
-                android:src="@drawable/logo" />
-
-            <LinearLayout
-                android:id="@+id/profileImage"
+            <RelativeLayout
+                android:id="@+id/profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/logo">
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"
+                android:layout_marginRight="30dp"
+                android:background="@drawable/border"
+                android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/imageEditText"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginLeft="80dp"
-                    android:src="@drawable/profile" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/profileName"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_below="@id/profileImage">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:textAlignment="center"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:padding="5dp"
-                    android:text="Name:"
-                    android:textColor="@color/crimson"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:id="@+id/pName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:id="@+id/logo"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
                     android:layout_marginTop="30dp"
-                    android:text=""
-                    android:textColor="@color/black"
-                    android:textSize="15sp" />
-            </LinearLayout>
-            <!-- TextView to display user's username -->
-            <LinearLayout
-                android:id="@+id/profileUsername"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_below="@id/profileName">
+                    android:src="@drawable/logo" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:padding="5dp"
-                    android:layout_marginLeft="10dp"
-                    android:text="UserName"
-                    android:textColor="@color/crimson"
-                    android:textSize="15sp" />
+                <LinearLayout
+                    android:id="@+id/profileImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/logo">
 
-                <TextView
-                    android:id="@+id/usernameEditText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:text=""
-                    android:textColor="@color/black"
-                    android:textSize="15sp" />
+                    <ImageView
+                        android:id="@+id/imageEditText"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_marginLeft="130dp"
+                        android:src="@drawable/profile" />
+                </LinearLayout>
 
-            </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/profileName"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/profileImage">
 
-            <LinearLayout
-                android:id="@+id/profilePassword"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_below="@id/profileUsername">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:padding="5dp"
+                        android:text="Name:"
+                        android:textColor="@color/crimson"
+                        android:textSize="15sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:padding="5dp"
-                    android:text="Password: "
-                    android:textColor="@color/crimson"
-                    android:textSize="15sp" />
+                    <TextView
+                        android:id="@+id/pName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="10dp"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+                </LinearLayout>
+                <!-- TextView to display user's username -->
+                <LinearLayout
+                    android:id="@+id/profileUsername"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/profileName">
 
-                <TextView
-                    android:id="@+id/passwordEditText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:text=""
-                    android:textColor="@color/black"
-                    android:textSize="15sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="10dp"
+                        android:padding="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:text="UserName"
+                        android:textColor="@color/crimson"
+                        android:textSize="15sp" />
 
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/usernameEditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="10dp"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
 
-            <!-- TextView to display user's USC ID -->
-            <LinearLayout
-                android:id="@+id/profileUSCid"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_below="@id/profilePassword">
+                </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:padding="5dp"
-                    android:text="USC ID:"
-                    android:layout_marginLeft="10dp"
-                    android:textColor="@color/crimson"
-                    android:textSize="15sp" />
+                <LinearLayout
+                    android:id="@+id/profilePassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/profileUsername">
 
-                <TextView
-                    android:id="@+id/pUSCid"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:text=""
-                    android:textColor="@color/black"
-                    android:textSize="15sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:padding="5dp"
+                        android:text="Password: "
+                        android:textColor="@color/crimson"
+                        android:textSize="15sp" />
 
-            </LinearLayout>
-            <!-- TextView to display user's email -->
-            <LinearLayout
-                android:id="@+id/profileEmail"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_below="@id/profileUSCid">
+                    <TextView
+                        android:id="@+id/passwordEditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="10dp"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:padding="5dp"
-                    android:layout_marginLeft="10dp"
-                    android:text="Email:"
-                    android:textColor="@color/crimson"
-                    android:textSize="15sp" />
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/emailEditText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:text=""
-                    android:textColor="@color/black"
-                    android:textSize="15sp" />
-            </LinearLayout>
+                <!-- TextView to display user's USC ID -->
+                <LinearLayout
+                    android:id="@+id/profileUSCid"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/profilePassword">
 
-            <LinearLayout
-                android:id="@+id/profilePhone"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_below="@id/profileEmail">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="10dp"
+                        android:padding="5dp"
+                        android:text="USC ID:"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/crimson"
+                        android:textSize="15sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:padding="5dp"
-                    android:text="Phone: "
-                    android:textColor="@color/crimson"
-                    android:textSize="15sp" />
+                    <TextView
+                        android:id="@+id/pUSCid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="10dp"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
 
-                <TextView
-                    android:id="@+id/phoneEditText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:textColor="@color/black"
-                    android:textSize="15sp" />
-            </LinearLayout>
+                </LinearLayout>
+                <!-- TextView to display user's email -->
+                <LinearLayout
+                    android:id="@+id/profileEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/profileUSCid">
 
-            <LinearLayout
-                android:id="@+id/profileRole"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_below="@id/profilePhone">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="10dp"
+                        android:padding="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:text="Email:"
+                        android:textColor="@color/crimson"
+                        android:textSize="15sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:padding="5dp"
-                    android:text="Role:"
-                    android:layout_marginLeft="10dp"
-                    android:textColor="@color/crimson"
-                    android:textSize="15sp" />
+                    <TextView
+                        android:id="@+id/emailEditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="10dp"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/roleEditText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:text=""
-                    android:textColor="@color/black"
-                    android:textSize="15sp" />
-            </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/profilePhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/profileEmail">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:padding="5dp"
+                        android:text="Phone: "
+                        android:textColor="@color/crimson"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/phoneEditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="10dp"
+                        android:text = ""
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/profileRole"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/profilePhone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="10dp"
+                        android:padding="5dp"
+                        android:text="Role:"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/crimson"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/roleEditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="10dp"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_gravity="bottom"
+        android:background="#fff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:menu="@menu/bottom_navigation_bar" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        </RelativeLayout>
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/navigation"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_gravity="bottom"
-            android:background="#fff"
-            app:menu="@menu/bottom_navigation_bar" />
-    </LinearLayout>
-</ScrollView>
 
