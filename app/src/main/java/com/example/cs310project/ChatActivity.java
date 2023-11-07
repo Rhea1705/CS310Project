@@ -29,8 +29,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ChatActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -133,6 +137,18 @@ public class ChatActivity extends AppCompatActivity {
                     if (key != null) {
                         databaseReference.child(key).setValue(newMessage);
                     }
+
+                    Map<String, String> data = new HashMap<>();
+                    data.put("title", "New Message");
+                    data.put("message", message);
+                    data.put("sender", sender);
+
+                    String recipientToken = "RECIPIENT_FCM_TOKEN";
+
+                    // Send the FCM message
+                    FirebaseMessaging.getInstance().send(new RemoteMessage.Builder(recipientToken)
+                            .setData(data)
+                            .build());
                 }
             }
 
