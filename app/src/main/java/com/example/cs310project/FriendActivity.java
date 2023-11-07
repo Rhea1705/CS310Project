@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -133,7 +134,7 @@ public class FriendActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String friend = dataSnapshot.getValue(String.class);
-                displayFriend(friend);
+                displayFriend(friend, name);
             }
 
             @Override
@@ -144,8 +145,8 @@ public class FriendActivity extends AppCompatActivity {
         });
     }
 
-    private void displayFriend(String friend) {
-        Log.d("FriendActivity", "Friend name: " + friend);
+    private void displayFriend(String friend, String friendUid) {
+        Log.d("FriendActivity", "Friend name: " + friend + "  " + friendUid);
         LayoutInflater inflater = getLayoutInflater();
         LinearLayout friendsList = findViewById(R.id.friendsList);
 
@@ -157,13 +158,28 @@ public class FriendActivity extends AppCompatActivity {
         studentName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("adding", currReceiver);
+                Log.d("adding", friendUid);
                 Intent intent = new Intent(FriendActivity.this, ChatActivity.class);
-                intent.putExtra("selectedStudent", currReceiver);
+                intent.putExtra("selectedStudent", friendUid);
                 startActivity(intent);
             }
         });
         Button blockBtn = friendItem.findViewById(R.id.blockBtn);
+        userReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // Check if the particular child exists
+                if (dataSnapshot.hasChild(friendUid)) {
+                    blockBtn.setText("Unblocked");
+                    blockBtn.setBackgroundColor(ContextCompat.getColor(FriendActivity.this, R.color.yellow));
+                } else {
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle errors
+            }
+        });
         blockBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
