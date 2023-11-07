@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.RatingBar;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -98,9 +99,7 @@ public class EditReview extends AppCompatActivity {
                 Review review = new Review(newAttendance, newComments, newWorkload, newRating, newProf,newLate,0,0);
                 base = FirebaseDatabase.getInstance();
 
-                Log.d("edit_review", "department" + department);
-                Log.d("edit_review", "course" + selected_course);
-                Log.d("edit_review", "uid" + uid);
+
 
 
                 DatabaseReference reviewref = base.getReference("departments").child(department).child("courses").child(selected_course).child("reviews");

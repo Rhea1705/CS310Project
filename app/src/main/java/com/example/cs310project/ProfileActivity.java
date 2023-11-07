@@ -42,7 +42,7 @@ public class ProfileActivity extends AppCompatActivity {
     EditText nameEditText, usernameEditText, passwordEditText, emailEditText, phoneEditText, roleEditText, idEditText;
     Spinner spin;
     ImageView imageView;
-    Button updateButton, imgButton;
+    Button updateButton, imgButton, logOutBtn;
     FirebaseDatabase database;
     DatabaseReference userReference;
     StorageReference imagesReference;
@@ -78,6 +78,7 @@ public class ProfileActivity extends AppCompatActivity {
         idEditText = findViewById(R.id.pUSCid);
         updateButton = findViewById(R.id.updateButton);
         imgButton = findViewById(R.id.imgButton);
+        logOutBtn = findViewById(R.id.logOutBtn);
 
 
 
@@ -142,6 +143,21 @@ public class ProfileActivity extends AppCompatActivity {
             // Save or update user data in the database
             updateUserData(name, username, password, email, id, phone_number, role);
         });
+        logOutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseUser user = mAuth.getCurrentUser();
+                if(user != null){
+                    mAuth.signOut();
+                    Toast.makeText(ProfileActivity.this,"You have successfully been logged out",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(ProfileActivity.this, LogIn.class);
+                    startActivity(intent);
+                }
+
+            }
+        });
+
+
     }
 
     private void SelectImage() {
