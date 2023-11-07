@@ -31,6 +31,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.RemoteMessage;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,6 +49,7 @@ public class ChatActivity extends AppCompatActivity {
     private String sender, receiver, first, second;
     FirebaseAuth mAuth;
     String key;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,18 +140,40 @@ public class ChatActivity extends AppCompatActivity {
                     if (key != null) {
                         databaseReference.child(key).setValue(newMessage);
                     }
+                    FirebaseMessaging.getInstance().getToken()
+                            .addOnCompleteListener(new OnCompleteListener<String>() {
+                                @Override
+                                public void onComplete(@NonNull Task<String> task) {
+                                    if (task.isSuccessful() && task.getResult() != null) {
+                                        String recipientToken = task.getResult();
+                                        Log.d("notify", "starting to notify");
+                                        // Construct the data for the FCM message
+                                        Map<String, String> data = new HashMap<>();
+                                        data.put("title", "New Message");
+                                        data.put("message", message);
+                                        data.put("sender", sender);
 
-                    Map<String, String> data = new HashMap<>();
-                    data.put("title", "New Message");
-                    data.put("message", message);
-                    data.put("sender", sender);
-
-                    String recipientToken = "RECIPIENT_FCM_TOKEN";
-
-                    // Send the FCM message
-                    FirebaseMessaging.getInstance().send(new RemoteMessage.Builder(recipientToken)
-                            .setData(data)
-                            .build());
+                                        // Send the FCM message
+                                        FirebaseMessaging.getInstance().send(new RemoteMessage.Builder(recipientToken)
+                                                .setData(data)
+                                                .build());
+                                        Log.d("notify", "completed to notify");
+                                    } else {
+                                        Log.w("FCMInstanceId", "getToken failed", task.getException());
+                                    }
+                                }
+                            });
+//                    Map<String, String> data = new HashMap<>();
+//                    data.put("title", "New Message");
+//                    data.put("message", message);
+//                    data.put("sender", sender);
+//
+//                    String recipientToken = FirebaseInstanceId.getInstance().getInstanceId();
+//
+//                    // Send the FCM message
+//                    FirebaseMessaging.getInstance().send(new RemoteMessage.Builder(recipientToken)
+//                            .setData(data)
+//                            .build());
                 }
             }
 
