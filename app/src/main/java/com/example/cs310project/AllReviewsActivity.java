@@ -41,8 +41,8 @@ public class AllReviewsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reviews);
         BottomNavigationView bottomNavigationView = findViewById(R.id.navigation);
-        bottomNavigationView.setSelectedItemId(R.id.departmentListLayout);
-        Intent chatIntent = new Intent(this, ChatActivity.class);
+        bottomNavigationView.setSelectedItemId(R.id.classes);
+        Intent chatIntent = new Intent(this, FriendActivity.class);
         Intent classesIntent = new Intent(this, DepartmentsActivity.class);
         Intent profileIntent = new Intent(this, ProfileActivity.class);
 
