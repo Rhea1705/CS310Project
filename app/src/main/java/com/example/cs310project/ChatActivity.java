@@ -18,6 +18,7 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
@@ -35,11 +36,13 @@ public class ChatActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private EditText messageInput;
     private Button sendButton;
-    private DatabaseReference databaseReference;
+    private DatabaseReference databaseReference, blockReference;
+    FirebaseDatabase firebaseDatabase;
     private FirebaseRecyclerAdapter<Message, MessageViewHolder> adapter;
     private Message message;
     private String sender, receiver, first, second;
     FirebaseAuth mAuth;
+    String key;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +79,7 @@ public class ChatActivity extends AppCompatActivity {
         sendButton = findViewById(R.id.send_button);
 
         // Initialize Firebase
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference().child("messages");
         mAuth = FirebaseAuth.getInstance();
         // Set up RecyclerView
@@ -111,32 +114,57 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void sendMessage(String message, String sender, String receiver) {
-        String key = databaseReference.push().getKey();
+        key = databaseReference.push().getKey();
         key = first+"&"+second+"&"+key;
-        Message newMessage = new Message(message, sender, receiver); // Use this.sender and this.receiver
-        newMessage.setText(message);
-        newMessage.setSender(sender);
-        newMessage.setReceiver(receiver);
-        if (key != null) {
-            databaseReference.child(key).setValue(newMessage);
-        }
+//        Rhea: CHECK HERE FOR IF YOU ARE BLOCKED
+        blockReference = firebaseDatabase.getReference().child("UserList").child(receiver).child("blocked");
+        // Assuming blockReference is a DatabaseReference object
+        blockReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // Check if the particular child exists
+                if (dataSnapshot.hasChild(sender)) {
+                    Toast.makeText(ChatActivity.this, "cannot send message to this user ", Toast.LENGTH_SHORT).show();
+                } else {
+                    Message newMessage = new Message(message, sender, receiver); // Use this.sender and this.receiver
+                    newMessage.setText(message);
+                    newMessage.setSender(sender);
+                    newMessage.setReceiver(receiver);
+                    if (key != null) {
+                        databaseReference.child(key).setValue(newMessage);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle errors
+            }
+        });
     }
     private void fetchMessages(String currentUser) {
-
+        Log.d("first", first);
+        Log.d("second", second);
         Query query = databaseReference.orderByKey().startAt(first + "&" + second);
         FirebaseRecyclerOptions<Message> messagesOptions = new FirebaseRecyclerOptions.Builder<Message>()
                 .setQuery(query, Message.class)
                 .build();
 
-        FirebaseRecyclerAdapter<Message, MessageViewHolder> messagesAdapter = new FirebaseRecyclerAdapter<Message, MessageViewHolder>(messagesOptions) {
+        adapter = new FirebaseRecyclerAdapter<Message, MessageViewHolder>(messagesOptions) {
             @Override
             protected void onBindViewHolder(@NonNull MessageViewHolder holder, int position, @NonNull Message model) {
                 if (model.getSender().equals(currentUser)) {
+                    Log.d("model.getText() sender", model.getText());
                     // Set sent messages
-                    holder.setMessage("sent", model.getText());
+                    if (model.getReceiver().equals(receiver)){
+                        holder.setMessage("sent", model.getText());
+                    }
                 } else if (model.getReceiver().equals(currentUser)) {
+                    Log.d("model.getText() receiver", model.getText());
                     // Set received messages
-                    holder.setMessage("received", model.getText());
+                    if (model.getSender().equals(receiver)){
+                        holder.setMessage("received", model.getText());
+                    }
                 }
             }
 
@@ -148,8 +176,8 @@ public class ChatActivity extends AppCompatActivity {
             }
         };
 
-        recyclerView.setAdapter(messagesAdapter);
-        messagesAdapter.startListening();
+        recyclerView.setAdapter(adapter);
+        adapter.startListening();
     }
     @Override
     protected void onStop() {
@@ -168,8 +196,9 @@ public class ChatActivity extends AppCompatActivity {
         }
 
         public void setMessage(String type, String message) {
-
-            messageTextView.setText(type + ": " + message);
+            if(type!=null && message != null) {
+                messageTextView.setText(type + ": " + message);
+            }
 
         }
     }
