@@ -113,7 +113,14 @@ public class ProfileActivity extends AppCompatActivity {
                 result -> {
                     if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                         filePath = result.getData().getData();
-                        Glide.with(this).load(filePath).into(imageView);
+//                        Glide.with(this).load(filePath).into(imageView);
+                        if (filePath != null) {
+                            // Load a downscaled version of the image using Glide or Picasso into the ImageView
+                            Glide.with(this)
+                                    .load(filePath)
+                                    .override(imageView.getWidth(), imageView.getHeight())
+                                    .into(imageView);
+                        }
                     }
                 }
         );
@@ -131,9 +138,9 @@ public class ProfileActivity extends AppCompatActivity {
             id = idEditText.getText().toString();
             // Save or update user data in the database
             updateUserData(name, username, password, email, id, phone_number, role);
-//            updatePage(name, username, password, id, email, phone_number, storageName, role);
         });
     }
+
     private void SelectImage() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -141,7 +148,7 @@ public class ProfileActivity extends AppCompatActivity {
         someActivityResultLauncher.launch(intent); // Use the initialized launcher to start activity for result
 //        updateUserData(name, username, password, email, id, phone_number, role);
     }
-    private void updateUserData(String name, String username, String password, String id, String email, String phone_number, String role) {
+    private void updateUserData(String name, String username, String password, String email, String id, String phone_number, String role) {
         FirebaseUser firebaseUser = mAuth.getCurrentUser();
         String uuid = firebaseUser.getUid();
 
@@ -276,4 +283,5 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
 }
+
 
