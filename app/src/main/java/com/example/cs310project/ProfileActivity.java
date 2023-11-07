@@ -37,19 +37,18 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 public class ProfileActivity extends AppCompatActivity {
-    EditText usernameEditText, passwordEditText, emailEditText, phoneEditText, imageEditText, roleEditText, idEditText;
+    EditText nameEditText, usernameEditText, passwordEditText, emailEditText, phoneEditText, roleEditText, idEditText;
     ImageView imageView;
     Button updateButton, imgButton;
     FirebaseDatabase database;
     DatabaseReference userReference;
     StorageReference imagesReference;
     private Uri filePath;
-    private final int PICK_IMAGE_REQUEST = 22;
     private FirebaseStorage storage;
     StorageReference storageReference;
-    ProgressBar progressBar;
     private ActivityResultLauncher<Intent> someActivityResultLauncher;
     FirebaseAuth mAuth;
+    String storageName, name, username, password, id, email, phone_number, role;
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,12 +59,11 @@ public class ProfileActivity extends AppCompatActivity {
         userReference = database.getReference("UserList");
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
-        DatabaseReference databaseReference = database.getReference();
-        DatabaseReference getImage = databaseReference.child("image");
 
         mAuth = FirebaseAuth.getInstance();
 
         // Views for profile data
+        nameEditText = findViewById(R.id.pName);
         usernameEditText = findViewById(R.id.usernameEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
         emailEditText = findViewById(R.id.emailEditText);
@@ -124,16 +122,16 @@ public class ProfileActivity extends AppCompatActivity {
 
         updateButton.setOnClickListener(view -> {
             // Read user data and update it in the database
-            String username = usernameEditText.getText().toString();
-            String password = passwordEditText.getText().toString();
-            String email = emailEditText.getText().toString();
-            String phone_number = phoneEditText.getText().toString();
-//            String imageUrl = imageEditText.getText().toString();
-            String role = roleEditText.getText().toString();
-            String id = idEditText.getText().toString();
-
+            name = nameEditText.getText().toString();
+            username = usernameEditText.getText().toString();
+            password = passwordEditText.getText().toString();
+            email = emailEditText.getText().toString();
+            phone_number = phoneEditText.getText().toString();
+            role = roleEditText.getText().toString();
+            id = idEditText.getText().toString();
             // Save or update user data in the database
-            updateUserData(username, password, email, phone_number, role, id);
+            updateUserData(name, username, password, email, id, phone_number, role);
+//            updatePage(name, username, password, id, email, phone_number, storageName, role);
         });
     }
     private void SelectImage() {
@@ -141,61 +139,76 @@ public class ProfileActivity extends AppCompatActivity {
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         someActivityResultLauncher.launch(intent); // Use the initialized launcher to start activity for result
+//        updateUserData(name, username, password, email, id, phone_number, role);
     }
-    private void updateUserData(String username, String password, String email, String phone_number, String role, String id) {
+    private void updateUserData(String name, String username, String password, String id, String email, String phone_number, String role) {
         FirebaseUser firebaseUser = mAuth.getCurrentUser();
         String uuid = firebaseUser.getUid();
 
-        String storageName = "images/"+uuid;
+        storageName = "images/"+uuid;
         imagesReference = storage.getReference(storageName);
-
-        imagesReference.putFile(filePath)
-                .addOnSuccessListener(taskSnapshot -> {
-                    Toast.makeText(ProfileActivity.this, "Image Uploaded!!", Toast.LENGTH_SHORT).show();
-                    updatePage(username, password, email, phone_number, storageName, role, id);
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(ProfileActivity.this, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                });
+        if(filePath!=null) {
+            imagesReference.putFile(filePath)
+                    .addOnSuccessListener(taskSnapshot -> {
+                        Toast.makeText(ProfileActivity.this, "Image Uploaded!!", Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(ProfileActivity.this, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+        }
+        updatePage(name, username, password, id, email, phone_number, null, role);
     }
 
-    private void updatePage(String username, String password, String email, String phone_number, String image, String role, String id) {
-        userReference.addValueEventListener(new ValueEventListener() {
+    private void updatePage(String name, String username, String password, String id, String email, String phone_number, String image, String role) {
+        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+        String uuid = firebaseUser.getUid();
+
+        DatabaseReference userReference = FirebaseDatabase.getInstance().getReference("UserList").child(uuid);
+
+        userReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                    User user = userSnapshot.getValue(User.class);
-                    if (user != null) {
-                        if (username != null) {
-                            user.setUsername(phone_number);
-                        }
-                        if(password!=null){
-                            user.setPassword(phone_number);
-                        }
-                        if(email!=null) {
-                            user.setEmail(phone_number);
-                        }
-                        if(phone_number!=null) {
-                            user.setPhone_number(phone_number);
-                        }
-                        if (image != null) {
-                            user.setImageUrl(image);
-                        }
-//                       To do: set options to choose from???
-                        if(role!=null) {
-                            user.setRole(role);
-                        }
-//                        check for length to be 10 digits
-                        if(id!=null) {
-                            if (id.length() != 10 && id.length() > 0) {
-                                // Show an error message if the ID is not 10 digits
-                                idEditText.setError("ID must be 10 digits");
-                            }
-                            else {
-                                user.setUsc_id(id);
-                            }
+                User user = dataSnapshot.getValue(User.class);
+                if (user != null) {
+                    if (name != null) {
+                        user.setName(name);
+                    }
+                    if (username != null) {
+                        user.setUsername(username);
+                    }
+                    if (password != null) {
+                        user.setPassword(password);
+                    }
+                    if (id != null) {
+                        if (id.length() != 10) {
+                            Toast.makeText(ProfileActivity.this, "id length should be 10 digits ", Toast.LENGTH_SHORT).show();
+                        } else {
+                            user.setUsc_id(id);
                         }
                     }
+                    if (email != null) {
+                        user.setEmail(email);
+                    }
+                    if (phone_number != null) {
+                        user.setPhone_number(phone_number);
+                    }
+                    if (role != null) {
+                        user.setRole(role);
+                    }
+                    if (image != null) {
+                        user.setImageUrl(image);
+                    }
+
+                    // Update the user data in the Firebase Database
+                    userReference.setValue(user)
+                            .addOnSuccessListener(aVoid -> {
+                                // Handle successful update
+                                Toast.makeText(ProfileActivity.this, "User data updated", Toast.LENGTH_SHORT).show();
+                            })
+                            .addOnFailureListener(e -> {
+                                // Handle update failure
+                                Toast.makeText(ProfileActivity.this, "Failed to update user data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            });
                 }
             }
 
@@ -205,6 +218,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
     }
+
     private void loadPage() {
         FirebaseUser firebaseUser = mAuth.getCurrentUser();
         String uuid = firebaseUser.getUid();
@@ -215,26 +229,30 @@ public class ProfileActivity extends AppCompatActivity {
         userReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                UserData userData = dataSnapshot.getValue(UserData.class);
-                if (userData != null) {
-                    if (userData.getUsername() != null) {
-                        usernameEditText.setText(userData.getUsername());
+                User user = dataSnapshot.getValue(User.class);
+                if (user != null) {
+                    if(user.getName() != null){
+                        nameEditText.setText(user.getName());
                     }
-                    if (userData.getPassword() != null) {
-                        passwordEditText.setText(userData.getPassword());
+                    if (user.getUsername() != null) {
+                        usernameEditText.setText(user.getUsername());
                     }
-                    if (userData.getEmail() != null) {
-                        emailEditText.setText(userData.getEmail());
+                    if (user.getPassword() != null) {
+                        passwordEditText.setText(user.getPassword());
                     }
-                    if (userData.getPhoneNumber() != null) {
-                        phoneEditText.setText(userData.getPhoneNumber());
+                    if (user.getUsc_id() != null) {
+                        idEditText.setText(user.getUsc_id());
                     }
-                    if (userData.getRole() != null) {
-                        roleEditText.setText(userData.getRole());
+                    if (user.getEmail() != null) {
+                        emailEditText.setText(user.getEmail());
                     }
-                    if (userData.getUSCid() != null) {
-                        idEditText.setText(userData.getUSCid());
+                    if (user.getPhone_number() != null) {
+                        phoneEditText.setText(user.getPhone_number());
                     }
+                    if (user.getRole() != null) {
+                        roleEditText.setText(user.getRole());
+                    }
+
                     // Load the profile image into ImageView
                     String imageUrl = "/images/" + uuid; // Check the correct path in Firebase Storage
                     StorageReference imageRef = storage.getReference(imageUrl);

@@ -1,8 +1,12 @@
 package com.example.cs310project;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.EditText;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +18,7 @@ import android.widget.Spinner;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -39,6 +44,29 @@ public class ReviewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_review);
 
+        BottomNavigationView bottomNavigationView = findViewById(R.id.navigation);
+        bottomNavigationView.setSelectedItemId(R.id.classes);
+        Intent chatIntent = new Intent(this, ChatActivity.class);
+        Intent classesIntent = new Intent(this, DepartmentsActivity.class);
+        Intent profileIntent = new Intent(this, ProfileActivity.class);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                int itemId = item.getItemId();
+                if (itemId == R.id.chat) {
+                    startActivity(chatIntent);
+                }
+                else if (itemId == R.id.classes) {
+                    startActivity(classesIntent);
+                }
+                else if (itemId == R.id.profile) {
+                    startActivity(profileIntent);
+                }
+                return true;
+            }
+        });
         courseEditText = findViewById(R.id.edit_text_course);
         profRating = findViewById(R.id.ratingProf);
         commentsEditText = findViewById(R.id.edit_text_comments);
@@ -130,5 +158,7 @@ public class ReviewActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Please fill in all fields.", Toast.LENGTH_SHORT).show();
         }
+        Intent intent  = new Intent(ReviewActivity.this, DepartmentsActivity.class);
+        startActivity(intent);
     }
 }
