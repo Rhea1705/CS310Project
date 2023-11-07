@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,6 +45,8 @@ public class LogIn extends AppCompatActivity {
             public void onClick(View view) {
                 String email = emailfield.getText().toString().trim();
                 String password = passwordfield.getText().toString().trim();
+                Log.d("Login", "email is" + email);
+                Log.d("Login", "passowrd is" + password);
                 if(email.equals(null)){
                     return;
                 }

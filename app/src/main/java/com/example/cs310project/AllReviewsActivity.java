@@ -31,6 +31,8 @@ public class AllReviewsActivity extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference userref;
     FirebaseAuth mAuth;
+    boolean removereview;
+
 
 
     @Override
@@ -101,12 +103,19 @@ public class AllReviewsActivity extends AppCompatActivity {
                     }
                     Log.d("review_app", "like flag " + like);
                     Log.d("review_app", "dislike flag " + dislike);
+                    boolean my_review = false;
+                    if(uid.equals(mAuth.getCurrentUser().getUid())){
+                        my_review = true;
+                    }
+                    Log.d("review_app", "myreview flag " + my_review);
+                    Log.d("review_app", "uid flag " + uid);
+                    Log.d("review_app", "uuid flag " + mAuth.getCurrentUser().getUid());
 
 
 
 //                    Log.d("course list", "course name: " + courseName);
 
-                    createReviewItem(reviewListLayout,rating,workload,attendance, late, comments, profRating, uid,reviewsRef,up_count,down_count,like,dislike, review);
+                    createReviewItem(reviewListLayout,rating,workload,attendance, late, comments, profRating, uid,reviewsRef,up_count,down_count,like,dislike, review,my_review,selectedCourse,department);
                 }
             }
 
@@ -131,7 +140,8 @@ public class AllReviewsActivity extends AppCompatActivity {
 
     }
     private void createReviewItem(LinearLayout parentLayout, Integer rating, String workload, String attendance, String late, String comments, Integer prof,
-                                  String uid, DatabaseReference reviewsRef,Integer up_count,Integer down_count, boolean like, boolean dislike, Review review) {
+                                  String uid, DatabaseReference reviewsRef,Integer up_count,Integer down_count, boolean like, boolean dislike,
+                                  Review review, boolean my_review,String selectedCourse, String department) {
         LayoutInflater inflater = getLayoutInflater();
         View reviewItemView = inflater.inflate(R.layout.review_item, parentLayout, false);
 
@@ -165,6 +175,8 @@ public class AllReviewsActivity extends AppCompatActivity {
 
             }
         });
+        Button editview = reviewItemView.findViewById(R.id.editBtn);
+        Button deletebutton = reviewItemView.findViewById(R.id.delBtn);
 
         TextView likeCount = reviewItemView.findViewById(R.id.likeCount);
         likeCount.setText(String.valueOf(review.getUp_count()));
@@ -172,6 +184,11 @@ public class AllReviewsActivity extends AppCompatActivity {
         dislikeCount.setText(String.valueOf(review.getDown_count()));
         ImageView likeBtn = reviewItemView.findViewById(R.id.likeBtn);
         ImageView dislikeBtn = reviewItemView.findViewById(R.id.dislikeBtn);
+        Log.d("review_function", "myreview flag " + my_review);
+        if(my_review){
+            editview.setVisibility(View.VISIBLE);
+            deletebutton.setVisibility(View.VISIBLE);
+        }
         if(like){
             likeBtn.setImageResource(R.drawable.like_selected);
         }
@@ -184,6 +201,31 @@ public class AllReviewsActivity extends AppCompatActivity {
         else{
             dislikeBtn.setImageResource(R.drawable.dislike);
         }
+        editview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AllReviewsActivity.this, EditReview.class);
+                intent.putExtra("selectedCourse", selectedCourse);
+                intent.putExtra("department", department);
+                intent.putExtra("rating", rating);
+                intent.putExtra("workload", workload);
+                intent.putExtra("attendance", attendance);
+                intent.putExtra("late", late);
+                intent.putExtra("comments", comments);
+                intent.putExtra("prof", prof);
+                intent.putExtra("uid", uid);
+                startActivity(intent);
+
+            }
+        });
+        removereview = false;
+        deletebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                reviewsRef.child(uid).removeValue();
+                removereview = true;
+            }
+        });
         likeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -241,6 +283,8 @@ public class AllReviewsActivity extends AppCompatActivity {
 
         });
 
-        parentLayout.addView(reviewItemView);
+        if(!removereview){
+            parentLayout.addView(reviewItemView);
+        }
     }
 }
