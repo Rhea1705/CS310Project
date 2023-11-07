@@ -13,14 +13,20 @@ import android.widget.RadioGroup;
 import android.widget.RatingBar;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class EditReview extends AppCompatActivity {
     private RatingBar courseEditText, profRating;
-    String newLate, newWorkload, newAttendance;
+    String newLate = "", newWorkload = "", newAttendance = "";
     Integer newRating, newProf;
     private RadioGroup attendanceSpinner;
     private Button submitButton;
+    FirebaseDatabase base;
+    DatabaseReference ref;
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +64,9 @@ public class EditReview extends AppCompatActivity {
         Integer score = getIntent().getIntExtra("rating", 0);
         Integer profRat = getIntent().getIntExtra("prof", 0);
         String late = getIntent().getStringExtra("late");
+        String selected_course = getIntent().getStringExtra("selectedCourse");
+        String department = getIntent().getStringExtra("department");
+        String uid = getIntent().getStringExtra("uid");
         Integer up_count = 0;
         Integer down_count = 0;
         Review review = new Review(attendance, comments, workload, score, profRat, late, up_count, down_count);
@@ -87,6 +96,19 @@ public class EditReview extends AppCompatActivity {
                 String newAttendance = String.valueOf(attendancEditText.getText());
                 String newLate = String.valueOf(lateEdit.getText());
                 Review review = new Review(newAttendance, newComments, newWorkload, newRating, newProf,newLate,0,0);
+                base = FirebaseDatabase.getInstance();
+
+                Log.d("edit_review", "department" + department);
+                Log.d("edit_review", "course" + selected_course);
+                Log.d("edit_review", "uid" + uid);
+
+
+                DatabaseReference reviewref = base.getReference("departments").child(department).child("courses").child(selected_course).child("reviews");
+                reviewref.child(uid).setValue(review);
+                Toast.makeText(EditReview.this,"Review Updated",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(EditReview.this, DepartmentsActivity.class);
+                startActivity(intent);
+
             }
         });
 
