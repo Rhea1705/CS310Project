@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -70,7 +71,7 @@ public class AllReviewsActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         // Reference to the LinearLayout container
         LinearLayout reviewListLayout = findViewById(R.id.reviewListLayout);
-        LinearLayout buttonLayout = findViewById(R.id.addBtnLayout);
+        RelativeLayout buttonLayout = findViewById(R.id.scrollableLayout);
         reviewsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -125,6 +126,9 @@ public class AllReviewsActivity extends AppCompatActivity {
             }
         });
         Button AddBtn = buttonLayout.findViewById(R.id.addReviewBtn);
+        if(AddBtn == null) {
+            Log.d("add button", "didnt get button");
+        }
         AddBtn.setVisibility(View.VISIBLE);
         AddBtn.setOnClickListener(new View.OnClickListener() {
             @Override

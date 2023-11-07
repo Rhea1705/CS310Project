@@ -118,8 +118,8 @@ public class ReviewActivity extends AppCompatActivity {
     }
 
     private void submitReview() {
-        Integer course = courseEditText.getNumStars();
-        Integer prof = profRating.getNumStars();
+        Integer course = (int) courseEditText.getRating();
+        Integer prof = (int) profRating.getRating();
         String comments = commentsEditText.getText().toString().trim();
 
         if (!workload.isEmpty()

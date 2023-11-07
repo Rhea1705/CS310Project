@@ -37,9 +37,9 @@ public class EditReview extends AppCompatActivity {
         Review review = new Review(attendance, comments, workload, score, profRat, late, up_count, down_count);
         // populate form
         courseEditText = findViewById(R.id.edit_text_course);
-        courseEditText.setNumStars(score);
+        courseEditText.setRating(score);
         profRating = findViewById(R.id.ratingProf);
-        profRating.setNumStars(profRat);
+        profRating.setRating(profRat);
         EditText commentsEditText = findViewById(R.id.edit_text_comments);
         commentsEditText.setText(comments);
         attendanceSpinner = findViewById(R.id.attendance_spinner);
@@ -76,8 +76,8 @@ public class EditReview extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                newRating = courseEditText.getNumStars();
-                newProf = profRating.getNumStars();
+                newRating = (int) courseEditText.getRating();
+                newProf = (int) profRating.getRating();
                 String newComments = String.valueOf(commentsEditText.getText());
                 RadioGroup radioGroupLateHomework = findViewById(R.id.radioGroupLateHomework);
                 radioGroupLateHomework.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
