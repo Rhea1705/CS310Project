@@ -15,6 +15,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -150,14 +151,26 @@ public class DisplayProfileActivity extends AppCompatActivity {
                     // Load the profile image into ImageView
                     String imageUrl = "/images/" + selectedUUID; // Check the correct path in Firebase Storage
                     StorageReference imageRef = storage.getReference(imageUrl);
-
-                    imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                        Glide.with(DisplayProfileActivity.this)
-                                .load(uri)
-                                .into(imageView);
-                    }).addOnFailureListener(e -> {
-                        // Handle any errors while fetching the image
-//                        Toast.makeText(ProfileActivity.this, "Failed to load image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.d("imageurl", imageRef.toString());
+                    imageRef.listAll().addOnSuccessListener(listResult -> {
+                        // Check if the list contains any items
+                        if (listResult.getItems().size() > 0) {
+                            // File exists, proceed to get download URL
+                            imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                                // File exists, you can use the download URL
+                                Log.d("Storage", "File exists! Download URL: " + uri.toString());
+                                Glide.with(DisplayProfileActivity.this)
+                                        .load(uri)
+                                        .into(imageView);
+                            }).addOnFailureListener(exception -> {
+                                // Handle getDownloadUrl failure
+                            });
+                        } else {
+                            // File doesn't exist
+                            Log.d("Storage", "File doesn't exist!");
+                        }
+                    }).addOnFailureListener(exception -> {
+                        // Handle listAll() failure
                     });
                 }
             }

@@ -79,10 +79,6 @@ public class FriendActivity extends AppCompatActivity {
         FirebaseUser firebaseUser = mAuth.getCurrentUser();
         currUser = firebaseUser.getUid();
 
-//        Intent intent = getIntent();
-//        if (intent != null) {
-//            currReceiver = intent.getStringExtra("selectedStudent");
-//        }
         getFriends(currUser, databaseReference);
     }
 
@@ -208,7 +204,7 @@ public class FriendActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // Start the courses activity with the selected department
                 Intent intent = new Intent(FriendActivity.this, DisplayProfileActivity.class);
-                intent.putExtra("selectedUUID", currReceiver);
+                intent.putExtra("selectedUUID", friendUid);
                 startActivity(intent);
             }
         });
