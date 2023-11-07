@@ -13,6 +13,7 @@
         android:nestedScrollingEnabled="true">
         <RelativeLayout
             android:layout_width="match_parent"
+            android:id = "@+id/scrollableLayout"
             android:nestedScrollingEnabled="true"
             android:layout_height="wrap_content">
         <LinearLayout

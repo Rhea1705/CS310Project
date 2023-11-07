@@ -7,16 +7,11 @@
     android:layout_height="match_parent"
     tools:context="com.example.cs310project.CourseListActivity">
 
-        <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
                 <!-- Add a ScrollView to make the list scrollable if it doesn't fit the screen -->
                 <ScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="true"
                     android:layout_weight="1">
 
 
@@ -26,6 +21,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="vertical"
+                            android:nestedScrollingEnabled="true"
                             android:padding="16dp"
                             android:clipToPadding="false"
                             android:clipChildren="false"
@@ -33,7 +29,6 @@
                             android:background="#f0f0f0"
                             />
                 </ScrollView>
-        </LinearLayout>
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/navigation"
             android:layout_width="match_parent"
