@@ -71,7 +71,7 @@ public class AllReviewsActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         // Reference to the LinearLayout container
         LinearLayout reviewListLayout = findViewById(R.id.reviewListLayout);
-        RelativeLayout buttonLayout = findViewById(R.id.scrollableLayout);
+        LinearLayout buttonLayout = findViewById(R.id.addBtnLayout);
         reviewsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -126,15 +126,15 @@ public class AllReviewsActivity extends AppCompatActivity {
             }
         });
         Button AddBtn = buttonLayout.findViewById(R.id.addReviewBtn);
+        Button button = findViewById(R.id.addReviewBtn);
         if(AddBtn == null) {
             Log.d("add button", "didnt get button");
         }
-        AddBtn.setVisibility(View.VISIBLE);
-        AddBtn.setOnClickListener(new View.OnClickListener() {
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Start the courses activity with the selected department
-//                Log.d("Allreviws","on click: " + departmentName);
+//                Log.d("Allreviews","on click: " + departmentName);
                 Intent intent = new Intent(AllReviewsActivity.this, ReviewActivity.class);
                 intent.putExtra("selectedCourse", selectedCourse);
                 intent.putExtra("department", department);

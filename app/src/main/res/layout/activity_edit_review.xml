@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -36,30 +36,11 @@
                 android:textSize="18sp"
                 android:layout_marginBottom="5dp" />
 
-            <RadioGroup
-                android:id="@+id/workloadOptions"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/workloadLight"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Light" />
-                <RadioButton
-                    android:id="@+id/workloadMedium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Medium" />
-
-                <RadioButton
-                    android:id="@+id/workloadHeavy"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Heavy" />
-            </RadioGroup>
+            <EditText
+                android:layout_width="match_parent"
+                android:id = "@+id/workloadText"
+                android:hint = "hint: Light/Medium/Heavy"
+                android:layout_height="match_parent"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -79,24 +60,11 @@
                 android:textStyle="bold"
                 android:textSize="18sp" />
 
-            <RadioGroup
-                android:id="@+id/attendance_spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/radioButtonYes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Yes" />
-
-                <RadioButton
-                    android:id="@+id/radioButtonNo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="No" />
-            </RadioGroup>
+            <EditText
+                android:layout_width="match_parent"
+                android:hint = "hint: Yes/No"
+                android:id = "@+id/attendanceText"
+                android:layout_height="match_parent"/>
             <TextView
                 android:id="@+id/textViewLateHomework"
                 android:layout_width="wrap_content"
@@ -106,25 +74,11 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <RadioGroup
-                android:id="@+id/radioGroupLateHomework"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/radioButtonLateYes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Yes" />
-
-                <RadioButton
-                    android:id="@+id/radioButtonLateNo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="No" />
-            </RadioGroup>
-
+            <EditText
+                android:layout_width="match_parent"
+                android:hint = "hint: Yes/No"
+                android:id = "@+id/lateText"
+                android:layout_height="match_parent"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -155,5 +109,8 @@
         android:layout_gravity="bottom"
         android:background="#fff"
         android:layout_alignParentBottom="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:menu="@menu/bottom_navigation_bar" />
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
