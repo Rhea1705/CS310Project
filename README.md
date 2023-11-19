@@ -1,4 +1,12 @@
 # CS310Project
+Our emulator was AVD name: pixel 2 API 24
+it used Nougat Android 7.0 Arm64-v8a
+VM heap: 500 MB
+
+In our AndroidManifest.xml it is essential to add these lines in <application>:
+  android:hardwareAccelerated="false"
+  android:largeHeap="true"
+  
 firebase & emulator issues:
 sometimes emulator stops working because it has trouble communicating with Firebase. Please stop and run again
 app functionality might take longer to load sometimes. 
