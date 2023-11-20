@@ -89,7 +89,7 @@ public class DepartmentsActivity extends AppCompatActivity {
         departmentNameTextView.setText(departmentName);
 
         TextView toggleButton = departmentItemView.findViewById(R.id.toggle);
-        toggleButton.setOnClickListener(new View.OnClickListener() {
+        departmentItemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Start the courses activity with the selected department
