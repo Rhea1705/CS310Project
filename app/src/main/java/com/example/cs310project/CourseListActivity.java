@@ -32,9 +32,10 @@ import java.util.List;
 public class CourseListActivity extends AppCompatActivity {
 
     private List<Course> courseList;
+    Course currCourse;
     private RecyclerView recyclerView;
+    Integer prevRosSize;
     FirebaseAuth mAuth;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +90,7 @@ public class CourseListActivity extends AppCompatActivity {
                 for (DataSnapshot courseSnapshot : dataSnapshot.getChildren()) {
                     String courseName = courseSnapshot.child("name").getValue(String.class);
                     Integer num = courseSnapshot.child("num_enrolled").getValue(Integer.class);
-                    Course currCourse = new Course();
+                    currCourse = new Course();
                     currCourse.setName(courseName);
                     currCourse.setNumEnrolled(num);
                     currCourse.setDepartment(selectedDepartment);
@@ -105,22 +106,22 @@ public class CourseListActivity extends AppCompatActivity {
             }
         });
     }
-    private void createCourseItem(LinearLayout parentLayout, String courseName, DatabaseReference courseref, Course currCourse) {
+    void createCourseItem(LinearLayout parentLayout, String courseName, DatabaseReference courseref, Course currCourse) {
         LayoutInflater inflater = getLayoutInflater();
-        View departmentItemView = inflater.inflate(R.layout.course_item, parentLayout, false);
+        View courseItemView = inflater.inflate(R.layout.course_item, parentLayout, false);
 
-        TextView courseNameTextView = departmentItemView.findViewById(R.id.courseNameTextView);
+        TextView courseNameTextView = courseItemView.findViewById(R.id.courseNameTextView);
         courseNameTextView.setText(courseName);
         Integer num = currCourse.getNumEnrolled();
 
-        Button toggleButton = departmentItemView.findViewById(R.id.toggleButton);
-        toggleButton.setOnClickListener(new View.OnClickListener() {
+        Button toggleButton = courseItemView.findViewById(R.id.toggleButton);
+        courseItemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                TextView reviews = departmentItemView.findViewById(R.id.reviews);
-                TextView roster = departmentItemView.findViewById(R.id.roster);
-                Button enrollBtn = departmentItemView.findViewById(R.id.enrollBtn);
+                TextView reviews = courseItemView.findViewById(R.id.reviews);
+                TextView roster = courseItemView.findViewById(R.id.roster);
+                Button enrollBtn = courseItemView.findViewById(R.id.enrollBtn);
 
                 if(enrollBtn.getText()=="Enroll") {
                     roster.setVisibility(View.VISIBLE);
@@ -146,7 +147,7 @@ public class CourseListActivity extends AppCompatActivity {
 
                     }
                 });
-                TextView num_enroll = departmentItemView.findViewById(R.id.courseEnrollmentTextView);
+                TextView num_enroll = courseItemView.findViewById(R.id.courseEnrollmentTextView);
                 num_enroll.setVisibility(View.VISIBLE);
                 String number = String.valueOf(currCourse.getNumEnrolled());
                 num_enroll.setText("enrolled: " +number);
@@ -155,6 +156,7 @@ public class CourseListActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         boolean there= false;
                         List<User> ros = currCourse.getRoster();
+                        prevRosSize = ros.size();
                         for(DataSnapshot courseSnapshot : snapshot.getChildren()){
 
                             String uid = courseSnapshot.getKey();
@@ -195,7 +197,6 @@ public class CourseListActivity extends AppCompatActivity {
                 enrollBtn.setVisibility(View.VISIBLE);
                 enrollBtn.setOnClickListener(new View.OnClickListener() {;
                     public void onClick(View view) {
-
                         if(enrollBtn.getText().equals("Enroll")) {
                             int new_num = currCourse.getNumEnrolled() + 1;
                             currCourse.setNumEnrolled(new_num);
@@ -225,12 +226,12 @@ public class CourseListActivity extends AppCompatActivity {
             }
         });
 
-        parentLayout.addView(departmentItemView);
+        parentLayout.addView(courseItemView);
     }
 
 
 
-    private void addStudentToRoster(List<User> ros,Course currCourse,String whattodo,DatabaseReference courseref){
+    void addStudentToRoster(List<User> ros, Course currCourse, String whattodo, DatabaseReference courseref){
         FirebaseDatabase base = FirebaseDatabase.getInstance();
         DatabaseReference ref = base.getReference();
         DatabaseReference childref = ref.child("UserList");
@@ -284,6 +285,14 @@ public class CourseListActivity extends AppCompatActivity {
             }
         });
 
+    }
+    public boolean rosterIncreased() {
+        Integer newSize = currCourse.getRoster().size();
+
+        if(prevRosSize +1 == newSize) {
+            return true;
+        }
+        return false;
     }
 
 }
