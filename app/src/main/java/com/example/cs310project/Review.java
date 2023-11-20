@@ -107,4 +107,37 @@ public class Review {
     public void setDown_count(Integer down_count) {
         this.down_count = down_count;
     }
+    public boolean checkCommentSize(String comments) {
+        if(comments.length() <= 20 || comments.length() == 0) {
+            return true;
+        }
+        return false;
+    }
+    public boolean attendanceNotNull() {
+        if(attendance != null ) {
+            if(attendance == "Yes" || attendance== "No") {
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean scoreNotNull() {
+        if(score == null ) {
+            return false;
+        }
+        return true;
+    }
+    public boolean profNotNull() {
+        if(profRating == null ) {
+            return false;
+        }
+        return true;
+    }
+    public boolean isValid() {
+        if (workload != "" && score != null && attendance != ""
+                && this.checkCommentSize(comments) && late != "" && profRating != null) {
+            return true;
+        }
+        return false;
+    }
 }

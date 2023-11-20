@@ -15,31 +15,18 @@ public class ReviewTest {
     }
 
     @Test
-    public void getComments() {
-    }
-
-    @Test
-    public void getWorkload() {
-    }
-
-    @Test
-    public void getScore() {
-    }
-
-    @Test
-    public void getProfRating() {
-    }
-
-    @Test
-    public void getLate() {
-    }
-
-    @Test
     public void checkCommentSize() {
         Review testReview = new Review("Yes", "it was amazing", "light", 4,3,"Yes",0,0);
         assertTrue(testReview.checkCommentSize(testReview.comments));
         Review testReview2 = new Review("Yes", "it was an amazing experience studying in this class.", "light", 4,3,"Yes",0,0);
         assertFalse(testReview2.checkCommentSize(testReview2.comments));
 
+    }
+    @Test
+    public void isValidTest() {
+        Review testReview = new Review("Yes", "it was amazing", "light", 4,3,"Yes",0,0);
+        assertTrue(testReview.isValid());
+        Review testReview2 = new Review("", "it was amazing", "light", 4,3,"Yes",0,0);
+        assertFalse(testReview2.isValid());
     }
 }
