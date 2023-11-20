@@ -232,7 +232,7 @@ public class AllReviewsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 reviewsRef.child(uid).removeValue();
                 removereview = true;
-                Intent intent = new Intent(AllReviewsActivity.this,AllReviewsActivity.class);
+                Intent intent = new Intent(AllReviewsActivity.this,DepartmentsActivity.class);
                 startActivity(intent);
             }
         });

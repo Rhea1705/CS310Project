@@ -18,6 +18,9 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
     }
+    testOptions{
+        animationsDisabled = true
+    }
 
     buildTypes {
         release {
@@ -54,6 +57,7 @@ dependencies {
     implementation("com.mikhaellopez:circularimageview:4.3.1")
     implementation("com.google.firebase:firebase-database:20.3.0")
     implementation("com.google.firebase:firebase-storage:20.3.0")
+    implementation("androidx.test.espresso:espresso-intents:3.5.1")
     testImplementation ("org.mockito:mockito-core:3.12.4")
 
 
@@ -61,5 +65,6 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation ("androidx.test.espresso:espresso-core:3.3.0")
+//    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }

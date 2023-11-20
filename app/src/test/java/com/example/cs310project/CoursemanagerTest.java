@@ -35,8 +35,8 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class CoursemanagerTest {
 
-    @InjectMocks
-    private Coursemanager coursemanager;
+
+
 
     @Mock
     private FirebaseAuth mAuth;
