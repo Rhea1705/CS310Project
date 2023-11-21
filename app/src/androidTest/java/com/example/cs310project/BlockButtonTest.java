@@ -2,6 +2,7 @@ package com.example.cs310project;
 
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
@@ -11,7 +12,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
@@ -28,7 +28,6 @@ import androidx.test.filters.LargeTest;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.hamcrest.core.IsInstanceOf;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,8 +37,8 @@ import org.junit.runner.RunWith;
 public class BlockButtonTest {
 
     @Rule
-    public ActivityScenarioRule<LogIn> mActivityScenarioRule =
-            new ActivityScenarioRule<>(LogIn.class);
+    public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
+            new ActivityScenarioRule<>(MainActivity.class);
 
     @Test
     public void blockButtonTest() {
@@ -47,7 +46,27 @@ public class BlockButtonTest {
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
         try {
-            Thread.sleep(7000);
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        pressBack();
+
+        ViewInteraction appCompatTextView = onView(
+                allOf(withId(R.id.logInNav), withText("Log in"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.RelativeLayout")),
+                                        16),
+                                1)));
+        appCompatTextView.perform(scrollTo(), click());
+
+        // Added a sleep statement to match the app's execution delay.
+        // The recommended way to handle such scenarios is to use Espresso idling resources:
+        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
+        try {
+            Thread.sleep(700);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -60,19 +79,9 @@ public class BlockButtonTest {
                                         0),
                                 2),
                         isDisplayed()));
-        appCompatEditText.perform(click());
+        appCompatEditText.perform(replaceText("mehtarhe@usc.edu"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText2 = onView(
-                allOf(withId(R.id.ID),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                2),
-                        isDisplayed()));
-        appCompatEditText2.perform(replaceText("pingle@usc.edu"), closeSoftKeyboard());
-
-        ViewInteraction appCompatEditText3 = onView(
                 allOf(withId(R.id.Password),
                         childAtPosition(
                                 childAtPosition(
@@ -80,7 +89,7 @@ public class BlockButtonTest {
                                         0),
                                 4),
                         isDisplayed()));
-        appCompatEditText3.perform(replaceText("bubbles"), closeSoftKeyboard());
+        appCompatEditText2.perform(replaceText("rheamehta"), closeSoftKeyboard());
 
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.idBtnRegister), withText("Log In"),
@@ -120,6 +129,15 @@ public class BlockButtonTest {
             e.printStackTrace();
         }
 
+        ViewInteraction appCompatButton2 = onView(
+                allOf(withId(R.id.blockBtn), withText("Block"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                                        0),
+                                2)));
+        appCompatButton2.perform(scrollTo(), click());
+
         ViewInteraction appCompatButton3 = onView(
                 allOf(withId(R.id.blockBtn), withText("Block"),
                         childAtPosition(
@@ -129,12 +147,6 @@ public class BlockButtonTest {
                                 2)));
         appCompatButton3.perform(scrollTo(), click());
 
-        ViewInteraction button = onView(
-                allOf(withId(R.id.blockBtn), withText("Unblocked"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class))),
-                        isDisplayed()));
-        button.check(matches(isDisplayed()));
-
         ViewInteraction appCompatButton4 = onView(
                 allOf(withId(R.id.blockBtn), withText("Unblocked"),
                         childAtPosition(
@@ -142,7 +154,17 @@ public class BlockButtonTest {
                                         withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
                                         0),
                                 2)));
-        appCompatButton4.perform(scrollTo(), click());
+
+        appCompatButton4.check(matches(isDisplayed()));
+
+        ViewInteraction appCompatButton5 = onView(
+                allOf(withId(R.id.blockBtn), withText("Unblocked"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                                        0),
+                                2)));
+        appCompatButton5.perform(scrollTo(), click());
     }
 
     private static Matcher<View> childAtPosition(
