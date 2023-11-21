@@ -25,10 +25,10 @@ public class CourseTest {
         Course course = new Course();
 
         // When
-        course.setNumEnrolled(25);
+        course.setNumEnrolled(15);
 
         // Then
-        assertEquals(Integer.valueOf(25), course.getNumEnrolled());
+        assertEquals(Integer.valueOf(15), course.getNumEnrolled());
     }
 
     @Test
@@ -36,7 +36,7 @@ public class CourseTest {
         // Given
         Course course = new Course();
         List<User> roster = new ArrayList<>();
-        User user = new User("TestUser", "test@example.com", "password", "1234567890", "123456789", "student", "username", "test_uid");
+        User user = new User("TestUser", "tester1", "password223", "1234567880", "tester@usc.edu", "2393835793", "Staff", "test_uid");
         roster.add(user);
 
         // When
@@ -52,9 +52,9 @@ public class CourseTest {
         Course course = new Course();
 
         // When
-        course.setDepartment("Computer Science");
+        course.setDepartment("Data Science");
 
         // Then
-        assertEquals("Computer Science", course.getDepartment());
+        assertEquals("Data Science", course.getDepartment());
     }
 }
