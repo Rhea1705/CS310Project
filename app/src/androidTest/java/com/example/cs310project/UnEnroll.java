@@ -34,14 +34,14 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class CourseItemsTest {
+public class UnEnroll {
 
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(MainActivity.class);
 
     @Test
-    public void courseItemsTest() {
+    public void unEnroll() {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
@@ -77,19 +77,9 @@ public class CourseItemsTest {
                                         0),
                                 2),
                         isDisplayed()));
-        appCompatEditText.perform(click());
+        appCompatEditText.perform(replaceText("banka1@usc.edu"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText2 = onView(
-                allOf(withId(R.id.ID),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                2),
-                        isDisplayed()));
-        appCompatEditText2.perform(replaceText("banka1@usc.edu"), closeSoftKeyboard());
-
-        ViewInteraction appCompatEditText3 = onView(
                 allOf(withId(R.id.Password),
                         childAtPosition(
                                 childAtPosition(
@@ -97,7 +87,7 @@ public class CourseItemsTest {
                                         0),
                                 4),
                         isDisplayed()));
-        appCompatEditText3.perform(replaceText("banka1"), closeSoftKeyboard());
+        appCompatEditText2.perform(replaceText("banka1"), closeSoftKeyboard());
 
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.idBtnRegister), withText("Log In"),
@@ -145,35 +135,43 @@ public class CourseItemsTest {
                         0));
         relativeLayout2.perform(scrollTo(), click());
 
-        ViewInteraction button = onView(
-                allOf(withId(R.id.enrollBtn), withText("Unenroll"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class))),
+        ViewInteraction appCompatButton2 = onView(
+                allOf(withId(R.id.enrollBtn), withText("Enroll"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.RelativeLayout")),
+                                        1),
+                                3),
                         isDisplayed()));
-        button.check(matches(isDisplayed()));
+        appCompatButton2.perform(click());
 
         ViewInteraction textView = onView(
-                allOf(withId(R.id.reviews), withText("See Reviews"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class))),
-                        isDisplayed()));
-        textView.check(matches(withText("See Reviews")));
-
-        ViewInteraction textView2 = onView(
                 allOf(withId(R.id.roster), withText("See Roster"),
                         withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class))),
                         isDisplayed()));
-        textView2.check(matches(withText("See Roster")));
+        textView.check(matches(isDisplayed()));
+
+        ViewInteraction textView2 = onView(
+                allOf(withId(R.id.courseEnrollmentTextView), withText("Enrolled: 4"),
+                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class))),
+                        isDisplayed()));
+        textView2.check(matches(withText("Enrolled: 4")));
+
+        ViewInteraction appCompatButton3 = onView(
+                allOf(withId(R.id.enrollBtn), withText("Unenroll"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.RelativeLayout")),
+                                        1),
+                                3),
+                        isDisplayed()));
+        appCompatButton3.perform(click());
 
         ViewInteraction textView3 = onView(
-                allOf(withId(R.id.courseEnrollmentTextView), withText("enrolled: 4"),
+                allOf(withId(R.id.courseEnrollmentTextView), withText("Enrolled: 3"),
                         withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class))),
                         isDisplayed()));
-        textView3.check(matches(withText("enrolled: 4")));
-
-        ViewInteraction textView4 = onView(
-                allOf(withId(R.id.courseEnrollmentTextView), withText("enrolled: 4"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class))),
-                        isDisplayed()));
-        textView4.check(matches(withText("enrolled: 4")));
+        textView3.check(matches(withText("Enrolled: 3")));
     }
 
     private static Matcher<View> childAtPosition(

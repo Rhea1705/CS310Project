@@ -119,8 +119,8 @@ public class ReviewActivity extends AppCompatActivity {
         int down_count = 0;
         Review review = new Review(attendance,comments,workload,course,prof,late,up_count,down_count);
 
-        if (review.getWorkload() != null && review.getScore() != null && review.getAttendance() != null
-        && review.checkCommentSize(review.comments) && review.getLate() != null && review.getProfRating() != null) {
+        if (review.getWorkload() != null && review.getAttendance() != null
+        && review.checkCommentSize(review.comments) && review.getLate() != null) {
 
             // For demonstration purposes, let's consider a fixed userID
 

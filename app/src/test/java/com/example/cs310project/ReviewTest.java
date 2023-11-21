@@ -30,7 +30,7 @@ public class ReviewTest {
         assertFalse(testReview2.isValid());
     }
     @Test
-    void scoreNotNull_valid_invalid() {
+    public void scoreNotNull_valid_invalid() {
         //valid
         Review review = new Review("", "", "", 1, 1, "", 0, 0);
         assertTrue(review.scoreNotNull());
@@ -42,7 +42,7 @@ public class ReviewTest {
 
 
     @Test
-    void profNotNull_valid_invalid() {
+    public void profNotNull_valid_invalid() {
         Review review = new Review("", "", "", 1, 1, "", 0, 0);
         assertTrue(review.profNotNull());
         Review review2 = new Review("", "", "", 1, null, "", 0, 0);
