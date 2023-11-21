@@ -12,6 +12,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
@@ -28,20 +29,21 @@ import androidx.test.filters.LargeTest;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.hamcrest.core.IsInstanceOf;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class BlockButtonTest {
+public class ViewProfileButtonTest {
 
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(MainActivity.class);
 
     @Test
-    public void blockButtonTest() {
+    public void viewProfileTest() {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
@@ -130,41 +132,28 @@ public class BlockButtonTest {
         }
 
         ViewInteraction appCompatButton2 = onView(
-                allOf(withId(R.id.blockBtn), withText("Block"),
+                allOf(withId(R.id.profileBtn), withText("View Profile"),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
                                         0),
-                                2)));
+                                1)));
         appCompatButton2.perform(scrollTo(), click());
 
-        ViewInteraction appCompatButton3 = onView(
-                allOf(withId(R.id.blockBtn), withText("Block"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                                        0),
-                                2)));
-        appCompatButton3.perform(scrollTo(), click());
+        // Added a sleep statement to match the app's execution delay.
+        // The recommended way to handle such scenarios is to use Espresso idling resources:
+        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
+        try {
+            Thread.sleep(700);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-        ViewInteraction appCompatButton4 = onView(
-                allOf(withId(R.id.blockBtn), withText("Unblocked"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                                        0),
-                                2)));
-
-        appCompatButton4.check(matches(isDisplayed()));
-
-        ViewInteraction appCompatButton5 = onView(
-                allOf(withId(R.id.blockBtn), withText("Unblocked"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                                        0),
-                                2)));
-        appCompatButton5.perform(scrollTo(), click());
+        ViewInteraction relativeLayout = onView(
+                allOf(withId(R.id.profile),
+                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.ScrollView.class))),
+                        isDisplayed()));
+        relativeLayout.check(matches(isDisplayed()));
     }
 
     private static Matcher<View> childAtPosition(
