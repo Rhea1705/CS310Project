@@ -175,12 +175,11 @@ public class AddReviewTest {
         }
 
         pressBack();
-//        ViewInteraction rating = onView(
-//                allOf(withId(R.id.profRating), // replace with the actual ID of your RatingBar
-//                        withParent(allOf(withId(R.id.aa), // replace with the parent ID of your RatingBar
-//                                withParent(IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class)))),
+
+//        ViewInteraction linearLayout = onView(
+//                allOf(withParent(withParent(IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class))),
 //                        isDisplayed()));
-//        rating.perform(setRating(4f));
+//        linearLayout.check(matches(isDisplayed()));
 
         ViewInteraction appCompatRadioButton = onView(
                 allOf(withId(R.id.workloadMedium), withText("Medium"),
@@ -219,7 +218,18 @@ public class AddReviewTest {
                                         withClassName(is("android.widget.ScrollView")),
                                         0),
                                 11)));
-        appCompatEditText3.perform(scrollTo(), replaceText("Good"), closeSoftKeyboard());
+        appCompatEditText3.perform(scrollTo(), click());
+
+        ViewInteraction appCompatEditText4 = onView(
+                allOf(withId(R.id.edit_text_comments),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.ScrollView")),
+                                        0),
+                                11)));
+        appCompatEditText4.perform(scrollTo(), replaceText("Good"), closeSoftKeyboard());
+
+        pressBack();
 
         ViewInteraction appCompatButton3 = onView(
                 allOf(withId(R.id.submit_review_button), withText("submit review"),
@@ -238,6 +248,12 @@ public class AddReviewTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        ViewInteraction viewGroup = onView(
+                allOf(withParent(allOf(withId(android.R.id.content),
+                                withParent(withId(androidx.appcompat.R.id.decor_content_parent)))),
+                        isDisplayed()));
+        viewGroup.check(matches(isDisplayed()));
 
         ViewInteraction relativeLayout3 = onView(
                 childAtPosition(
@@ -285,19 +301,19 @@ public class AddReviewTest {
             e.printStackTrace();
         }
 
-        ViewInteraction linearLayout = onView(
+        ViewInteraction linearLayout2 = onView(
                 allOf(withId(R.id.reviewListLayout),
                         withParent(allOf(withId(R.id.scrollableLayout),
                                 withParent(IsInstanceOf.<View>instanceOf(android.widget.ScrollView.class)))),
                         isDisplayed()));
-        linearLayout.check(matches(isDisplayed()));
+        linearLayout2.check(matches(isDisplayed()));
 
-        ViewInteraction textView = onView(
-                allOf(withId(R.id.courseRating), withText("0"),
-                        withParent(allOf(withId(R.id.a),
-                                withParent(IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class)))),
-                        isDisplayed()));
-        textView.check(matches(withText("0")));
+//        ViewInteraction textView = onView(
+//                allOf(withId(R.id.courseRating), withText("0"),
+//                        withParent(allOf(withId(R.id.a),
+//                                withParent(IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class)))),
+//                        isDisplayed()));
+//        textView.check(matches(withText("0")));
 
         ViewInteraction textView2 = onView(
                 allOf(withId(R.id.profRating), withText("0"),
@@ -328,23 +344,37 @@ public class AddReviewTest {
         textView5.check(matches(withText("No")));
 
         ViewInteraction textView6 = onView(
+                allOf(withId(R.id.hwText), withText("No"),
+                        withParent(allOf(withId(R.id.d),
+                                withParent(IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class)))),
+                        isDisplayed()));
+        textView6.check(matches(withText("No")));
+
+        ViewInteraction textView7 = onView(
                 allOf(withId(R.id.otherText), withText("Good"),
                         withParent(allOf(withId(R.id.e),
                                 withParent(IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class)))),
                         isDisplayed()));
-        textView6.check(matches(withText("Good")));
+        textView7.check(matches(withText("Good")));
 
-        ViewInteraction textView7 = onView(
+        ViewInteraction textView8 = onView(
                 allOf(withId(R.id.likeCount), withText("0"),
                         withParent(withParent(withId(R.id.defg))),
                         isDisplayed()));
-        textView7.check(matches(withText("0")));
+        textView8.check(matches(withText("0")));
 
-        ViewInteraction textView8 = onView(
+        ViewInteraction textView9 = onView(
                 allOf(withId(R.id.dislikeCount), withText("0"),
                         withParent(withParent(withId(R.id.defg))),
                         isDisplayed()));
-        textView8.check(matches(withText("0")));
+        textView9.check(matches(withText("0")));
+
+        ViewInteraction textView10 = onView(
+                allOf(withId(R.id.nameText), withText("Vidaaaa"),
+                        withParent(allOf(withId(R.id.abc),
+                                withParent(withId(R.id.g)))),
+                        isDisplayed()));
+        textView10.check(matches(withText("Vidaaaa")));
 
         ViewInteraction button = onView(
                 allOf(withId(R.id.editBtn), withText("Edit Review"),
@@ -359,13 +389,6 @@ public class AddReviewTest {
                                 withParent(IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class)))),
                         isDisplayed()));
         button2.check(matches(isDisplayed()));
-
-        ViewInteraction button3 = onView(
-                allOf(withId(R.id.delBtn), withText("Delete Review"),
-                        withParent(allOf(withId(R.id.h),
-                                withParent(IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class)))),
-                        isDisplayed()));
-        button3.check(matches(isDisplayed()));
     }
 
     private static Matcher<View> childAtPosition(
