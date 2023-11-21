@@ -52,6 +52,8 @@ public class ProfileActivity extends AppCompatActivity {
     private ActivityResultLauncher<Intent> someActivityResultLauncher;
     FirebaseAuth mAuth;
     String storageName, name, username, password, id, email, phone_number, role;
+    private FirebaseStorage firebaseStorage;
+
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,6 +161,12 @@ public class ProfileActivity extends AppCompatActivity {
 
 
     }
+    public void setAuth(FirebaseAuth auth) {
+        this.mAuth = auth;
+    }
+    public void setFirebaseStorage(FirebaseStorage firebaseStorage) {
+        this.firebaseStorage = firebaseStorage;
+    }
 
     private void SelectImage() {
         Intent intent = new Intent();
@@ -167,7 +175,7 @@ public class ProfileActivity extends AppCompatActivity {
         someActivityResultLauncher.launch(intent); // Use the initialized launcher to start activity for result
 //        updateUserData(name, username, password, email, id, phone_number, role);
     }
-    private void updateUserData(String name, String username, String password, String email, String id, String phone_number, String role) {
+    void updateUserData(String name, String username, String password, String email, String id, String phone_number, String role) {
         FirebaseUser firebaseUser = mAuth.getCurrentUser();
         String uuid = firebaseUser.getUid();
 

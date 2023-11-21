@@ -43,7 +43,7 @@ android {
 }
 
 dependencies {
-//    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
@@ -54,6 +54,7 @@ dependencies {
     implementation ("com.google.firebase:firebase-messaging:23.3.1") // use the latest version available
 
 
+    testImplementation ("org.robolectric:robolectric:4.5.1")
 
     implementation("com.mikhaellopez:circularimageview:4.3.1")
     implementation("com.google.firebase:firebase-database:20.3.0")
@@ -62,7 +63,6 @@ dependencies {
     testImplementation ("org.mockito:mockito-core:3.12.4")
 
 
-//    testImplementation ("org.mockito:mockito-core:3.12.4")
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
