@@ -54,6 +54,8 @@ dependencies {
     implementation("com.mikhaellopez:circularimageview:4.3.1")
     implementation("com.google.firebase:firebase-database:20.3.0")
     implementation("com.google.firebase:firebase-storage:20.3.0")
+    implementation("androidx.test.espresso:espresso-core:3.5.1")
+
     testImplementation ("org.mockito:mockito-core:3.12.4")
 
 
