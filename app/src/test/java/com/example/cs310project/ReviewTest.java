@@ -29,4 +29,23 @@ public class ReviewTest {
         Review testReview2 = new Review("", "it was amazing", "light", 4,3,"Yes",0,0);
         assertFalse(testReview2.isValid());
     }
+    @Test
+    void scoreNotNull_valid_invalid() {
+        //valid
+        Review review = new Review("", "", "", 1, 1, "", 0, 0);
+        assertTrue(review.scoreNotNull());
+        //invalid
+        Review review2 = new Review("", "", "", null, 1, "", 0, 0);
+        assertFalse(review2.scoreNotNull());
+    }
+
+
+
+    @Test
+    void profNotNull_valid_invalid() {
+        Review review = new Review("", "", "", 1, 1, "", 0, 0);
+        assertTrue(review.profNotNull());
+        Review review2 = new Review("", "", "", 1, null, "", 0, 0);
+        assertFalse(review2.profNotNull());
+    }
 }

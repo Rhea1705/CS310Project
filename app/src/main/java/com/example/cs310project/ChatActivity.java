@@ -41,6 +41,7 @@ public class ChatActivity extends AppCompatActivity {
     private String sender, receiver, first, second;
     FirebaseAuth mAuth;
     String key;
+    ChatHelper chatHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +52,7 @@ public class ChatActivity extends AppCompatActivity {
         Intent chatIntent = new Intent(this, FriendActivity.class);
         Intent classesIntent = new Intent(this, DepartmentsActivity.class);
         Intent profileIntent = new Intent(this, ProfileActivity.class);
-
+        chatHelper = new ChatHelper();
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -90,16 +91,19 @@ public class ChatActivity extends AppCompatActivity {
         FirebaseUser firebaseUser = mAuth.getCurrentUser();
         sender = firebaseUser.getUid();
 
-        int compareResult = sender.compareTo(receiver);
-        if (compareResult < 0) {
-            // sender comes before receiver alphabetically
-            first = sender;
-            second = receiver;
-        } else if (compareResult > 0) {
-            // receiver comes before sender alphabetically
-            first = receiver;
-            second = sender;
-        }
+//        sender = "KTI9LhzrjLXp0mfztVeyqOwUPlA3";
+//        receiver = "nd4IdLHHURbkk4gVPinLbYVIeKb2";
+        setFirstAndSecond(chatHelper.getFirst(sender, receiver), chatHelper.getSecond(sender, receiver));
+//        int compareResult = sender.compareTo(receiver);
+//        if (compareResult < 0) {
+//            // sender comes before receiver alphabetically
+//            first = sender;
+//            second = receiver;
+//        } else if (compareResult > 0) {
+//            // receiver comes before sender alphabetically
+//            first = receiver;
+//            second = sender;
+//        }
 
         fetchMessages(sender);
 
@@ -107,15 +111,18 @@ public class ChatActivity extends AppCompatActivity {
             String messageText = messageInput.getText().toString().trim();
             if (!messageText.isEmpty()) {
                 sendMessage(messageText, sender, receiver);
-//                messageInput.setText("");
+                messageInput.setText("");
             }
         });
     }
-
-    private void sendMessage(String message, String sender, String receiver) {
+    public void setFirstAndSecond(String firstValue, String secondValue) {
+        this.first = firstValue;
+        this.second = secondValue;
+    }
+    void sendMessage(String message, String sender, String receiver) {
         key = databaseReference.push().getKey();
         key = first+"&"+second+"&"+key;
-//        Rhea: CHECK HERE FOR IF YOU ARE BLOCKED
+
         blockReference = firebaseDatabase.getReference().child("UserList").child(receiver).child("blocked");
         // Assuming blockReference is a DatabaseReference object
         blockReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -129,9 +136,11 @@ public class ChatActivity extends AppCompatActivity {
                     newMessage.setText(message);
                     newMessage.setSender(sender);
                     newMessage.setReceiver(receiver);
-                    if (key != null) {
-                        databaseReference.child(key).setValue(newMessage);
+                    if (chatHelper.checkNull(key)) {
+//                        databaseReference.child(key).setValue(newMessage);
+                        sendMessageTo(newMessage);
                     }
+                    
                 }
             }
 
@@ -140,6 +149,10 @@ public class ChatActivity extends AppCompatActivity {
                 // Handle errors
             }
         });
+    }
+    boolean sendMessageTo(Message newMessage){
+        databaseReference.child(key).setValue(newMessage);
+        return true;
     }
     private void fetchMessages(String currentUser) {
         boolean view = false;
