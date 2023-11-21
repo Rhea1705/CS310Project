@@ -15,31 +15,41 @@ public class ReviewTest {
     }
 
     @Test
-    public void getComments() {
-    }
-
-    @Test
-    public void getWorkload() {
-    }
-
-    @Test
-    public void getScore() {
-    }
-
-    @Test
-    public void getProfRating() {
-    }
-
-    @Test
-    public void getLate() {
-    }
-
-    @Test
     public void checkCommentSize() {
         Review testReview = new Review("Yes", "it was amazing", "light", 4,3,"Yes",0,0);
         assertTrue(testReview.checkCommentSize(testReview.comments));
         Review testReview2 = new Review("Yes", "it was an amazing experience studying in this class.", "light", 4,3,"Yes",0,0);
         assertFalse(testReview2.checkCommentSize(testReview2.comments));
 
+    }
+    @Test
+    public void isValidTest() {
+        Review testReview = new Review("Yes", "it was amazing", "light", 4,3,"Yes",0,0);
+        assertTrue(testReview.isValid());
+        Review testReview2 = new Review("", "it was amazing", "light", 4,3,"Yes",0,0);
+        assertFalse(testReview2.isValid());
+    }
+    @Test
+    void scoreNotNull_valid() {
+        Review review = new Review("", "", "", 1, 1, "", 0, 0);
+        assertTrue(review.scoreNotNull());
+    }
+
+    @Test
+    void scoreNotNull_invalid() {
+        Review review = new Review("", "", "", null, 1, "", 0, 0);
+        assertFalse(review.scoreNotNull());
+    }
+
+    @Test
+    void profNotNull_valid() {
+        Review review = new Review("", "", "", 1, 1, "", 0, 0);
+        assertTrue(review.profNotNull());
+    }
+
+    @Test
+    void profNotNull_invalid() {
+        Review review = new Review("", "", "", 1, null, "", 0, 0);
+        assertFalse(review.profNotNull());
     }
 }

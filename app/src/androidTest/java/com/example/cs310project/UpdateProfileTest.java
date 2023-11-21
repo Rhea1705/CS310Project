@@ -2,7 +2,6 @@ package com.example.cs310project;
 
 
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
@@ -12,7 +11,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
@@ -157,17 +155,34 @@ public class UpdateProfileTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
+        String oldUsername = "banka1";
         String newUsername = "bankaa1234";
+        //check old username
+        onView(withId(R.id.usernameEditText)).check(matches(withText(oldUsername)));
 
         // use new username
         onView(withId(R.id.usernameEditText)).perform(replaceText(newUsername), closeSoftKeyboard());
 
         // update profile
         onView(withId(R.id.updateButton)).perform(click());
+        try {
+            Thread.sleep(700);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         // Check if the updated username is displayed in the EditText
         onView(withId(R.id.usernameEditText)).check(matches(withText(newUsername)));
+
+        //replace with old username:
+        try {
+            Thread.sleep(700);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        onView(withId(R.id.usernameEditText)).perform(replaceText(oldUsername), closeSoftKeyboard());
+        onView(withId(R.id.updateButton)).perform(click());
     }
 
     private static Matcher<View> childAtPosition(
