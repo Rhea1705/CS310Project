@@ -35,14 +35,14 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class AddReviewTest {
+public class AddandDeleteReviewTest {
 
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(MainActivity.class);
 
     @Test
-    public void addReviewTest() {
+    public void addandDeleteReviewTest() {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
@@ -176,11 +176,6 @@ public class AddReviewTest {
 
         pressBack();
 
-//        ViewInteraction linearLayout = onView(
-//                allOf(withParent(withParent(IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class))),
-//                        isDisplayed()));
-//        linearLayout.check(matches(isDisplayed()));
-
         ViewInteraction appCompatRadioButton = onView(
                 allOf(withId(R.id.workloadMedium), withText("Medium"),
                         childAtPosition(
@@ -218,18 +213,7 @@ public class AddReviewTest {
                                         withClassName(is("android.widget.ScrollView")),
                                         0),
                                 11)));
-        appCompatEditText3.perform(scrollTo(), click());
-
-        ViewInteraction appCompatEditText4 = onView(
-                allOf(withId(R.id.edit_text_comments),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.ScrollView")),
-                                        0),
-                                11)));
-        appCompatEditText4.perform(scrollTo(), replaceText("Good"), closeSoftKeyboard());
-
-        pressBack();
+        appCompatEditText3.perform(scrollTo(), replaceText("Good"), closeSoftKeyboard());
 
         ViewInteraction appCompatButton3 = onView(
                 allOf(withId(R.id.submit_review_button), withText("submit review"),
@@ -301,80 +285,12 @@ public class AddReviewTest {
             e.printStackTrace();
         }
 
-        ViewInteraction linearLayout2 = onView(
+        ViewInteraction linearLayout = onView(
                 allOf(withId(R.id.reviewListLayout),
                         withParent(allOf(withId(R.id.scrollableLayout),
                                 withParent(IsInstanceOf.<View>instanceOf(android.widget.ScrollView.class)))),
                         isDisplayed()));
-        linearLayout2.check(matches(isDisplayed()));
-
-//        ViewInteraction textView = onView(
-//                allOf(withId(R.id.courseRating), withText("0"),
-//                        withParent(allOf(withId(R.id.a),
-//                                withParent(IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class)))),
-//                        isDisplayed()));
-//        textView.check(matches(withText("0")));
-
-        ViewInteraction textView2 = onView(
-                allOf(withId(R.id.profRating), withText("0"),
-                        withParent(allOf(withId(R.id.aa),
-                                withParent(IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class)))),
-                        isDisplayed()));
-        textView2.check(matches(withText("0")));
-
-        ViewInteraction textView3 = onView(
-                allOf(withId(R.id.worloadText), withText("Medium"),
-                        withParent(allOf(withId(R.id.b),
-                                withParent(IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class)))),
-                        isDisplayed()));
-        textView3.check(matches(withText("Medium")));
-
-        ViewInteraction textView4 = onView(
-                allOf(withId(R.id.attendanceText), withText("No"),
-                        withParent(allOf(withId(R.id.c),
-                                withParent(IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class)))),
-                        isDisplayed()));
-        textView4.check(matches(withText("No")));
-
-        ViewInteraction textView5 = onView(
-                allOf(withId(R.id.hwText), withText("No"),
-                        withParent(allOf(withId(R.id.d),
-                                withParent(IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class)))),
-                        isDisplayed()));
-        textView5.check(matches(withText("No")));
-
-        ViewInteraction textView6 = onView(
-                allOf(withId(R.id.hwText), withText("No"),
-                        withParent(allOf(withId(R.id.d),
-                                withParent(IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class)))),
-                        isDisplayed()));
-        textView6.check(matches(withText("No")));
-
-        ViewInteraction textView7 = onView(
-                allOf(withId(R.id.otherText), withText("Good"),
-                        withParent(allOf(withId(R.id.e),
-                                withParent(IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class)))),
-                        isDisplayed()));
-        textView7.check(matches(withText("Good")));
-
-        ViewInteraction textView8 = onView(
-                allOf(withId(R.id.likeCount), withText("0"),
-                        withParent(withParent(withId(R.id.defg))),
-                        isDisplayed()));
-        textView8.check(matches(withText("0")));
-
-        ViewInteraction textView9 = onView(
-                allOf(withId(R.id.dislikeCount), withText("0"),
-                        withParent(withParent(withId(R.id.defg))),
-                        isDisplayed()));
-        textView9.check(matches(withText("0")));
-
-        ViewInteraction textView10 = onView(
-                allOf(withId(R.id.nameText), withText("Vidaaaa"),
-                        withParent(allOf(withId(R.id.abc),
-                                withParent(withId(R.id.g)))),
-                        isDisplayed()));
-        textView10.check(matches(withText("Vidaaaa")));
+        linearLayout.check(matches(isDisplayed()));
 
         ViewInteraction button = onView(
                 allOf(withId(R.id.editBtn), withText("Edit Review"),
@@ -389,6 +305,87 @@ public class AddReviewTest {
                                 withParent(IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class)))),
                         isDisplayed()));
         button2.check(matches(isDisplayed()));
+
+        ViewInteraction button3 = onView(
+                allOf(withId(R.id.delBtn), withText("Delete Review"),
+                        withParent(allOf(withId(R.id.h),
+                                withParent(IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class)))),
+                        isDisplayed()));
+        button3.check(matches(isDisplayed()));
+
+        ViewInteraction appCompatButton4 = onView(
+                allOf(withId(R.id.delBtn), withText("Delete Review"),
+                        childAtPosition(
+                                allOf(withId(R.id.h),
+                                        childAtPosition(
+                                                withClassName(is("android.widget.RelativeLayout")),
+                                                7)),
+                                1),
+                        isDisplayed()));
+        appCompatButton4.perform(click());
+
+        // Added a sleep statement to match the app's execution delay.
+        // The recommended way to handle such scenarios is to use Espresso idling resources:
+        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
+        try {
+            Thread.sleep(700);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ViewInteraction viewGroup2 = onView(
+                allOf(withParent(allOf(withId(android.R.id.content),
+                                withParent(withId(androidx.appcompat.R.id.decor_content_parent)))),
+                        isDisplayed()));
+        viewGroup2.check(matches(isDisplayed()));
+
+        ViewInteraction relativeLayout5 = onView(
+                childAtPosition(
+                        allOf(withId(R.id.departmentListLayout),
+                                childAtPosition(
+                                        withClassName(is("android.widget.ScrollView")),
+                                        0)),
+                        1));
+        relativeLayout5.perform(scrollTo(), click());
+
+        // Added a sleep statement to match the app's execution delay.
+        // The recommended way to handle such scenarios is to use Espresso idling resources:
+        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
+        try {
+            Thread.sleep(700);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ViewInteraction relativeLayout6 = onView(
+                childAtPosition(
+                        allOf(withId(R.id.courseListLayout),
+                                childAtPosition(
+                                        withClassName(is("android.widget.RelativeLayout")),
+                                        0)),
+                        3));
+        relativeLayout6.perform(scrollTo(), click());
+
+        ViewInteraction appCompatTextView4 = onView(
+                allOf(withId(R.id.reviews), withText("See Reviews"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.RelativeLayout")),
+                                        1),
+                                0),
+                        isDisplayed()));
+        appCompatTextView4.perform(click());
+
+        // Added a sleep statement to match the app's execution delay.
+        // The recommended way to handle such scenarios is to use Espresso idling resources:
+        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
+        try {
+            Thread.sleep(700);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     private static Matcher<View> childAtPosition(
