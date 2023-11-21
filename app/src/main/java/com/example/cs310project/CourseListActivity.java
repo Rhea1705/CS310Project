@@ -198,20 +198,24 @@ public class CourseListActivity extends AppCompatActivity {
                 enrollBtn.setOnClickListener(new View.OnClickListener() {;
                     public void onClick(View view) {
                         if(enrollBtn.getText().equals("Enroll")) {
-                            int new_num = currCourse.getNumEnrolled() + 1;
+                            int new_num = Coursemanager.increase_rostersize(currCourse.getNumEnrolled());
+                            //int new_num = currCourse.getNumEnrolled() + 1;
                             currCourse.setNumEnrolled(new_num);
 
-                            addStudentToRoster(currCourse.getRoster(),currCourse,"add",courseref);
+                            Coursemanager.addStudentToRoster(currCourse.getRoster(),currCourse,"add",courseref);
                             num_enroll.setText("Enrolled: " + new_num );
                             courseref.child(courseName).child("num_enrolled").setValue(new_num);
                             enrollBtn.setText("Unenroll");
                             roster.setVisibility(View.VISIBLE);
                         }
                         else {
-                            int new_num = currCourse.getNumEnrolled() - 1;
+
+                            //int new_num = currCourse.getNumEnrolled() - 1;
+                            int new_num = Coursemanager.decrease_rostersize(currCourse.getNumEnrolled());
                             currCourse.setNumEnrolled(new_num);
 
-                            addStudentToRoster(currCourse.getRoster(),currCourse,"remove",courseref);
+                            //addStudentToRoster(currCourse.getRoster(),currCourse,"remove",courseref);
+                            Coursemanager.addStudentToRoster(currCourse.getRoster(),currCourse,"remove",courseref);
                             courseref.child(courseName).child("num_enrolled").setValue(new_num);
                             num_enroll.setText("Enrolled: " + new_num);
                             enrollBtn.setText("Enroll");
@@ -230,62 +234,62 @@ public class CourseListActivity extends AppCompatActivity {
     }
 
 
-
-    void addStudentToRoster(List<User> ros, Course currCourse, String whattodo, DatabaseReference courseref){
-        FirebaseDatabase base = FirebaseDatabase.getInstance();
-        DatabaseReference ref = base.getReference();
-        DatabaseReference childref = ref.child("UserList");
-        FirebaseUser firebaseUser = mAuth.getCurrentUser();
-        String uuid = firebaseUser.getUid();
-        DatabaseReference useref = childref.child(uuid);
-
-        useref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(!snapshot.exists()){
-                    return;
-                }
-                String name = snapshot.child("name").getValue(String.class);
-                String email = snapshot.child("email").getValue(String.class);
-                String password = snapshot.child("password").getValue(String.class);
-                String phone_number = snapshot.child("phone_number").getValue(String.class);
-                String usc_id = snapshot.child("usc_id").getValue(String.class);
-                String role = snapshot.child("role").getValue(String.class);
-                String username = snapshot.child("username").getValue(String.class);
-                Log.d("My app",name + email);
-
-                if(whattodo.equals("add")){
-                    User user = new User(name,email,password,phone_number,usc_id,role,username,uuid);
-                    ros.add(user);
-                    courseref.child(currCourse.name).child("roster").child(uuid).setValue(user);
-                }
-                else if(whattodo.equals("remove")){
-                    User remove = null;
-                    Log.d("Courseapp","enters remove");
-                    for(User use: ros) {
-
-                        if (use.getUid().equals(uuid)) {
-                            remove = use;
-
-                        }
-                    }
-                    if(remove != null){
-                        ros.remove(remove);
-                        courseref.child(currCourse.name).child("roster").child(uuid).removeValue();
-                    }
-                }
-                currCourse.setRoster(ros);
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-    }
+//
+//    void addStudentToRoster(List<User> ros, Course currCourse, String whattodo, DatabaseReference courseref){
+//        FirebaseDatabase base = FirebaseDatabase.getInstance();
+//        DatabaseReference ref = base.getReference();
+//        DatabaseReference childref = ref.child("UserList");
+//        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+//        String uuid = firebaseUser.getUid();
+//        DatabaseReference useref = childref.child(uuid);
+//
+//        useref.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                if(!snapshot.exists()){
+//                    return;
+//                }
+//                String name = snapshot.child("name").getValue(String.class);
+//                String email = snapshot.child("email").getValue(String.class);
+//                String password = snapshot.child("password").getValue(String.class);
+//                String phone_number = snapshot.child("phone_number").getValue(String.class);
+//                String usc_id = snapshot.child("usc_id").getValue(String.class);
+//                String role = snapshot.child("role").getValue(String.class);
+//                String username = snapshot.child("username").getValue(String.class);
+//                Log.d("My app",name + email);
+//
+//                if(whattodo.equals("add")){
+//                    User user = new User(name,email,password,phone_number,usc_id,role,username,uuid);
+//                    ros.add(user);
+//                    courseref.child(currCourse.name).child("roster").child(uuid).setValue(user);
+//                }
+//                else if(whattodo.equals("remove")){
+//                    User remove = null;
+//                    Log.d("Courseapp","enters remove");
+//                    for(User use: ros) {
+//
+//                        if (use.getUid().equals(uuid)) {
+//                            remove = use;
+//
+//                        }
+//                    }
+//                    if(remove != null){
+//                        ros.remove(remove);
+//                        courseref.child(currCourse.name).child("roster").child(uuid).removeValue();
+//                    }
+//                }
+//                currCourse.setRoster(ros);
+//
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//
+//    }
     public boolean rosterIncreased() {
         Integer newSize = currCourse.getRoster().size();
 

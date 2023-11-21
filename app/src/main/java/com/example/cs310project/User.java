@@ -100,6 +100,18 @@ public class User {
     public void setPhone_number(String phone_number) {
         this.phone_number = phone_number;
     }
+    public static boolean verify_email(String email){
+        if(!email.endsWith("usc.edu")){
+            return false;
+        }
+        return true;
+    }
+    public static boolean verify_id(String id){
+        if(id.length()!=10){
+            return false;
+        }
+        return true;
+    }
 
 
 }

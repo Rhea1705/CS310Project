@@ -32,6 +32,9 @@ public class Review {
         this.users_who_disliked = users_who_disliked;
     }
 
+    public Review() {
+    }
+
     public Review(String attendance, String comments, String workload, Integer score, Integer profRating, String late, Integer up_count, Integer down_count) {
         this.attendance = attendance;
         this.comments = comments;
@@ -140,4 +143,5 @@ public class Review {
         }
         return false;
     }
+
 }

@@ -230,14 +230,10 @@ public class AllReviewsActivity extends AppCompatActivity {
         deletebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(uid!=null){
-                    Log.d("review ud", "uid"+ uid);
-                    reviewsRef.child(uid).removeValue();
-                    removereview = true;
-                    Intent intent = new Intent(AllReviewsActivity.this,DepartmentsActivity.class);
-                    startActivity(intent);
-                }
-
+                reviewsRef.child(uid).removeValue();
+                removereview = true;
+                Intent intent = new Intent(AllReviewsActivity.this,DepartmentsActivity.class);
+                startActivity(intent);
             }
         });
         ilike = false;

@@ -60,11 +60,11 @@ public class MainActivity extends AppCompatActivity {
                 String phone_number = phone_numberfield.getText().toString();
                 String role = spin.getSelectedItem().toString();
                 String usc = usc_id.getText().toString();
-                if(!containsusc_edu(email)){
+                if(!User.verify_email(email)){
                     Toast.makeText(MainActivity.this,"Please use an usc.edu email",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(usc.length() !=10){
+                if(!User.verify_id(usc)){
                     Toast.makeText(MainActivity.this,"USC ID number can only contain 10 digits",Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -119,10 +119,5 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-    public static boolean containsusc_edu(String email){
-        if(!email.endsWith("@usc.edu")){
-            return false;
-        }
-        return true;
-    }
+
 }
