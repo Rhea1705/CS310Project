@@ -6,27 +6,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.cs310project.DepartmentsActivity">
-    <!-- Add a ScrollView to make the list scrollable if it doesn't fit the screen -->
+
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/seeEnrolledCoursesButton">
 
-
-    <!-- LinearLayout to contain department names -->
-    <LinearLayout
-        android:id="@+id/departmentListLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:clipToPadding="false"
-        android:clipChildren="false"
-        android:scrollbars="vertical"
-        android:background="#f0f0f0"
-        />
+        <!-- LinearLayout to contain department names -->
+        <LinearLayout
+            android:id="@+id/departmentListLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:clipToPadding="false"
+            android:clipChildren="false"
+            android:scrollbars="vertical"
+            android:background="#f0f0f0"
+            />
 
     </ScrollView>
+
+    <!-- Button at the bottom -->
+    <Button
+        android:id="@+id/seeEnrolledCoursesButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="See Enrolled Courses"
+        android:layout_margin="16dp"
+        app:layout_constraintBottom_toTopOf="@id/navigation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigation"
@@ -40,7 +52,5 @@
         app:menu="@menu/bottom_navigation_bar">
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

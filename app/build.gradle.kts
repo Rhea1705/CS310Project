@@ -51,7 +51,8 @@ dependencies {
     implementation ("com.squareup.picasso:picasso:2.71828")
     implementation ("com.firebaseui:firebase-ui-database:8.0.0")
     implementation ("com.google.firebase:firebase-auth:21.0.0")
-    implementation ("com.google.firebase:firebase-messaging:23.3.1") // use the latest version available
+    implementation ("com.google.firebase:firebase-messaging:23.3.1")
+    implementation("androidx.test.espresso:espresso-intents:3.5.1") // use the latest version available
 
 
     testImplementation ("org.robolectric:robolectric:4.5.1")
@@ -59,7 +60,8 @@ dependencies {
     implementation("com.mikhaellopez:circularimageview:4.3.1")
     implementation("com.google.firebase:firebase-database:20.3.0")
     implementation("com.google.firebase:firebase-storage:20.3.0")
-    implementation("androidx.test.espresso:espresso-intents:3.5.1")
+    implementation("androidx.test.espresso:espresso-core:3.5.1")
+
     testImplementation ("org.mockito:mockito-core:3.12.4")
 
 
@@ -68,4 +70,8 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation ("androidx.test.espresso:espresso-core:3.3.0")
 //    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation ("androidx.test.espresso:espresso-contrib:3.5.1")
+
+
 }
