@@ -21,19 +21,6 @@
             android:textColor="#000"
             android:text="Department Name" />
 
-
-        <TextView
-            android:id="@+id/toggle"
-            android:layout_width="20dp"
-            android:layout_height="25dp"
-            android:layout_weight="0"
-            android:background="@color/crimson"
-            android:text="+"
-            android:textAlignment="center"
-            android:textColor="#B0BEC5"
-            android:textSize="10dp"
-            tools:ignore="TextSizeCheck" />
-
     </LinearLayout>
 
 </RelativeLayout>

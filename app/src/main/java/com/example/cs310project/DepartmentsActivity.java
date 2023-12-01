@@ -43,6 +43,7 @@ public class DepartmentsActivity extends AppCompatActivity {
         Intent chatIntent = new Intent(this, FriendActivity.class);
         Intent classesIntent = new Intent(this, DepartmentsActivity.class);
         Intent profileIntent = new Intent(this, ProfileActivity.class);
+        Intent enrolledIntent = new Intent(this, EnrolledCourses.class);
         mAuth = FirebaseAuth.getInstance();
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -57,6 +58,9 @@ public class DepartmentsActivity extends AppCompatActivity {
                 }
                 else if (itemId == R.id.profile) {
                     startActivity(profileIntent);
+                }
+                else if (itemId == R.id.enrolled) {
+                    startActivity(enrolledIntent);
                 }
                 return true;
             }
@@ -142,14 +146,12 @@ public class DepartmentsActivity extends AppCompatActivity {
             }
         });
     }
-    private void createDepartmentItem(LinearLayout parentLayout, String departmentName) {
+    void createDepartmentItem(LinearLayout parentLayout, String departmentName) {
         LayoutInflater inflater = getLayoutInflater();
         View departmentItemView = inflater.inflate(R.layout.department_item, parentLayout, false);
 
         TextView departmentNameTextView = departmentItemView.findViewById(R.id.departmentNameTextView);
         departmentNameTextView.setText(departmentName);
-
-        TextView toggleButton = departmentItemView.findViewById(R.id.toggle);
         departmentItemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

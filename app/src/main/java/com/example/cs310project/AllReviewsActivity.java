@@ -46,7 +46,8 @@ public class AllReviewsActivity extends AppCompatActivity {
         Intent chatIntent = new Intent(this, FriendActivity.class);
         Intent classesIntent = new Intent(this, DepartmentsActivity.class);
         Intent profileIntent = new Intent(this, ProfileActivity.class);
-
+        Intent enrolledIntent = new Intent(this, EnrolledCourses.class);
+        mAuth = FirebaseAuth.getInstance();
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -60,6 +61,9 @@ public class AllReviewsActivity extends AppCompatActivity {
                 }
                 else if (itemId == R.id.profile) {
                     startActivity(profileIntent);
+                }
+                else if (itemId == R.id.enrolled) {
+                    startActivity(enrolledIntent);
                 }
                 return true;
             }

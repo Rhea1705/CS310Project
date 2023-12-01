@@ -53,22 +53,24 @@ public class ChatActivity extends AppCompatActivity {
         Intent classesIntent = new Intent(this, DepartmentsActivity.class);
         Intent profileIntent = new Intent(this, ProfileActivity.class);
         chatHelper = new ChatHelper();
+        Intent enrolledIntent = new Intent(this, EnrolledCourses.class);
+        mAuth = FirebaseAuth.getInstance();
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
                 int itemId = item.getItemId();
                 if (itemId == R.id.chat) {
-                    item.setIcon(R.drawable.chat_selected);
                     startActivity(chatIntent);
                 }
                 else if (itemId == R.id.classes) {
                     startActivity(classesIntent);
-                    item.setIcon(R.drawable.classes_selcted);
                 }
                 else if (itemId == R.id.profile) {
                     startActivity(profileIntent);
-                    item.setIcon(R.drawable.user_selected);
+                }
+                else if (itemId == R.id.enrolled) {
+                    startActivity(enrolledIntent);
                 }
                 return true;
             }

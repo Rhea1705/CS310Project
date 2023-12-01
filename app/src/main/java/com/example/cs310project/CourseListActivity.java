@@ -59,24 +59,24 @@ public class CourseListActivity extends AppCompatActivity {
         Intent chatIntent = new Intent(this, FriendActivity.class);
         Intent classesIntent = new Intent(this, DepartmentsActivity.class);
         Intent profileIntent = new Intent(this, ProfileActivity.class);
+        Intent enrolledIntent = new Intent(this, EnrolledCourses.class);
         mAuth = FirebaseAuth.getInstance();
-
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
                 int itemId = item.getItemId();
                 if (itemId == R.id.chat) {
-                    item.setIcon(R.drawable.chat_selected);
                     startActivity(chatIntent);
                 }
                 else if (itemId == R.id.classes) {
                     startActivity(classesIntent);
-                    item.setIcon(R.drawable.classes_selcted);
                 }
                 else if (itemId == R.id.profile) {
                     startActivity(profileIntent);
-                    item.setIcon(R.drawable.user_selected);
+                }
+                else if (itemId == R.id.enrolled) {
+                    startActivity(enrolledIntent);
                 }
                 return true;
             }
@@ -113,8 +113,7 @@ public class CourseListActivity extends AppCompatActivity {
         TextView courseNameTextView = courseItemView.findViewById(R.id.courseNameTextView);
         courseNameTextView.setText(courseName);
         Integer num = currCourse.getNumEnrolled();
-
-        Button toggleButton = courseItemView.findViewById(R.id.toggleButton);
+        Integer vis = 0;
         courseItemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -122,6 +121,10 @@ public class CourseListActivity extends AppCompatActivity {
                 TextView reviews = courseItemView.findViewById(R.id.reviews);
                 TextView roster = courseItemView.findViewById(R.id.roster);
                 Button enrollBtn = courseItemView.findViewById(R.id.enrollBtn);
+                if(vis == 1) {
+                    roster.setVisibility(View.INVISIBLE);
+                    reviews.setVisibility(View.INVISIBLE);
+                }
 
                 if(enrollBtn.getText()=="Enroll") {
                     roster.setVisibility(View.VISIBLE);

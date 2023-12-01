@@ -14,7 +14,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/input_layout"
-        android:padding="8dp" />
+        android:padding="8dp"/>
 
     <LinearLayout
         android:id="@+id/input_layout"

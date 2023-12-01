@@ -3,6 +3,9 @@
     <item android:id="@+id/chat"
         android:title="Chat"
         android:icon="@drawable/chat"/>
+    <item android:id="@+id/enrolled"
+        android:title="My Courses"
+        android:icon="@drawable/enrolled" />
     <item android:id="@+id/classes"
         android:title="Classes"
         android:icon="@drawable/classes" />
