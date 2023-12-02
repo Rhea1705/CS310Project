@@ -126,7 +126,8 @@ public class CourseListActivity extends AppCompatActivity {
                     reviews.setVisibility(View.INVISIBLE);
                 }
 
-                if(enrollBtn.getText()=="Enroll") {
+                if(enrollBtn.getText()=="Unenroll") {
+                    Log.d("i want to see how", "ok here");
                     roster.setVisibility(View.VISIBLE);
                 }
                 reviews.setVisibility(View.VISIBLE);
@@ -135,6 +136,7 @@ public class CourseListActivity extends AppCompatActivity {
                 reviews.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        Log.d("i want to see how i go there", "enter review here");
                         Intent intent = new Intent(CourseListActivity.this, AllReviewsActivity.class);
                         intent.putExtra("selectedCourse", currCourse.getName());
                         intent.putExtra("department", currCourse.getDepartment());

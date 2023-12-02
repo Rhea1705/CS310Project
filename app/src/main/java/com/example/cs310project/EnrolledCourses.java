@@ -22,6 +22,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.List;
+
 public class EnrolledCourses extends AppCompatActivity {
     FirebaseAuth mAuth;
     DatabaseReference departmentsRef;
@@ -64,6 +66,7 @@ public class EnrolledCourses extends AppCompatActivity {
         String key = firebaseUser.getUid();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         departmentsRef = database.getReference("departments");
+        //DatabaseReference courseref = departmentsRef.child("courses");
         departmentsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -90,9 +93,36 @@ public class EnrolledCourses extends AppCompatActivity {
                                 TextView reviews = courseItemView.findViewById(R.id.reviews);
                                 TextView roster = courseItemView.findViewById(R.id.roster);
                                 Button enrollBtn = courseItemView.findViewById(R.id.enrollBtn);
+                                enrollBtn.setText("Unenroll");
                                 reviews.setVisibility(View.VISIBLE);
                                 roster.setVisibility(View.VISIBLE);
                                 enrollBtn.setVisibility(View.VISIBLE);
+                                String course_Name = classSnapshot.child("name").getValue(String.class);
+                                Integer num = classSnapshot.child("num_enrolled").getValue(Integer.class);
+                                Course currCourse = new Course();
+                                currCourse.setName(course_Name);
+                                currCourse.setNumEnrolled(num);
+                                currCourse.setDepartment(deptName);
+                                DatabaseReference courseref = departmentsRef.child(deptName).child("courses");
+                                List<User> ros = currCourse.getRoster();
+                                DataSnapshot rosterSnapshot = classSnapshot.child("roster");
+                                for (DataSnapshot studentSnapshot : rosterSnapshot.getChildren()) {
+                                    String uid = studentSnapshot.getKey();
+                                    String name_topopulate = studentSnapshot.child("name").getValue(String.class);
+                                    String email_topopulate = studentSnapshot.child("email").getValue(String.class);
+                                    String password_topopulate = studentSnapshot.child("password").getValue(String.class);
+                                    String phone_number_topopulate = studentSnapshot.child("phone_number").getValue(String.class);
+                                    String usc_id_topopulate = studentSnapshot.child("usc_id").getValue(String.class);
+                                    String role_topopulate = studentSnapshot.child("role").getValue(String.class);
+                                    String username_topopulate = studentSnapshot.child("username").getValue(String.class);
+                                    User adduser = new User(name_topopulate, email_topopulate, password_topopulate, phone_number_topopulate, usc_id_topopulate, role_topopulate, username_topopulate, uid);
+                                    ros.add(adduser);
+
+                                }
+                                currCourse.setRoster(ros);
+
+
+
                                 reviews.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
@@ -102,6 +132,7 @@ public class EnrolledCourses extends AppCompatActivity {
                                         startActivity(intent);
                                     }
                                 });
+
                                 roster.setOnClickListener(new View.OnClickListener() {
                                     public void onClick(View view) {
                                         Intent intent = new Intent(EnrolledCourses.this, Roster.class);
@@ -115,6 +146,20 @@ public class EnrolledCourses extends AppCompatActivity {
                                 num_enroll.setVisibility(View.VISIBLE);
                                 String number = String.valueOf(num_enrolled);
                                 num_enroll.setText("enrolled: " +number);
+                                enrollBtn.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+
+                                        int new_num = Coursemanager.decrease_rostersize(num_enrolled);
+                                        currCourse.setNumEnrolled(new_num);
+
+                                        //addStudentToRoster(currCourse.getRoster(),currCourse,"remove",courseref);
+                                        Coursemanager.addStudentToRoster(currCourse.getRoster(),currCourse,"remove",courseref);
+                                        courseref.child(courseName).child("num_enrolled").setValue(new_num);
+                                        finish();
+                                        startActivity(getIntent());
+                                    }
+                                });
 
                             }
                         }

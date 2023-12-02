@@ -24,6 +24,7 @@ public class Coursemanager {
         FirebaseUser firebaseUser = mAuth.getCurrentUser();
         String uuid = firebaseUser.getUid();
         DatabaseReference useref = childref.child(uuid);
+        Log.d("do i enter remove", "I do");
 
         useref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -47,19 +48,24 @@ public class Coursemanager {
                 }
                 else if(whattodo.equals("remove")){
                     User remove = null;
-                    Log.d("Courseapp","enters remove");
-                    for(User use: ros) {
 
+                    for(User use: ros) {
+                        Log.d("do i enter remove user uid", use.getUid());
                         if (use.getUid().equals(uuid)) {
                             remove = use;
+                            Log.d("do i enter remove user uid", use.getUid());
+                            Log.d("do i enter remove user uiddd", uuid);
 
                         }
                     }
+                    //Log.d("do i enter remove", remove.getName());
                     if(remove != null){
                         ros.remove(remove);
+                        Log.d("do i enter remove", "I enter course remove");
                         courseref.child(currCourse.name).child("roster").child(uuid).removeValue();
                     }
                 }
+
                 currCourse.setRoster(ros);
 
 
